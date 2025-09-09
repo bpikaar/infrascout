@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Report extends Model
 {
@@ -12,4 +13,47 @@ class Report extends Model
     protected $casts = [
         'date_of_work' => 'datetime', // will be cast to Carbon
     ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id',
+        'project_id',
+        'date_of_work',
+        'field_worker',
+        'cable_type',
+        'material',
+        'diameter',
+        'description',
+        'work_hours',
+        'travel_time',
+    ];
+
+    /**
+     * Get the project that owns the report.
+     */
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Get the user that created the report.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the field worker for the report.
+     */
+    public function fieldWorker(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'field_worker');
+    }
+
 }

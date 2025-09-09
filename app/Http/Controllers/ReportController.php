@@ -37,7 +37,10 @@ class ReportController extends Controller
      */
     public function show(Report $report)
     {
-        //
+        // Load the report with its relationships
+        $report->load(['project', 'user', 'fieldWorker']);
+
+        return view('reports.show', compact('report'));
     }
 
     /**
