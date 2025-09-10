@@ -14,7 +14,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(callback: function () {
     Route::resource('projects', ProjectController::class);
-    Route::resource('reports', ReportController::class);
+    Route::resource('projects.reports', ReportController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -25,7 +25,7 @@ return new class extends Migration
             // company
 
             $table->timestamp('date_of_work');
-            $table->foreignId('field_worker')->constrained();
+            $table->foreignId('field_worker')->constrained('users');
 
             // Uitvraag opdrachtgever:
             $table->string('cable_type');

@@ -46,18 +46,18 @@
 
                         @if($project->reports && $project->reports->count() > 0)
                             <div class="space-y-3">
-                                @foreach($project->reports as $report)
+                                @foreach($project->reports()->orderBy('updated_at', 'DESC')->get() as $report)
                                     <div class="border border-gray-200 dark:border-gray-700 p-4 rounded-lg hover:border-blue-400 transition">
-                                        <div class="flex justify-between">
-                                            <h3 class="font-semibold text-gray-900 dark:text-gray-100">Report #{{ $report->id }}</h3>
-                                            <span class="text-sm text-gray-500">{{ $report->date_of_work->format('Y-m-d') }}</span>
-                                        </div>
-                                        <p class="text-gray-700 dark:text-gray-300 mt-2">{{ $report->description }}</p>
-                                        <div class="mt-2 text-right">
-                                            <a href="{{ route('reports.show', $report) }}" class="text-blue-500 hover:text-blue-700">
-                                                View Details →
-                                            </a>
-                                        </div>
+                                        <a href="{{ route('projects.reports.show', [$project, $report]) }}" class="text-blue-500 hover:text-blue-700">
+                                            <div class="flex justify-between">
+                                                <h3 class="font-semibold text-gray-900 dark:text-gray-100">Report #{{ $report->id }}</h3>
+                                                <span class="text-sm text-gray-500">{{ $report->date_of_work->format('Y-m-d') }}</span>
+                                            </div>
+                                            <p class="text-gray-700 dark:text-gray-300 mt-2">{{ $report->description }}</p>
+                                            <div class="mt-2 text-right">
+                                                    View Details →
+                                            </div>
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>
@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="mt-6 flex space-x-4">
-                        <a href="{{ route('reports.create', ['project' => $project->id]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                        <a href="{{ route('projects.reports.create', $project) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                             </svg>

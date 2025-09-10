@@ -101,14 +101,59 @@
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Timestamps</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Images</h2>
+                        @if($report->images && $report->images->count())
+                                <div x-data="{ showModal: false, modalImg: '', modalCaption: '' }">
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
+                                        @foreach($report->images as $image)
+                                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden flex flex-col items-center">
+                                                <img src="{{ asset('images/reports/'.$report->id.'/'.$image->path) }}"
+                                                     alt="Report image"
+                                                     class="w-full h-32 sm:h-40 object-cover cursor-pointer"
+                                                     @click="$dispatch('open-modal', 'large-image', modalImg = '{{ asset('images/reports/'.$report->id.'/'.$image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')"
+                                                 />
+                                                @if($image->caption)
+                                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 px-2 text-center">{{ $image->caption }}</p>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
 
+                                    <!-- Test Model -->
+                                    <x-modal name="large-image" focusable>
+                                        <div class="p-6">
+                                            <img :src="modalImg" alt="Enlarged image" class="w-full h-auto max-h-[70vh] object-contain rounded-lg" />
+                                            <div class="mt-6 flex justify-end gap-3">
+                                                <button type="button" class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-800"
+                                                        @click="$dispatch('close')">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </x-modal>
+
+
+                                    <!-- Modal -->
+{{--                                    <div x-show="showModal" x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70" style="display: none;" @click.self="showModal = false">--}}
+{{--                                        <div class="relative bg-white dark:bg-gray-900 rounded-lg shadow-lg max-w-lg w-full mx-4">--}}
+{{--                                            <button @click="showModal = false" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl">&times;</button>--}}
+{{--                                            <img :src="modalImg" alt="Enlarged image" class="w-full h-auto max-h-[70vh] object-contain rounded-lg" />--}}
+{{--                                            <template x-if="modalCaption">--}}
+{{--                                                <p class="text-sm text-gray-700 dark:text-gray-300 mt-2 px-4 pb-4 text-center" x-text="modalCaption"></p>--}}
+{{--                                            </template>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+                                </div>
+                        @else
+                            <p class="text-gray-500 dark:text-gray-400 mb-6">No images for this report.</p>
+                        @endif
+
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Timestamps</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <h3 class="font-semibold text-gray-700 dark:text-gray-300">Created At</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $report->created_at->format('Y-m-d H:i') }}</p>
                             </div>
-
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <h3 class="font-semibold text-gray-700 dark:text-gray-300">Last Updated</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $report->updated_at->format('Y-m-d H:i') }}</p>
@@ -124,7 +169,7 @@
                             Back to Project
                         </a>
 
-                        <a href="{{ route('reports.edit', $report) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                        <a href="{{ route('projects.reports.edit', [$report->project, $report]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                             </svg>

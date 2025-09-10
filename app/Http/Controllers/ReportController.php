@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReportRequest;
 use App\Http\Requests\UpdateReportRequest;
+use App\Models\Project;
 use App\Models\Report;
+use App\Models\User;
+use Auth;
 
 class ReportController extends Controller
 {
@@ -19,9 +22,12 @@ class ReportController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Project $project)
     {
-        //
+        $projects = Project::all();
+        $users = User::all();
+
+        return view('reports.create', compact('project', 'projects', 'users'));
     }
 
     /**
@@ -29,13 +35,31 @@ class ReportController extends Controller
      */
     public function store(StoreReportRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        // Add the authenticated user as the creator
+        $validated['user_id'] = Auth::id();
+
+        // Create the report
+        $report = Report::create($validated);
+
+        // Handle image uploads through relationship
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('images/reports/'.$report->id, 'public');
+                // delete the prefix
+                $path = str_replace('images/reports/'.$report->id.'/', '', $path);
+                $report->images()->create(['path' => $path]);
+            }
+        }
+
+        return redirect()->route('projects.show', $report->project);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Report $report)
+    public function show(Project $project, Report $report)
     {
         // Load the report with its relationships
         $report->load(['project', 'user', 'fieldWorker']);
@@ -46,7 +70,7 @@ class ReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Report $report)
+    public function edit(Project $project, Report $report)
     {
         //
     }

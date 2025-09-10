@@ -31,6 +31,13 @@ class Report extends Model
         'work_hours',
         'travel_time',
     ];
+    /**
+     * Get the images for the report.
+     */
+    public function images()
+    {
+        return $this->hasMany(ReportImage::class);
+    }
 
     /**
      * Get the project that owns the report.
