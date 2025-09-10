@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('number')->unique();
 
             $table->string('name');
+            $table->string('thumbnail')->nullable();
 
             $table->timestamps();
         });

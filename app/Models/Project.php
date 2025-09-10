@@ -18,6 +18,7 @@ class Project extends Model
     protected $fillable = [
         'number',
         'name',
+        'thumbnail',
     ];
 
     /**

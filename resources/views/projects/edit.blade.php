@@ -4,12 +4,13 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <div class="mb-6">
-                        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Create New Project</h1>
-                        <p class="text-gray-500 dark:text-gray-400 mt-2">Fill in the details to create a new project.</p>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Edit Project</h1>
+                        <p class="text-gray-500 dark:text-gray-400 mt-2">Change the details for this project.</p>
                     </div>
 
-                    <form method="post" action="{{ route('projects.store') }}" enctype="multipart/form-data" class="space-y-6">
+                    <form method="post" action="{{ route('projects.update', $project) }}" enctype="multipart/form-data" class="space-y-6">
                         @csrf
+                        @method('PUT')
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -17,13 +18,12 @@
                             <div>
                                 <x-input-label for="number" :value="__('Project Number')" />
                                 <x-text-input id="number"
-                                              class="block mt-1 w-full"
-                                              type="number"
+                                              class="block mt-1 w-full text-gray-600 bg-gray-100 dark:bg-gray-600 cursor-not-allowed"
+                                              type="text"
                                               name="number"
-                                              :value="old('number')"
-                                              required />
-                                <x-input-error :messages="$errors->get('number')" class="mt-2" />
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Unique project number for identification</p>
+                                              :value="$project->number"
+                                              disabled />
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Project number cannot be changed</p>
                             </div>
 
                             <!-- Project Name -->
@@ -33,7 +33,7 @@
                                               class="block mt-1 w-full"
                                               type="text"
                                               name="name"
-                                              :value="old('name')"
+                                              :value="old('name') ?? $project->name ?? ''"
                                               required />
                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Descriptive name for the project</p>
@@ -53,16 +53,16 @@
                             <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Preview</h2>
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <div class="flex items-center rounded-xl border border-gray-200 dark:border-gray-600">
-                             <img id="preview-image" src="{{ Vite::asset('resources/images/thumb-image.png') }}"
-                                 alt="Project thumbnail"
-                                 class="h-full aspect-square rounded-l-xl rounded-r-none object-cover"
-                                 style="min-width: 64px; max-width: 128px;" />
+                                     <img id="preview-image" src="{{ asset('images/projects/'.$project->thumbnail) ?: Vite::asset('resources/images/thumb-image.png') }}"
+                                         alt="Project thumbnail"
+                                         class="h-full aspect-square rounded-l-xl rounded-r-none object-cover"
+                                         style="min-width: 64px; max-width: 128px;" />
                                     <div class="flex-1 ml-4">
                                         <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100" id="preview-name">
-                                            {{ old('name') ?: 'Project Name' }}
+                                            {{ $project->name ?? old('name') ?: 'Project Name' }}
                                         </h2>
                                         <p class="text-sm text-gray-500">
-                                            #<span id="preview-number">{{ old('number') ?: '000' }}</span> • {{ now()->toFormattedDayDateString() }}
+                                            #<span id="preview-number">{{ $project->number ?? old('number') ?: '000' }}</span> • {{ now()->toFormattedDayDateString() }}
                                         </p>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                 </svg>
-                                {{ __('Create Project') }}
+                                {{ __('Save Project') }}
                             </x-primary-button>
                         </div>
                     </form>
