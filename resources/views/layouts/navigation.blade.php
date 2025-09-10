@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <img src="{{ Vite::asset('resources/images/logo-infrascout.png') }}" alt="" class="block h-9 mr-3 w-auto fill-current/>
+                        <img id="logo" src="{{ Vite::asset('resources/images/logo-infrascout.png') }}" alt="Header logo" class="block h-9 w-auto fill-current" />
                     </a>
                 </div>
 
@@ -98,3 +98,12 @@
         </div>
     </div>
 </nav>
+
+@push('scripts')
+    <script>
+        const logoElement = document.querySelector('#logo');
+        if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            logoElement.src = '{{ Vite::asset('resources/images/logo-infrascout-dark.png') }}';
+        }
+    </script>
+@endpush
