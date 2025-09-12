@@ -47,18 +47,7 @@
                         @if($project->reports && $project->reports->count() > 0)
                             <div class="space-y-3">
                                 @foreach($project->reports()->orderBy('updated_at', 'DESC')->get() as $report)
-                                    <div class="border border-gray-200 dark:border-gray-700 p-4 rounded-lg hover:border-blue-400 transition">
-                                        <a href="{{ route('projects.reports.show', [$project, $report]) }}" class="text-blue-500 hover:text-blue-700">
-                                            <div class="flex justify-between">
-                                                <h3 class="font-semibold text-gray-900 dark:text-gray-100">Report #{{ $report->id }}</h3>
-                                                <span class="text-sm text-gray-500">{{ $report->date_of_work->format('Y-m-d') }}</span>
-                                            </div>
-                                            <p class="text-gray-700 dark:text-gray-300 mt-2">{{ $report->description }}</p>
-                                            <div class="mt-2 text-right">
-                                                    View Details →
-                                            </div>
-                                        </a>
-                                    </div>
+                                    <x-project.report-row :report="$report" :project="$project"/>
                                 @endforeach
                             </div>
                         @else
