@@ -23,6 +23,11 @@ class ProjectFactory extends Factory
         return [
             'number' => fake()->unique()->numberBetween(10000, 99999),
             'name' => fake()->company(),
+            'client' => fake()->name(),
+            'contact' => fake()->name(),
+            'phone' => fake()->optional()->phoneNumber(),
+            'mail' => fake()->optional()->safeEmail(),
+            'address' => fake()->optional()->address(),
             'created_at' => $created,
             'updated_at' => $updated,
         ];

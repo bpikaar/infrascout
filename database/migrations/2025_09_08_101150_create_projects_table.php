@@ -17,6 +17,11 @@ return new class extends Migration
             $table->integer('number')->unique();
 
             $table->string('name');
+            $table->string('client');
+            $table->string('contact');
+            $table->string('phone')->nullable();
+            $table->string('mail')->nullable();
+            $table->string('address')->nullable();
             $table->string('thumbnail')->nullable();
 
             $table->timestamps();

@@ -18,6 +18,11 @@ class Project extends Model
     protected $fillable = [
         'number',
         'name',
+        'client',
+        'contact',
+        'phone',
+        'mail',
+        'address',
         'thumbnail',
     ];
 

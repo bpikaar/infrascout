@@ -40,6 +40,31 @@
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Client</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $project->client }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Contact</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $project->contact }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Phone</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $project->phone ?? '—' }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Mail</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $project->mail ?? '—' }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Address</h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $project->address ?? '—' }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <h3 class="font-semibold text-gray-700 dark:text-gray-300">Created At</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->created_at->format('Y-m-d H:i') }}</p>
                             </div>

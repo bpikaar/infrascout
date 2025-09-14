@@ -23,6 +23,11 @@ class UpdateProjectRequest extends FormRequest
     {
         return [
             'name'      => 'required|string|max:255',
+            'client'    => 'required|string|max:255',
+            'contact'   => 'required|string|max:255',
+            'phone'     => 'nullable|string|max:50',
+            'mail'      => 'nullable|email|max:255',
+            'address'   => 'nullable|string|max:500',
             'thumbnail' => 'nullable|image|max:2048',
         ];
     }

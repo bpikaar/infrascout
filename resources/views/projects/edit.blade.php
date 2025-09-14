@@ -39,6 +39,59 @@
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Descriptive name for the project</p>
                             </div>
 
+                            <!-- Client -->
+                            <div>
+                                <x-input-label for="client" :value="__('Client')" />
+                                <x-text-input id="client"
+                                              class="block mt-1 w-full"
+                                              type="text"
+                                              name="client"
+                                              :value="old('client') ?? $project->client ?? ''"
+                                              required />
+                                <x-input-error :messages="$errors->get('client')" class="mt-2" />
+                            </div>
+
+                            <!-- Contact -->
+                            <div>
+                                <x-input-label for="contact" :value="__('Contact')" />
+                                <x-text-input id="contact"
+                                              class="block mt-1 w-full"
+                                              type="text"
+                                              name="contact"
+                                              :value="old('contact') ?? $project->contact ?? ''"
+                                              required />
+                                <x-input-error :messages="$errors->get('contact')" class="mt-2" />
+                            </div>
+
+                            <!-- Phone (optional) -->
+                            <div>
+                                <x-input-label for="phone" :value="__('Phone (optional)')" />
+                                <x-text-input id="phone"
+                                              class="block mt-1 w-full"
+                                              type="text"
+                                              name="phone"
+                                              :value="old('phone') ?? $project->phone ?? ''" />
+                                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                            </div>
+
+                            <!-- Mail (optional) -->
+                            <div>
+                                <x-input-label for="mail" :value="__('Mail (optional)')" />
+                                <x-text-input id="mail"
+                                              class="block mt-1 w-full"
+                                              type="email"
+                                              name="mail"
+                                              :value="old('mail') ?? $project->mail ?? ''" />
+                                <x-input-error :messages="$errors->get('mail')" class="mt-2" />
+                            </div>
+
+                            <!-- Address (optional) -->
+                            <div class="md:col-span-2">
+                                <x-input-label for="address" :value="__('Address (optional)')" />
+                                <textarea id="address" name="address" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('address') ?? $project->address ?? '' }}</textarea>
+                                <x-input-error :messages="$errors->get('address')" class="mt-2" />
+                            </div>
+
                             <!-- Project Image Upload -->
                             <div>
                                 <x-input-label for="thumbnail" :value="__('Project Image')" />
