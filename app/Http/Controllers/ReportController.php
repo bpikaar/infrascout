@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Report;
 use App\Models\User;
 use Auth;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class ReportController extends Controller
 {
@@ -89,5 +90,12 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         //
+    }
+    public function download(Report $report)
+    {
+        Pdf::view('reports.download', compact('report'))
+//            ->format('a4')
+            ->save('invoice.pdf')
+            ->download('invoice.pdf');
     }
 }
