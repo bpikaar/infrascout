@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Rapport {{ $project->name }}</title>
+    <title>Rapport {{ $report->project->name }}</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -168,8 +168,13 @@
             @if($report->images && $report->images->count())
                 <div class="images-row">
                     @foreach($report->images as $image)
-{{--                        @dd(public_path('images/reports/'.$report->id.'/'.$image->path));--}}
-{{--                        <img src="{{ asset('images/reports/'.$report->id.'/'.$image->path) }}" alt="Report image" />--}}
+                        @php
+                            // Use the public/images symlink (see config/filesystems.php -> links)
+                            $imgPath = public_path('images/reports/'.$report->id.'/'.$image->path);
+                        @endphp
+                        @if(file_exists($imgPath))
+                            <img src="{{ $imgPath }}" alt="Report image" />
+                        @endif
                     @endforeach
                 </div>
             @else
@@ -193,7 +198,3 @@
     </div>
 </body>
 </html>
-
-
-
-{{--</x-app-layout>--}}

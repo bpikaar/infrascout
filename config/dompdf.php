@@ -140,7 +140,7 @@ return [
          * @link http://www.ros.co.nz/pdf
          * @link http://www.php.net/image
          */
-        'pdf_backend' => 'CPDF',
+        'pdf_backend' => 'auto',
 
         /**
          * html target media view which should be rendered into pdf.
@@ -267,7 +267,7 @@ return [
          *
          * @var bool
          */
-        'enable_remote' => true,
+        'enable_remote' => false,
 
         /**
          * List of allowed remote hosts

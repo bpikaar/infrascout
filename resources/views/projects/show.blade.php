@@ -3,6 +3,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
+                    @if(session('status'))
+                        <div class="mb-4 rounded-md bg-blue-50 p-4 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800">
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 dark:text-blue-300 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 102 0v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                </svg>
+                                <p class="ml-3 text-sm text-blue-800 dark:text-blue-200">{{ session('status') }}</p>
+                            </div>
+                        </div>
+                    @endif
                     <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
                         <img src="{{ $project->thumbnail ? asset('images/projects/'.$project->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}"
                             alt="{{ $project->name }} thumbnail"

@@ -4,6 +4,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
+                    @if(session('status'))
+                        <div class="mb-4 rounded-md bg-blue-50 p-4 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800">
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 dark:text-blue-300 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 102 0v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                </svg>
+                                <p class="ml-3 text-sm text-blue-800 dark:text-blue-200">{{ session('status') }}</p>
+                            </div>
+                        </div>
+                    @endif
                     <div class="flex items-center mb-6">
                         <img src="{{ Vite::asset('resources/images/thumb-image.png') }}"
                              alt="Report thumbnail"
@@ -176,12 +186,20 @@
                             Edit Report
                         </a>
 
+                        @php($report->loadMissing('pdf'))
+                        @if($report->pdf && \Storage::disk('public')->exists($report->pdf->file_path))
                         <a href="{{ route('projects.reports.download', [$report]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                             </svg>
                             Download Report
                         </a>
+                        @else
+                        <span class="inline-flex items-center px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke-width="4" class="opacity-75"/></svg>
+                            Preparing PDF...
+                        </span>
+                        @endif
                     </div>
                 </div>
             </div>

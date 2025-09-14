@@ -63,4 +63,12 @@ class Report extends Model
         return $this->belongsTo(User::class, 'field_worker');
     }
 
+    /**
+     * Generated PDF for this report.
+     */
+    public function pdf()
+    {
+        return $this->hasOne(ReportPdf::class);
+    }
+
 }
