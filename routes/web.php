@@ -13,6 +13,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(callback: function () {
+    Route::get('projects/reports/{report}/download', [ReportController::class, 'download'])
+        ->name('projects.reports.download');
+
     Route::resource('projects', ProjectController::class);
     Route::resource('projects.reports', ReportController::class);
 

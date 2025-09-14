@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Report;
 use App\Models\User;
 use Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
@@ -89,5 +90,12 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         //
+    }
+
+    public function download(Report $report)
+    {
+        $project = $report->project;
+        $pdf = Pdf::loadView('reports.pdf', compact('report', 'project'));
+        return $pdf->download('invoice.pdf');
     }
 }

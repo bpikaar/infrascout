@@ -53,7 +53,7 @@
                             <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Preview</h2>
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <div class="flex items-center rounded-xl border border-gray-200 dark:border-gray-600">
-                                     <img id="preview-image" src="{{ asset('images/projects/'.$project->thumbnail) ?: Vite::asset('resources/images/thumb-image.png') }}"
+                                     <img id="preview-image" src="{{ $project->thumbnail ? asset('images/projects/'.$project->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}"
                                          alt="Project thumbnail"
                                          class="h-full aspect-square rounded-l-xl rounded-r-none object-cover"
                                          style="min-width: 64px; max-width: 128px;" />
