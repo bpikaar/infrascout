@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Contact;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('number')->unique();
-
             $table->string('name');
-            $table->string('client');
 
-            $table->foreignIdFor(Contact::class)->constrained();
-
-            $table->string('thumbnail')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('email')->nullable();
 
             $table->timestamps();
         });
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('contacts');
     }
 };

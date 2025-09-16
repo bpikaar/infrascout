@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Project extends Model
 {
@@ -19,10 +20,7 @@ class Project extends Model
         'number',
         'name',
         'client',
-        'contact',
-        'phone',
-        'mail',
-        'address',
+        'contact_id',
         'thumbnail',
     ];
 
@@ -32,6 +30,14 @@ class Project extends Model
     public function reports(): HasMany
     {
         return $this->hasMany(Report::class);
+    }
+
+    /**
+     * Contact person for the project.
+     */
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(Contact::class);
     }
 
 }

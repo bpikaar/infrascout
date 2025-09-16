@@ -21,13 +21,10 @@ class ProjectFactory extends Factory
         $updated = (clone $created)->addDays(rand(1, 5));
 
         return [
-            'number' => fake()->unique()->numberBetween(10000, 99999),
-            'name' => fake()->company(),
-            'client' => fake()->name(),
-            'contact' => fake()->name(),
-            'phone' => fake()->optional()->phoneNumber(),
-            'mail' => fake()->optional()->safeEmail(),
-            'address' => fake()->optional()->address(),
+            'number'     => fake()->unique()->numberBetween(10000, 99999),
+            'name'       => fake()->company(),
+            'client'     => fake()->name(),
+            'contact_id' => \App\Models\Contact::factory(),
             'created_at' => $created,
             'updated_at' => $updated,
         ];

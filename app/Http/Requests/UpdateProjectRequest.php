@@ -24,7 +24,8 @@ class UpdateProjectRequest extends FormRequest
         return [
             'name'      => 'required|string|max:255',
             'client'    => 'required|string|max:255',
-            'contact'   => 'required|string|max:255',
+            'contact_id'=> 'nullable|exists:contacts,id',
+            'contact'   => 'required_without:contact_id|string|max:255',
             'phone'     => 'nullable|string|max:50',
             'mail'      => 'nullable|email|max:255',
             'address'   => 'nullable|string|max:500',

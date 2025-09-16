@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
@@ -13,6 +14,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(callback: function () {
+    // Contacts AJAX search
+    Route::get('/contacts/search', [ContactController::class, 'search'])->name('contacts.search');
+
     Route::get('projects/reports/{report}/download', [ReportController::class, 'download'])
         ->name('projects.reports.download');
 

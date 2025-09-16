@@ -21,7 +21,7 @@
                     {{-- Pagination--}}
                     @if($projects->hasPages())
                         <div class="p-6">
-                            {{ $posts->links() }}
+                            {{ $projects->links() }}
                         </div>
                     @endif
 
