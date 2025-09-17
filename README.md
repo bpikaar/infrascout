@@ -15,6 +15,13 @@
   ```bash
   php artisan queue:work -v
   ```
+### ENV
+
+```bash
+APP_LOCALE=nl
+APP_FALLBACK_LOCALE=en
+APP_FAKER_LOCALE=en_US
+```
 
 ## plugins
 
@@ -36,3 +43,10 @@ php artisan vendor:publish
 ```
 
 Choose `Barryvdh\DomPDF\ServiceProvider`
+
+### localization 
+
+language folder has been published through
+```bash
+php artisan lang:publish
+```

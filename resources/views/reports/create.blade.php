@@ -7,14 +7,14 @@
                     <div class="flex items-center mb-6">
                         <div class="mr-6">
                             <img src="{{ Vite::asset('resources/images/thumb-image.png') }}"
-                                alt="New report thumbnail"
+                                alt="{{ __('report.images.alt_new_report_thumb') }}"
                                 class="h-24 w-24 rounded-lg object-cover" />
                         </div>
 
                         <div>
-                            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Create New Report</h1>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('report.title.create') }}</h1>
                             <p class="text-gray-500 dark:text-gray-400">
-                                    For project: {{ $project->name }}
+                                    {{ __('report.project.for_project', ['name' => $project->name]) }}
                             </p>
                         </div>
                     </div>
@@ -25,13 +25,13 @@
 
                             <!-- Project Selection -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Project Information</h2>
+                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.fields.project') }} / {{ __('report.title.details') }}</h2>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <x-input-label for="project_id" :value="__('Project')" />
+                                        <x-input-label for="project_id" :value="__('report.fields.project')" />
                                         <select id="project_id" name="project_id" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-                                            <option value="">Select a project</option>
+                                            <option value="">{{ __('report.project.select') }}</option>
                                             @foreach($projects as $p)
                                                 <option value="{{ $p->id }}" {{ (old('project_id') == $p->id || $project->id == $p->id) ? 'selected' : '' }}>
                                                     #{{ $p->number }} - {{ $p->name }}
@@ -42,7 +42,7 @@
                                     </div>
 
                                     <div>
-                                        <x-input-label for="date_of_work" :value="__('Date of Work')" />
+                                        <x-input-label for="date_of_work" :value="__('report.fields.date_of_work')" />
                                         <x-text-input id="date_of_work"
                                             class="block mt-1 w-full"
                                             type="datetime-local"
@@ -56,12 +56,12 @@
 
                             <!-- Personnel -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Personnel</h2>
+                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.fields.created_by') }} / {{ __('report.fields.field_worker') }}</h2>
 
                                 <div>
-                                    <x-input-label for="field_worker" :value="__('Field Worker')" />
+                                    <x-input-label for="field_worker" :value="__('report.fields.field_worker')" />
                                     <select id="field_worker" name="field_worker" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-                                        <option value="">Select field worker</option>
+                                        <option value="">{{ __('report.fields.field_worker') }}</option>
                                         @foreach($users as $user)
                                             <option value="{{ $user->id }}" {{ old('field_worker') == $user->id || auth()->id() == $user->id ? 'selected' : '' }}>
                                                 {{ $user->name }} ({{ $user->email }})
@@ -74,35 +74,35 @@
 
                             <!-- Technical Specifications -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Technical Specifications</h2>
+                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.technical') }}</h2>
 
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                     <div>
-                                        <x-input-label for="cable_type" :value="__('Cable Type')" />
+                                        <x-input-label for="cable_type" :value="__('report.fields.cable_type')" />
                                         <x-text-input id="cable_type"
                                             class="block mt-1 w-full"
                                             type="text"
                                             name="cable_type"
                                             :value="old('cable_type')"
                                             required
-                                            placeholder="e.g., Cat 6, Fiber optic" />
+                                            placeholder="{{ __('report.placeholders.cable_type') }}" />
                                         <x-input-error :messages="$errors->get('cable_type')" class="mt-2" />
                                     </div>
 
                                     <div>
-                                        <x-input-label for="material" :value="__('Material')" />
+                                        <x-input-label for="material" :value="__('report.fields.material')" />
                                         <x-text-input id="material"
                                             class="block mt-1 w-full"
                                             type="text"
                                             name="material"
                                             :value="old('material')"
                                             required
-                                            placeholder="e.g., Copper, Aluminum" />
+                                            placeholder="{{ __('report.placeholders.material') }}" />
                                         <x-input-error :messages="$errors->get('material')" class="mt-2" />
                                     </div>
 
                                     <div>
-                                        <x-input-label for="diameter" :value="__('Diameter (mm)')" />
+                                        <x-input-label for="diameter" :value="__('report.fields.diameter')" />
                                         <x-text-input id="diameter"
                                             class="block mt-1 w-full"
                                             type="number"
@@ -110,7 +110,7 @@
                                             :value="old('diameter')"
                                             required
                                             step="0.1"
-                                            placeholder="e.g., 12.5" />
+                                            placeholder="{{ __('report.placeholders.diameter') }}" />
                                         <x-input-error :messages="$errors->get('diameter')" class="mt-2" />
                                     </div>
                                 </div>
@@ -118,30 +118,30 @@
 
                             <!-- Work Information -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Work Information</h2>
+                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work') }}</h2>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <x-input-label for="work_hours" :value="__('Work Hours')" />
+                                        <x-input-label for="work_hours" :value="__('report.fields.work_hours')" />
                                         <x-text-input id="work_hours"
                                             class="block mt-1 w-full"
                                             type="text"
                                             name="work_hours"
                                             :value="old('work_hours')"
                                             required
-                                            placeholder="e.g., 8 hours, 09:00-17:00" />
+                                            placeholder="{{ __('report.placeholders.work_hours') }}" />
                                         <x-input-error :messages="$errors->get('work_hours')" class="mt-2" />
                                     </div>
 
                                     <div>
-                                        <x-input-label for="travel_time" :value="__('Travel Time')" />
+                                        <x-input-label for="travel_time" :value="__('report.fields.travel_time')" />
                                         <x-text-input id="travel_time"
                                             class="block mt-1 w-full"
                                             type="text"
                                             name="travel_time"
                                             :value="old('travel_time')"
                                             required
-                                            placeholder="e.g., 2 hours, 45 minutes" />
+                                            placeholder="{{ __('report.placeholders.travel_time') }}" />
                                         <x-input-error :messages="$errors->get('travel_time')" class="mt-2" />
                                     </div>
                                 </div>
@@ -149,26 +149,26 @@
 
                             <!-- Description -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Description</h2>
+                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.description') }}</h2>
 
                                 <div>
-                                    <x-input-label for="description" :value="__('Work Description')" />
+                                    <x-input-label for="description" :value="__('report.fields.description')" />
                                     <textarea id="description"
                                         name="description"
                                         rows="6"
                                         class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                                         required
-                                        placeholder="Describe the work performed, any issues encountered, and results...">{{ old('description') }}</textarea>
+                                        placeholder="{{ __('report.placeholders.description') }}">{{ old('description') }}</textarea>
                                     <x-input-error :messages="$errors->get('description')" class="mt-2" />
                                 </div>
                             </div>
 
                             <!-- Images -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Images</h2>
+                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.images') }}</h2>
 
                                 <div>
-                                    <x-input-label for="images" :value="__('Upload Images')" />
+                                    <x-input-label for="images" :value="__('report.images.upload')" />
                                     <input id="images"
                                         type="file"
                                         name="images[]"
@@ -176,7 +176,7 @@
                                         accept="image/*"
                                         class="block mt-1 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
                                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                        You can select multiple images. Supported formats: JPG, PNG, GIF, WebP (Max 2MB each)
+                                        {{ __('report.images.supported') }}
                                     </p>
                                     <x-input-error :messages="$errors->get('images')" class="mt-2" />
                                     <x-input-error :messages="$errors->get('images.*')" class="mt-2" />
@@ -194,19 +194,19 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
                                     </svg>
-                                    Cancel
+                                    {{ __('report.actions.cancel') }}
                                 </a>
 
                                 <div class="flex space-x-4">
                                     <x-secondary-button type="button" onclick="document.querySelector('form').reset(); clearImagePreview();">
-                                        Reset Form
+                                        {{ __('report.actions.reset') }}
                                     </x-secondary-button>
 
                                     <x-primary-button>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                         </svg>
-                                        Create Report
+                                        {{ __('report.actions.create') }}
                                     </x-primary-button>
                                 </div>
                             </div>

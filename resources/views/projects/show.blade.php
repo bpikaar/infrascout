@@ -20,64 +20,64 @@
 
                         <div class="text-center md:text-left">
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $project->name }}</h1>
-                            <p class="text-gray-500 dark:text-gray-400">Project #{{ $project->number }}</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Created: {{ $project->created_at->toFormattedDayDateString() }}</p>
+                            <p class="text-gray-500 dark:text-gray-400">{{ __('project.project_hash', ['number' => $project->number]) }}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('project.created_at') }}: {{ $project->created_at->toFormattedDayDateString() }}</p>
                         </div>
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Project Details</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('project.details_heading') }}</h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Project Number</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.number') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->number }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Project Name</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.name') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->name }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Client</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.client') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->client }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Contact</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.contact') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->contact?->name ?? '—' }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Phone</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.phone') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->contact?->phone ?? '—' }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Mail</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.mail') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->contact?->email ?? '—' }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Address</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.address') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $project->contact?->address ?? '—' }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Created At</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.created_at') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->created_at->format('Y-m-d H:i') }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">Last Updated</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.updated_at') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->updated_at->format('Y-m-d H:i') }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Reports</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('project.reports_heading') }}</h2>
 
                         @if($project->reports && $project->reports->count() > 0)
                             <div class="space-y-3">
@@ -86,7 +86,7 @@
                                 @endforeach
                             </div>
                         @else
-                            <p class="text-gray-500 dark:text-gray-400">No reports available for this project.</p>
+                            <p class="text-gray-500 dark:text-gray-400">{{ __('project.no_reports') }}</p>
                         @endif
                     </div>
 
@@ -95,14 +95,14 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                             </svg>
-                            Create New Report
+                            {{ __('project.create_report') }}
                         </a>
 
                         <a href="{{ route('projects.edit', $project) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                             </svg>
-                            Edit Project
+                            {{ __('project.edit_action') }}
                         </a>
                     </div>
                 </div>

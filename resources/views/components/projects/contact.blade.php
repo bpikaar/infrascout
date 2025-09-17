@@ -2,11 +2,11 @@
     'project'
 ])
 <div class="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
-    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Contact</h2>
+    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('project.contact_section') }}</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Contact with autocomplete -->
         <div class="relative">
-            <x-input-label for="contact" :value="__('Contact')" />
+            <x-input-label for="contact" :value="__('project.contact')" />
             <input type="hidden" id="contact_id" name="contact_id" value="{{ old('contact_id') ?? $project->contact_id ?? '' }}">
             <x-text-input id="contact"
                           class="block mt-1 w-full"
@@ -23,7 +23,7 @@
 
         <!-- Phone (optional) -->
         <div>
-            <x-input-label for="phone" :value="__('Phone (optional)')" />
+            <x-input-label for="phone" :value="__('project.phone_optional')" />
             <x-text-input id="phone"
                           class="block mt-1 w-full"
                           type="text"
@@ -34,7 +34,7 @@
 
         <!-- Mail (optional) -->
         <div>
-            <x-input-label for="mail" :value="__('Mail (optional)')" />
+            <x-input-label for="mail" :value="__('project.mail_optional')" />
             <x-text-input id="mail"
                           class="block mt-1 w-full"
                           type="email"
@@ -45,7 +45,7 @@
 
         <!-- Address (optional) -->
         <div class="md:col-span-2">
-            <x-input-label for="address" :value="__('Address (optional)')" />
+            <x-input-label for="address" :value="__('project.address_optional')" />
             <textarea id="address" name="address" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('address') ?? ($project->contact?->address ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('address')" class="mt-2" />
         </div>

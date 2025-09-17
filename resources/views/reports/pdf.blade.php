@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Rapport {{ $report->project->name }}</title>
+    <title>{{ __('report.title.pdf', ['id' => $report->id]) }} - {{ $report->project->name }}</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -92,32 +92,32 @@
     <div class="container">
         <div class="header">
             <div>
-                <h1>Report #{{ $report->id }}</h1>
-                <p>Project: {{ $report->project->name ?? 'N/A' }}</p>
-                <p>Work Date: {{ $report->date_of_work->format('Y-m-d') }}</p>
+                <h1>{{ __('report.title.show', ['id' => $report->id]) }}</h1>
+                <p>{{ __('report.project.label') }}: {{ $report->project->name ?? __('report.status.n_a') }}</p>
+                <p>{{ __('report.fields.work_date') }}: {{ $report->date_of_work->format('Y-m-d') }}</p>
             </div>
         </div>
 
         <div class="section">
-            <div class="section-title">Report Details</div>
+            <div class="section-title">{{ __('report.title.details') }}</div>
             <div class="grid">
                 <div class="grid-col">
-                    <strong>Project</strong><br>
-                    {{ $report->project->name ?? 'N/A' }}<br>
-                    <span style="color: #555; font-size: 0.95em;">Project #{{ $report->project->number ?? 'N/A' }}</span>
+                    <strong>{{ __('report.fields.project') }}</strong><br>
+                    {{ $report->project->name ?? __('report.status.n_a') }}<br>
+                    <span style="color: #555; font-size: 0.95em;">{{ __('report.project.number', ['number' => $report->project->number ?? __('report.status.n_a')]) }}</span>
                 </div>
                 <div class="grid-col">
-                    <strong>Date of Work</strong><br>
+                    <strong>{{ __('report.fields.date_of_work') }}</strong><br>
                     {{ $report->date_of_work->format('l, F j, Y') }}<br>
                     <span style="color: #555; font-size: 0.95em;">{{ $report->date_of_work->format('H:i') }}</span>
                 </div>
                 <div class="grid-col">
-                    <strong>Created By</strong><br>
+                    <strong>{{ __('report.fields.created_by') }}</strong><br>
                     {{ $report->user->name ?? 'N/A' }}<br>
                     <span style="color: #555; font-size: 0.95em;">{{ $report->user->email ?? 'N/A' }}</span>
                 </div>
                 <div class="grid-col">
-                    <strong>Field Worker</strong><br>
+                    <strong>{{ __('report.fields.field_worker') }}</strong><br>
                     {{ $report->fieldWorker->name ?? 'N/A' }}<br>
                     <span style="color: #555; font-size: 0.95em;">{{ $report->fieldWorker->email ?? 'N/A' }}</span>
                 </div>
@@ -125,46 +125,46 @@
         </div>
 
         <div class="section">
-            <div class="section-title">Technical Specifications</div>
+            <div class="section-title">{{ __('report.title.technical') }}</div>
             <div class="grid">
                 <div class="grid-col">
-                    <strong>Cable Type</strong><br>
+                    <strong>{{ __('report.fields.cable_type') }}</strong><br>
                     {{ $report->cable_type }}
                 </div>
                 <div class="grid-col">
-                    <strong>Material</strong><br>
+                    <strong>{{ __('report.fields.material') }}</strong><br>
                     {{ $report->material }}
                 </div>
                 <div class="grid-col">
-                    <strong>Diameter</strong><br>
+                    <strong>{{ __('report.fields.diameter') }}</strong><br>
                     {{ $report->diameter }}mm
                 </div>
             </div>
         </div>
 
         <div class="section">
-            <div class="section-title">Work Information</div>
+            <div class="section-title">{{ __('report.title.work') }}</div>
             <div class="grid">
                 <div class="grid-col">
-                    <strong>Work Hours</strong><br>
+                    <strong>{{ __('report.fields.work_hours') }}</strong><br>
                     {{ $report->work_hours }}
                 </div>
                 <div class="grid-col">
-                    <strong>Travel Time</strong><br>
+                    <strong>{{ __('report.fields.travel_time') }}</strong><br>
                     {{ $report->travel_time }}
                 </div>
             </div>
         </div>
 
         <div class="section">
-            <div class="section-title">Description</div>
+            <div class="section-title">{{ __('report.title.description') }}</div>
             <div class="description">
                 {{ $report->description }}
             </div>
         </div>
 
         <div class="section">
-            <div class="section-title">Images</div>
+            <div class="section-title">{{ __('report.title.images') }}</div>
             @if($report->images && $report->images->count())
                 <div class="images-row">
                     @foreach($report->images as $image)
@@ -178,19 +178,19 @@
                     @endforeach
                 </div>
             @else
-                <p style="color: #888;">No images for this report.</p>
+                <p style="color: #888;">{{ __('report.images.none') }}</p>
             @endif
         </div>
 
         <div class="section">
-            <div class="section-title">Timestamps</div>
+            <div class="section-title">{{ __('report.title.timestamps') }}</div>
             <div class="timestamps">
                 <div class="grid-col">
-                    <strong>Created At</strong><br>
+                    <strong>{{ __('report.fields.created_at') }}</strong><br>
                     {{ $report->created_at->format('Y-m-d H:i') }}
                 </div>
                 <div class="grid-col">
-                    <strong>Last Updated</strong><br>
+                    <strong>{{ __('report.fields.updated_at') }}</strong><br>
                     {{ $report->updated_at->format('Y-m-d H:i') }}
                 </div>
             </div>
