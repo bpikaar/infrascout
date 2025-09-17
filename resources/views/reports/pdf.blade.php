@@ -126,20 +126,37 @@
 
         <div class="section">
             <div class="section-title">{{ __('report.title.technical') }}</div>
-            <div class="grid">
-                <div class="grid-col">
-                    <strong>{{ __('report.fields.cable_type') }}</strong><br>
-                    {{ $report->cable_type }}
+
+            @if($report->cables->count())
+                <div class="grid" style="flex-direction: column; gap:8px;">
+                    @foreach($report->cables as $cable)
+                        <div class="grid-col" style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <strong>{{ $cable->cable_type }}</strong>
+                                <span style="margin-left:8px;">{{ $cable->material }}</span>
+                                @if($cable->diameter)
+                                    <span style="margin-left:8px;">{{ number_format($cable->diameter,2) }} mm</span>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-                <div class="grid-col">
-                    <strong>{{ __('report.fields.material') }}</strong><br>
-                    {{ $report->material }}
+            @else
+                <div class="grid">
+                    <div class="grid-col">
+                        <strong>{{ __('report.fields.cable_type') }}</strong><br>
+                        {{ $report->cable_type }}
+                    </div>
+                    <div class="grid-col">
+                        <strong>{{ __('report.fields.material') }}</strong><br>
+                        {{ $report->material }}
+                    </div>
+                    <div class="grid-col">
+                        <strong>{{ __('report.fields.diameter') }}</strong><br>
+                        {{ $report->diameter }}mm
+                    </div>
                 </div>
-                <div class="grid-col">
-                    <strong>{{ __('report.fields.diameter') }}</strong><br>
-                    {{ $report->diameter }}mm
-                </div>
-            </div>
+            @endif
         </div>
 
         <div class="section">

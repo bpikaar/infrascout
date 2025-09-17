@@ -71,4 +71,12 @@ class Report extends Model
         return $this->hasOne(ReportPdf::class);
     }
 
+    /**
+     * Cables associated with this report.
+     */
+    public function cables()
+    {
+        return $this->belongsToMany(Cable::class);
+    }
+
 }

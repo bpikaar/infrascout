@@ -62,26 +62,37 @@
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
                         <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.technical') }}</h2>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <!-- Cable Type -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.cable_type') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->cable_type }}</p>
+                        @php($report->loadMissing('cables'))
+                        @if($report->cables->count())
+                            <div class="space-y-2">
+                                @foreach($report->cables as $cable)
+                                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
+                                        <div>
+                                            <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $cable->cable_type }}</span>
+                                            <span class="text-gray-500 dark:text-gray-400 ml-2">{{ $cable->material }}</span>
+                                            @if($cable->diameter)
+                                                <span class="text-gray-500 dark:text-gray-400 ml-2">{{ number_format($cable->diameter, 2) }} mm</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-
-                            <!-- Material -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.material') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->material }}</p>
+                        @else
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.cable_type') }}</h3>
+                                    <p class="text-gray-900 dark:text-gray-100">{{ $report->cable_type }}</p>
+                                </div>
+                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.material') }}</h3>
+                                    <p class="text-gray-900 dark:text-gray-100">{{ $report->material }}</p>
+                                </div>
+                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.diameter') }}</h3>
+                                    <p class="text-gray-900 dark:text-gray-100">{{ $report->diameter }}mm</p>
+                                </div>
                             </div>
-
-                            <!-- Diameter -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.diameter') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->diameter }}mm</p>
-                            </div>
-                        </div>
+                        @endif
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
@@ -142,17 +153,6 @@
                                         </div>
                                     </x-modal>
 
-
-                                    <!-- Modal -->
-{{--                                    <div x-show="showModal" x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70" style="display: none;" @click.self="showModal = false">--}}
-{{--                                        <div class="relative bg-white dark:bg-gray-900 rounded-lg shadow-lg max-w-lg w-full mx-4">--}}
-{{--                                            <button @click="showModal = false" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl">&times;</button>--}}
-{{--                                            <img :src="modalImg" alt="Enlarged image" class="w-full h-auto max-h-[70vh] object-contain rounded-lg" />--}}
-{{--                                            <template x-if="modalCaption">--}}
-{{--                                                <p class="text-sm text-gray-700 dark:text-gray-300 mt-2 px-4 pb-4 text-center" x-text="modalCaption"></p>--}}
-{{--                                            </template>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
                                 </div>
                         @else
                             <p class="text-gray-500 dark:text-gray-400 mb-6">{{ __('report.images.none') }}</p>
@@ -188,17 +188,23 @@
 
                         @php($report->loadMissing('pdf'))
                         @if($report->pdf && \Storage::disk('public')->exists($report->pdf->file_path))
-                        <a href="{{ route('projects.reports.download', [$report]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                            </svg>
-                            {{ __('report.actions.download') }}
-                        </a>
+                            <a href="{{ route('projects.reports.download', [$report]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                </svg>
+                                {{ __('report.actions.download') }}
+                            </a>
                         @else
-                        <span class="inline-flex items-center px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke-width="4" class="opacity-75"/></svg>
-                            {{ __('report.actions.preparing_pdf') }}
-                        </span>
+                            <span class="inline-flex items-center px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke-width="4" class="opacity-75"/></svg>
+                                {{ __('report.actions.preparing_pdf') }}
+                            </span>
+                            <a href="{{ route('projects.reports.regenerate', [$report]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                </svg>
+                                {{ __('report.actions.regenerate') }}
+                            </a>
                         @endif
                     </div>
                 </div>

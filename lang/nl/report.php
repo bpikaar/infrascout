@@ -5,7 +5,7 @@ return [
         'create' => 'Nieuw Rapport Aanmaken',
         'show' => 'Rapport #:id',
         'details' => 'Rapportdetails',
-        'technical' => 'Technische Specificaties',
+        'technical' => 'Gevonden kabels',
         'work' => 'Werk Informatie',
         'description' => 'Beschrijving',
         'images' => 'Afbeeldingen',
@@ -62,7 +62,13 @@ return [
         'create' => 'Rapport Aanmaken',
         'edit' => 'Rapport Bewerken',
         'download' => 'Rapport Downloaden',
+        'regenerate' => 'Genereer Rapport Opnieuw',
         'preparing_pdf' => 'PDF aan het voorbereiden...',
+    ],
+
+    'cables' => [
+        'add' => 'Nog Een Kabel Toevoegen',
+        'no_results' => 'Geen resultaten',
     ],
 
     'status' => [

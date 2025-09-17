@@ -5,7 +5,7 @@ return [
         'create' => 'Create New Report',
         'show' => 'Report #:id',
         'details' => 'Report Details',
-        'technical' => 'Technical Specifications',
+        'technical' => 'Cables found',
         'work' => 'Work Information',
         'description' => 'Description',
         'images' => 'Images',
@@ -62,7 +62,13 @@ return [
         'create' => 'Create Report',
         'edit' => 'Edit Report',
         'download' => 'Download Report',
+        'regenerate' => 'Regenerate Report',
         'preparing_pdf' => 'Preparing PDF...',
+    ],
+
+    'cables' => [
+        'add' => 'Add One More Cable',
+        'no_results' => 'No results',
     ],
 
     'status' => [

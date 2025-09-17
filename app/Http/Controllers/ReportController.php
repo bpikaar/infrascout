@@ -11,6 +11,7 @@ use Auth;
 use App\Jobs\GenerateReportPdf;
 use App\Models\ReportPdf;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Cable;
 
 class ReportController extends Controller
 {
@@ -43,8 +44,36 @@ class ReportController extends Controller
         // Add the authenticated user as the creator
         $validated['user_id'] = Auth::id();
 
-        // Create the report
+        // Extract cables payload (array of associative arrays with maybe id)
+        $cablesInput = $request->input('cables', []);
+
+        // Create the report (legacy technical spec fields still on model for backward compatibility)
         $report = Report::create($validated);
+
+        // Sync / create cables
+        $cableIds = [];
+        foreach ($cablesInput as $cableData) {
+            if (!is_array($cableData)) {
+                continue; // ignore unexpected scalars
+            }
+            if (!empty($cableData['id'])) {
+                // Existing cable selected
+                $cableIds[] = (int)$cableData['id'];
+                continue;
+            }
+            // New cable definition - require cable_type & material (validated already)
+            if (!empty($cableData['cable_type']) && !empty($cableData['material'])) {
+                $cable = Cable::firstOrCreate([
+                    'cable_type' => $cableData['cable_type'],
+                    'material' => $cableData['material'],
+                    'diameter' => $cableData['diameter'] ?? null,
+                ]);
+                $cableIds[] = $cable->id;
+            }
+        }
+        if ($cableIds) {
+            $report->cables()->sync($cableIds);
+        }
 
         // Handle image uploads through relationship
         if ($request->hasFile('images')) {
@@ -56,18 +85,6 @@ class ReportController extends Controller
                 $report->images()->create(['path' => $path]);
             }
         }
-
-//        $projectName = preg_replace(
-//            '/[^A-Za-z0-9\-_]/', '',
-//            str_replace(' ', '-', $report->project->name)
-//        );
-//        $reportName = "Rapportage_{$report->id}_{$projectName}_{$report->updated_at->toDateString()}.pdf";
-//        $filePath = "reports/pdfs/$reportName";
-//        // Ensure a ReportPdf record exists and stays up-to-date
-//        ReportPdf::firstOrCreate(
-//            ['report_id' => $report->id],
-//            ['file_path' => $filePath, 'file_name' => $reportName]
-//        );
 
         // Dispatch PDF generation job
         GenerateReportPdf::dispatch($report);
@@ -113,7 +130,8 @@ class ReportController extends Controller
 
     public function download(Report $report)
     {
-        $report->loadMissing('pdf');
+        $report->loadMissing(['pdf', 'cables']);
+
         $filePath = $report->pdf?->file_path;
 
         // Return the existing pdf from disk if present
@@ -129,11 +147,20 @@ class ReportController extends Controller
     }
 
     public function directDownload(Report $report) {
-        $report->loadMissing('project');
+        $report->loadMissing(['project', 'cables']);
 
         $project = $report->project;
         $pdf = Pdf::loadView('reports.pdf', compact('report', 'project'));
 
         return $pdf->download($report->pdf->file_name);
+    }
+
+    public function regeneratePdf(Report $report) {
+        $report->loadMissing(['project', 'cables']);
+
+        // (Re)queue job to generate PDF (record will be created/updated by the job)
+        GenerateReportPdf::dispatch($report);
+
+        return back()->with('status', 'PDF is being generated. Please try again shortly.');
     }
 }

@@ -72,49 +72,8 @@
                                 </div>
                             </div>
 
-                            <!-- Technical Specifications -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.technical') }}</h2>
-
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div>
-                                        <x-input-label for="cable_type" :value="__('report.fields.cable_type')" />
-                                        <x-text-input id="cable_type"
-                                            class="block mt-1 w-full"
-                                            type="text"
-                                            name="cable_type"
-                                            :value="old('cable_type')"
-                                            required
-                                            placeholder="{{ __('report.placeholders.cable_type') }}" />
-                                        <x-input-error :messages="$errors->get('cable_type')" class="mt-2" />
-                                    </div>
-
-                                    <div>
-                                        <x-input-label for="material" :value="__('report.fields.material')" />
-                                        <x-text-input id="material"
-                                            class="block mt-1 w-full"
-                                            type="text"
-                                            name="material"
-                                            :value="old('material')"
-                                            required
-                                            placeholder="{{ __('report.placeholders.material') }}" />
-                                        <x-input-error :messages="$errors->get('material')" class="mt-2" />
-                                    </div>
-
-                                    <div>
-                                        <x-input-label for="diameter" :value="__('report.fields.diameter')" />
-                                        <x-text-input id="diameter"
-                                            class="block mt-1 w-full"
-                                            type="number"
-                                            name="diameter"
-                                            :value="old('diameter')"
-                                            required
-                                            step="0.1"
-                                            placeholder="{{ __('report.placeholders.diameter') }}" />
-                                        <x-input-error :messages="$errors->get('diameter')" class="mt-2" />
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Technical Specifications (Multiple Cable Rows with Autofill) -->
+                            <x-reports.cable-selector />
 
                             <!-- Work Information -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
@@ -219,40 +178,16 @@
 
     @push('scripts')
     <script>
-        // Image preview functionality
-        document.getElementById('images').addEventListener('change', function(e) {
-            const preview = document.getElementById('image-preview');
-            const files = Array.from(e.target.files);
-
-            preview.innerHTML = '';
-
-            if (files.length > 0) {
+        // Image preview functionality (retained)
+        document.getElementById('images').addEventListener('change', function(e){
+            const preview=document.getElementById('image-preview');
+            const files=Array.from(e.target.files); preview.innerHTML='';
+            if(files.length){
                 preview.classList.remove('hidden');
-
-                files.forEach(file => {
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const div = document.createElement('div');
-                            div.className = 'relative';
-                            div.innerHTML = `
-                                <img src="${e.target.result}" class="w-full h-24 object-cover rounded-lg border border-gray-300">
-                                <p class="text-xs text-gray-500 mt-1 truncate">${file.name}</p>
-                            `;
-                            preview.appendChild(div);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            } else {
-                preview.classList.add('hidden');
-            }
+                files.forEach(file=>{ if(file.type.startsWith('image/')){ const reader=new FileReader(); reader.onload=function(ev){ const div=document.createElement('div'); div.className='relative'; div.innerHTML=`<img src="${ev.target.result}" class=\"w-full h-24 object-cover rounded-lg border border-gray-300\"><p class=\"text-xs text-gray-500 mt-1 truncate\">${file.name}</p>`; preview.appendChild(div); }; reader.readAsDataURL(file); }});
+            } else { preview.classList.add('hidden'); }
         });
-
-        function clearImagePreview() {
-            document.getElementById('image-preview').innerHTML = '';
-            document.getElementById('image-preview').classList.add('hidden');
-        }
+        function clearImagePreview(){ const preview=document.getElementById('image-preview'); preview.innerHTML=''; preview.classList.add('hidden'); }
     </script>
     @endpush
 </x-app-layout>

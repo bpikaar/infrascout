@@ -23,14 +23,12 @@ return new class extends Migration
             $table->foreignIdFor(Project::class)->constrained();
 
             // company
+            $table->string('company_location')->nullable();
 
             $table->timestamp('date_of_work');
             $table->foreignId('field_worker')->constrained('users');
 
             // Uitvraag opdrachtgever:
-            $table->string('cable_type');
-            $table->string('material');
-            $table->integer('diameter');
             $table->text('description');
 
             $table->string('work_hours');
