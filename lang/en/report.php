@@ -5,7 +5,10 @@ return [
         'create' => 'Create New Report',
         'show' => 'Report #:id',
         'details' => 'Report Details',
-        'technical' => 'Cables found',
+        'cables' => 'Cables found',
+        'pipes' => 'Pipes found',
+        'cables_section' => 'Cables',
+        'pipes_section' => 'Pipes',
         'work' => 'Work Information',
         'description' => 'Description',
         'images' => 'Images',
@@ -30,6 +33,7 @@ return [
         'cable_type' => 'Cable Type',
         'material' => 'Material',
         'diameter' => 'Diameter (mm)',
+    'pipe_type' => 'Pipe Type',
         'description' => 'Work Description',
         'created_by' => 'Created By',
         'field_worker' => 'Field Worker',
@@ -39,6 +43,7 @@ return [
 
     'placeholders' => [
         'cable_type' => 'e.g., Cat 6, Fiber optic',
+        'pipe_type' => 'e.g., PVC, HDPE',
         'material' => 'e.g., Copper, Aluminum',
         'diameter' => 'e.g., 12.5',
         'work_hours' => 'e.g., 8 hours, 09:00-17:00',
@@ -67,8 +72,22 @@ return [
     ],
 
     'cables' => [
-        'add' => 'Add One More Cable',
+        'add' => 'Add Cable',
         'no_results' => 'No results',
+        'none' => 'Not applicable',
+        'material' => [
+            'plastic' => 'Plastic',
+        ]
+    ],
+
+    'pipes' => [
+        'add' => 'Add Pipe',
+        'no_results' => 'No results',
+        'none' => 'Not applicable',
+        'material' => [
+            'steel' => 'Steel',
+            'copper' => 'Copper'
+        ]
     ],
 
     'status' => [

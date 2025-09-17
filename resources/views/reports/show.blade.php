@@ -61,38 +61,50 @@
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.technical') }}</h2>
-                        @php($report->loadMissing('cables'))
-                        @if($report->cables->count())
-                            <div class="space-y-2">
-                                @foreach($report->cables as $cable)
-                                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
-                                        <div>
-                                            <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $cable->cable_type }}</span>
-                                            <span class="text-gray-500 dark:text-gray-400 ml-2">{{ $cable->material }}</span>
-                                            @if($cable->diameter)
-                                                <span class="text-gray-500 dark:text-gray-400 ml-2">{{ number_format($cable->diameter, 2) }} mm</span>
-                                            @endif
-                                        </div>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.cables') }}</h2>
+                        @php($report->loadMissing(['cables','pipes']))
+                        <div class="space-y-8">
+                            <div>
+                                <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">{{ __('report.title.cables_section') }}</h3>
+                                @if($report->cables->count())
+                                    <div class="space-y-2">
+                                        @foreach($report->cables as $cable)
+                                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
+                                                <div>
+                                                    <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $cable->cable_type }}</span>
+                                                    <span class="text-gray-500 dark:text-gray-400 ml-2">{{ $cable->material }}</span>
+                                                    @if($cable->diameter)
+                                                        <span class="text-gray-500 dark:text-gray-400 ml-2">{{ number_format($cable->diameter, 2) }} mm</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                @endforeach
+                                @else
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('report.cables.none') }}</p>
+                                @endif
                             </div>
-                        @else
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.cable_type') }}</h3>
-                                    <p class="text-gray-900 dark:text-gray-100">{{ $report->cable_type }}</p>
-                                </div>
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.material') }}</h3>
-                                    <p class="text-gray-900 dark:text-gray-100">{{ $report->material }}</p>
-                                </div>
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.diameter') }}</h3>
-                                    <p class="text-gray-900 dark:text-gray-100">{{ $report->diameter }}mm</p>
-                                </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">{{ __('report.title.pipes_section') }}</h3>
+                                @if($report->pipes && $report->pipes->count())
+                                    <div class="space-y-2">
+                                        @foreach($report->pipes as $pipe)
+                                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
+                                                <div>
+                                                    <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $pipe->pipe_type }}</span>
+                                                    <span class="text-gray-500 dark:text-gray-400 ml-2">{{ $pipe->material }}</span>
+                                                    @if($pipe->diameter)
+                                                        <span class="text-gray-500 dark:text-gray-400 ml-2">{{ number_format($pipe->diameter, 2) }} mm</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('report.pipes.none') }}</p>
+                                @endif
                             </div>
-                        @endif
+                        </div>
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">

@@ -72,8 +72,10 @@
                                 </div>
                             </div>
 
-                            <!-- Technical Specifications (Multiple Cable Rows with Autofill) -->
+                            <!-- Technical Specifications (Multiple Cable & Pipe Rows with Autofill) -->
                             <x-reports.cable-selector />
+                            <div class="mt-6"></div>
+                            <x-reports.pipe-selector />
 
                             <!-- Work Information -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">

@@ -79,4 +79,12 @@ class Report extends Model
         return $this->belongsToMany(Cable::class);
     }
 
+    /**
+     * Pipes associated with this report.
+     */
+    public function pipes()
+    {
+        return $this->belongsToMany(Pipe::class);
+    }
+
 }

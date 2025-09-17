@@ -5,7 +5,10 @@ return [
         'create' => 'Nieuw Rapport Aanmaken',
         'show' => 'Rapport #:id',
         'details' => 'Rapportdetails',
-        'technical' => 'Gevonden kabels',
+        'cables' => 'Gevonden Kabels',
+        'pipes' => 'Gevonden Leidingen',
+        'cables_section' => 'Kabels',
+        'pipes_section' => 'Leidingen',
         'work' => 'Werk Informatie',
         'description' => 'Beschrijving',
         'images' => 'Afbeeldingen',
@@ -30,6 +33,7 @@ return [
         'cable_type' => 'Kabeltype',
         'material' => 'Materiaal',
         'diameter' => 'Diameter (mm)',
+        'pipe_type' => 'Leidingtype',
         'description' => 'Werkbeschrijving',
         'created_by' => 'Aangemaakt Door',
         'field_worker' => 'Monteur',
@@ -39,6 +43,7 @@ return [
 
     'placeholders' => [
         'cable_type' => 'bv. Cat 6, Glasvezel',
+        'pipe_type' => 'bv. PVC, HDPE',
         'material' => 'bv. Koper, Aluminium',
         'diameter' => 'bv. 12.5',
         'work_hours' => 'bv. 8 uur, 09:00-17:00',
@@ -67,8 +72,22 @@ return [
     ],
 
     'cables' => [
-        'add' => 'Nog Een Kabel Toevoegen',
+        'add' => 'Kabel Toevoegen',
         'no_results' => 'Geen resultaten',
+        'none' => 'Niet van toepassing',
+        'material' => [
+            'plastic' => 'Kunststof',
+        ]
+    ],
+
+    'pipes' => [
+        'add' => 'Leiding Toevoegen',
+        'no_results' => 'Geen resultaten',
+        'none' => 'Niet van toepassing',
+        'material' => [
+            'steel' => 'Staal',
+            'copper' => 'Koper'
+        ]
     ],
 
     'status' => [

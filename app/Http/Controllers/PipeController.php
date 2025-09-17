@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cable;
+use App\Models\Pipe;
 use Illuminate\Http\Request;
 
-class CableController extends Controller
+class PipeController extends Controller
 {
     public function search(Request $request)
     {
         $q = trim($request->get('q', ''));
 
-        $query = Cable::query();
+        $query = Pipe::query();
         if($q !== '') {
-            $query->where('cable_type', 'like', "%{$q}%");
+            $query->where('pipe_type', 'like', "%{$q}%");
         }
 
-        $results = $query->orderBy('cable_type')
+        $results = $query->orderBy('pipe_type')
             ->limit(30)
-            ->get(['id','cable_type','material','diameter']);
+            ->get(['id','pipe_type','material','diameter']);
 
         return response()->json($results);
     }

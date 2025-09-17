@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CableController;
+use App\Http\Controllers\PipeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index']);
@@ -20,6 +21,8 @@ Route::middleware('auth')->group(callback: function () {
 
     // Cables AJAX search
     Route::get('/cables/search', [CableController::class, 'search'])->name('cables.search');
+    // Pipes AJAX search
+    Route::get('/pipes/search', [PipeController::class, 'search'])->name('pipes.search');
 
     Route::get('projects/reports/{report}/download', [ReportController::class, 'download'])
         ->name('projects.reports.download');

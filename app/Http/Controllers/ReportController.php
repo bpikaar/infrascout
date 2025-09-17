@@ -12,6 +12,7 @@ use App\Jobs\GenerateReportPdf;
 use App\Models\ReportPdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Cable;
+use App\Models\Pipe;
 
 class ReportController extends Controller
 {
@@ -46,6 +47,8 @@ class ReportController extends Controller
 
         // Extract cables payload (array of associative arrays with maybe id)
         $cablesInput = $request->input('cables', []);
+        // Extract pipes payload
+        $pipesInput = $request->input('pipes', []);
 
         // Create the report (legacy technical spec fields still on model for backward compatibility)
         $report = Report::create($validated);
@@ -73,6 +76,24 @@ class ReportController extends Controller
         }
         if ($cableIds) {
             $report->cables()->sync($cableIds);
+        }
+
+        // Sync / create pipes
+        $pipeIds = [];
+        foreach ($pipesInput as $pipeData) {
+            if (!is_array($pipeData)) { continue; }
+            if (!empty($pipeData['id'])) { $pipeIds[] = (int)$pipeData['id']; continue; }
+            if (!empty($pipeData['pipe_type']) && !empty($pipeData['material'])) {
+                $pipe = Pipe::firstOrCreate([
+                    'pipe_type' => $pipeData['pipe_type'],
+                    'material' => $pipeData['material'],
+                    'diameter' => $pipeData['diameter'] ?? null,
+                ]);
+                $pipeIds[] = $pipe->id;
+            }
+        }
+        if ($pipeIds) {
+            $report->pipes()->sync($pipeIds);
         }
 
         // Handle image uploads through relationship

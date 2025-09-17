@@ -125,38 +125,49 @@
         </div>
 
         <div class="section">
-            <div class="section-title">{{ __('report.title.technical') }}</div>
-
-            @if($report->cables->count())
-                <div class="grid" style="flex-direction: column; gap:8px;">
-                    @foreach($report->cables as $cable)
-                        <div class="grid-col" style="display:flex; justify-content:space-between; align-items:center;">
-                            <div>
-                                <strong>{{ $cable->cable_type }}</strong>
-                                <span style="margin-left:8px;">{{ $cable->material }}</span>
-                                @if($cable->diameter)
-                                    <span style="margin-left:8px;">{{ number_format($cable->diameter,2) }} mm</span>
-                                @endif
-                            </div>
+            <div class="section-title">{{ __('report.title.cables') }}</div>
+            <div style="display:flex; flex-direction:column; gap:32px;">
+                <div>
+                    <strong style="display:block; margin-bottom:8px;">{{ __('report.title.cables_section') }}</strong>
+                    @if($report->cables->count())
+                        <div class="grid" style="flex-direction: column; gap:8px;">
+                            @foreach($report->cables as $cable)
+                                <div class="grid-col" style="display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <strong>{{ $cable->cable_type }}</strong>
+                                        <span style="margin-left:8px;">{{ $cable->material }}</span>
+                                        @if($cable->diameter)
+                                            <span style="margin-left:8px;">{{ number_format($cable->diameter,2) }} mm</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                    @endforeach
+                    @else
+                        <p style="color:#666; font-size:0.9em;">{{ __('report.cables.none') }}</p>
+                    @endif
                 </div>
-            @else
-                <div class="grid">
-                    <div class="grid-col">
-                        <strong>{{ __('report.fields.cable_type') }}</strong><br>
-                        {{ $report->cable_type }}
-                    </div>
-                    <div class="grid-col">
-                        <strong>{{ __('report.fields.material') }}</strong><br>
-                        {{ $report->material }}
-                    </div>
-                    <div class="grid-col">
-                        <strong>{{ __('report.fields.diameter') }}</strong><br>
-                        {{ $report->diameter }}mm
-                    </div>
+                <div>
+                    <strong style="display:block; margin-bottom:8px;">{{ __('report.title.pipes_section') }}</strong>
+                    @if($report->pipes && $report->pipes->count())
+                        <div class="grid" style="flex-direction: column; gap:8px;">
+                            @foreach($report->pipes as $pipe)
+                                <div class="grid-col" style="display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <strong>{{ $pipe->pipe_type }}</strong>
+                                        <span style="margin-left:8px;">{{ $pipe->material }}</span>
+                                        @if($pipe->diameter)
+                                            <span style="margin-left:8px;">{{ number_format($pipe->diameter,2) }} mm</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <p style="color:#666; font-size:0.9em;">{{ __('report.pipes.none') }}</p>
+                    @endif
                 </div>
-            @endif
+            </div>
         </div>
 
         <div class="section">
