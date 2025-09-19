@@ -17,62 +17,52 @@
                         <img src="{{ $project->thumbnail ? asset('images/projects/'.$project->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}"
                             alt="{{ $project->name }} thumbnail"
                             class="h-24 w-24 rounded-lg object-cover mr-6 md:mr-6" />
-
                         <div class="text-center md:text-left">
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $project->name }}</h1>
                             <p class="text-gray-500 dark:text-gray-400">{{ __('project.project_hash', ['number' => $project->number]) }}</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('project.created_at') }}: {{ $project->created_at->toFormattedDayDateString() }}</p>
+                            <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.client') }}</h3>
+                            <p class="text-gray-500 dark:text-gray-400">{{ $project->client }}</p>
+                        </div>
+                        <div class="self-center md:self-start md:ml-auto">
+                            <p class="text-sm text-center md:text-right text-gray-500 dark:text-gray-400">{{ __('project.created_at') }}: {{ $project->created_at->toFormattedDayDateString() }}</p>
                         </div>
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('project.details_heading') }}</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('project.contact_heading') }}</h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.number') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $project->number }}</p>
-                            </div>
-
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.name') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $project->name }}</p>
-                            </div>
-
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.client') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $project->client }}</p>
-                            </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.contact') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $project->contact?->name ?? '—' }}</p>
+                                <br />
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.address') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100">
+                                    @if($project->contact?->address)
+                                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($project->contact->address) }}"
+                                           target="_blank"
+                                           class="underline whitespace-pre-line">{{ trim($project->contact->address) }}</a>
+                                    @else
+                                        —
+                                    @endif
+                                </p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.phone') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $project->contact?->phone ?? '—' }}</p>
-                            </div>
-
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <p class="text-gray-900 dark:text-gray-100">
+                                    <a href="tel:{{ $project->contact?->phone ?? '' }}" class="underline">
+                                        {{ $project->contact?->phone ?? '—' }}
+                                    </a>
+                                </p>
+                                <br />
                                 <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.mail') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $project->contact?->email ?? '—' }}</p>
+                                <p class="text-gray-900 dark:text-gray-100 underline">
+                                    <a href="mailto:{{ $project->contact?->email ?? '—' }}">{{ $project->contact?->email ?? '—' }}</a>
+                                </p>
                             </div>
 
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.address') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $project->contact?->address ?? '—' }}</p>
-                            </div>
-
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.created_at') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $project->created_at->format('Y-m-d H:i') }}</p>
-                            </div>
-
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('project.updated_at') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $project->updated_at->format('Y-m-d H:i') }}</p>
-                            </div>
                         </div>
                     </div>
 

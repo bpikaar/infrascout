@@ -5,7 +5,7 @@ return [
     'create_intro' => 'Vul de gegevens in om een nieuw project aan te maken.',
     'edit_title' => 'Project bewerken',
     'edit_intro' => 'Wijzig de gegevens van dit project.',
-    'details_heading' => 'Projectgegevens',
+    'contact_heading' => 'Gegevens Contactpersoon',
     'preview' => 'Voorbeeld',
     'reports_heading' => 'Rapporten',
 

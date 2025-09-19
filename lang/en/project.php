@@ -5,7 +5,7 @@ return [
     'create_intro' => 'Fill in the details to create a new project.',
     'edit_title' => 'Edit Project',
     'edit_intro' => 'Change the details for this project.',
-    'details_heading' => 'Project Details',
+    'contact_heading' => 'Contact information',
     'preview' => 'Preview',
     'reports_heading' => 'Reports',
 
