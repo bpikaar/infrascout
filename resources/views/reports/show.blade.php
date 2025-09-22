@@ -14,48 +14,46 @@
                             </div>
                         </div>
                     @endif
-                    <div class="flex items-center mb-6">
-                    <img src="{{ Vite::asset('resources/images/thumb-image.png') }}"
-                        alt="{{ __('report.images.alt_report_thumb') }}"
-                             class="h-24 w-24 rounded-lg object-cover mr-6" />
+                    <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
+                        <img src="{{ Vite::asset('resources/images/thumb-image.png') }}"
+                            alt="{{ __('report.images.alt_report_thumb') }}"
+                                 class="h-24 w-24 rounded-lg object-cover mr-6" />
 
-                        <div>
+                        <div class="text-center md:text-left">
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('report.title.show', ['id' => $report->id]) }}</h1>
                             <p class="text-gray-500 dark:text-gray-400">{{ __('report.project.label') }}: {{ $report->project->name ?? __('report.status.n_a') }}</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('report.fields.work_date') }}: {{ $report->date_of_work->format('Y-m-d') }}</p>
+                        </div>
+                        <div class="self-center md:self-start md:ml-auto">
+                            <p class="text-sm text-center md:text-right text-gray-500 dark:text-gray-400">
+                                <span class="font-bold">{{ __('report.fields.work_date') }}</span>: {{ $report->date_of_work->format('l, j F Y H:i') }}</p>
                         </div>
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.details') }}</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work') }}</h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Project Information -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.project') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->project->name ?? __('report.status.n_a') }}</p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ __('report.project.number', ['number' => $report->project->number ?? __('report.status.n_a')]) }}</p>
-                            </div>
-
-                            <!-- Date of Work -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.date_of_work') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->date_of_work->format('l, F j, Y') }}</p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $report->date_of_work->format('H:i') }}</p>
-                            </div>
-
-                            <!-- Creator -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.created_by') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->user->name ?? 'N/A' }}</p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $report->user->email ?? 'N/A' }}</p>
-                            </div>
-
                             <!-- Field Worker -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.field_worker') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $report->fieldWorker->name ?? 'N/A' }}</p>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">{{ $report->fieldWorker->email ?? 'N/A' }}</p>
+
+                                <br />
+
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.work_hours') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $report->work_hours }}</p>
+
+                                <br />
+
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.travel_time') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $report->travel_time }}</p>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.description') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->description }}</p>
                             </div>
                         </div>
                     </div>
@@ -108,32 +106,6 @@
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work') }}</h2>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Work Hours -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.work_hours') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->work_hours }}</p>
-                            </div>
-
-                            <!-- Travel Time -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.travel_time') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->travel_time }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.description') }}</h2>
-
-                        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                            <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->description }}</p>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-gray-200 dark:border-gray-700 py-4">
                         <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.images') }}</h2>
                         @if($report->images && $report->images->count())
                                 <div x-data="{ showModal: false, modalImg: '', modalCaption: '' }">
@@ -170,17 +142,6 @@
                             <p class="text-gray-500 dark:text-gray-400 mb-6">{{ __('report.images.none') }}</p>
                         @endif
 
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.timestamps') }}</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.created_at') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->created_at->format('Y-m-d H:i') }}</p>
-                            </div>
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.updated_at') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->updated_at->format('Y-m-d H:i') }}</p>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="mt-6 flex space-x-4">
