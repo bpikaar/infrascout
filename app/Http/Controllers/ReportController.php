@@ -62,11 +62,9 @@ class ReportController extends Controller
         // Sync / create cables
         $cableIds = [];
         foreach ($cablesInput as $cableData) {
-            if (!is_array($cableData)) {
-                continue; // ignore unexpected scalars
-            }
+            if (!is_array($cableData)) { continue; }
+            // Existing cable selected
             if (!empty($cableData['id'])) {
-                // Existing cable selected
                 $cableIds[] = (int)$cableData['id'];
                 continue;
             }
@@ -88,7 +86,11 @@ class ReportController extends Controller
         $pipeIds = [];
         foreach ($pipesInput as $pipeData) {
             if (!is_array($pipeData)) { continue; }
-            if (!empty($pipeData['id'])) { $pipeIds[] = (int)$pipeData['id']; continue; }
+            // Existing pipe selected
+            if (!empty($pipeData['id'])) { 
+                $pipeIds[] = (int)$pipeData['id']; 
+                continue; 
+            }
             if (!empty($pipeData['pipe_type']) && !empty($pipeData['material'])) {
                 $pipe = Pipe::firstOrCreate([
                     'pipe_type' => $pipeData['pipe_type'],
