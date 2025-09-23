@@ -9,7 +9,6 @@ use App\Models\Report;
 use App\Models\User;
 use Auth;
 use App\Jobs\GenerateReportPdf;
-use App\Models\ReportPdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Cable;
 use App\Models\Pipe;
@@ -52,6 +51,13 @@ class ReportController extends Controller
 
         // Create the report (legacy technical spec fields still on model for backward compatibility)
         $report = Report::create($validated);
+
+        // Optional Radio Detection
+        if ($request->boolean('radio_detection_enabled') && $request->filled('radio_detection')) {
+            $report->radioDetection()->create($validated['radio_detection']);
+
+            $report->save();
+        }
 
         // Sync / create cables
         $cableIds = [];

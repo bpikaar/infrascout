@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Report extends Model
 {
@@ -85,6 +86,15 @@ class Report extends Model
     public function pipes()
     {
         return $this->belongsToMany(Pipe::class);
+    }
+
+    /**
+     * Radio detection associated with this report.
+     */
+    public function radioDetection(): HasOne
+    {
+        // FK lives on radio_detections.report_id
+        return $this->hasOne(RadioDetection::class);
     }
 
 }

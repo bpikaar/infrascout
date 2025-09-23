@@ -14,6 +14,7 @@ return [
         'images' => 'Images',
         'timestamps' => 'Timestamps',
         'pdf' => 'Report #:id',
+        'work_performed' => 'Work performed (check)',
     ],
 
     'project' => [

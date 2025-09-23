@@ -14,6 +14,7 @@ return [
         'images' => 'Afbeeldingen',
         'timestamps' => 'Tijdstempels',
         'pdf' => 'Rapport #:id',
+        'work_performed' => 'Uitgevoerde werkzaamheden (aanvinken)',
     ],
 
     'project' => [

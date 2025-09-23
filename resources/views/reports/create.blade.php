@@ -24,7 +24,7 @@
                             @csrf
 
                             <!-- Project Selection -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                            <div class="bg-gray-200 dark:bg-gray-500 p-4 rounded-lg">
                                 <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.fields.project') }} / {{ __('report.title.details') }}</h2>
 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -51,31 +51,21 @@
                                             required />
                                         <x-input-error :messages="$errors->get('date_of_work')" class="mt-2" />
                                     </div>
+
+                                    <div>
+                                        <x-input-label for="field_worker" :value="__('report.fields.field_worker')" />
+                                        <select id="field_worker" name="field_worker" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
+                                            <option value="">{{ __('report.fields.field_worker') }}</option>
+                                            @foreach($users as $user)
+                                                <option value="{{ $user->id }}" {{ old('field_worker') == $user->id || auth()->id() == $user->id ? 'selected' : '' }}>
+                                                    {{ $user->name }} ({{ $user->email }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <x-input-error :messages="$errors->get('field_worker')" class="mt-2" />
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Personnel -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.fields.created_by') }} / {{ __('report.fields.field_worker') }}</h2>
-
-                                <div>
-                                    <x-input-label for="field_worker" :value="__('report.fields.field_worker')" />
-                                    <select id="field_worker" name="field_worker" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-                                        <option value="">{{ __('report.fields.field_worker') }}</option>
-                                        @foreach($users as $user)
-                                            <option value="{{ $user->id }}" {{ old('field_worker') == $user->id || auth()->id() == $user->id ? 'selected' : '' }}>
-                                                {{ $user->name }} ({{ $user->email }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <x-input-error :messages="$errors->get('field_worker')" class="mt-2" />
-                                </div>
-                            </div>
-
-                            <!-- Technical Specifications (Multiple Cable & Pipe Rows with Autofill) -->
-                            <x-reports.cable-selector />
-                            <div class="mt-6"></div>
-                            <x-reports.pipe-selector />
 
                             <!-- Work Information -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
@@ -85,44 +75,47 @@
                                     <div>
                                         <x-input-label for="work_hours" :value="__('report.fields.work_hours')" />
                                         <x-text-input id="work_hours"
-                                            class="block mt-1 w-full"
-                                            type="text"
-                                            name="work_hours"
-                                            :value="old('work_hours')"
-                                            required
-                                            placeholder="{{ __('report.placeholders.work_hours') }}" />
+                                                      class="block mt-1 w-full"
+                                                      type="text"
+                                                      name="work_hours"
+                                                      :value="old('work_hours')"
+                                                      required
+                                                      placeholder="{{ __('report.placeholders.work_hours') }}" />
                                         <x-input-error :messages="$errors->get('work_hours')" class="mt-2" />
                                     </div>
 
                                     <div>
                                         <x-input-label for="travel_time" :value="__('report.fields.travel_time')" />
                                         <x-text-input id="travel_time"
-                                            class="block mt-1 w-full"
-                                            type="text"
-                                            name="travel_time"
-                                            :value="old('travel_time')"
-                                            required
-                                            placeholder="{{ __('report.placeholders.travel_time') }}" />
+                                                      class="block mt-1 w-full"
+                                                      type="text"
+                                                      name="travel_time"
+                                                      :value="old('travel_time')"
+                                                      required
+                                                      placeholder="{{ __('report.placeholders.travel_time') }}" />
                                         <x-input-error :messages="$errors->get('travel_time')" class="mt-2" />
+                                    </div>
+
+                                    <div class="md:col-span-2">
+                                        <x-input-label for="description" :value="__('report.fields.description')" />
+                                        <textarea id="description"
+                                                  name="description"
+                                                  rows="6"
+                                                  class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                                  required
+                                                  placeholder="{{ __('report.placeholders.description') }}">{{ old('description') }}</textarea>
+                                        <x-input-error :messages="$errors->get('description')" class="mt-2" />
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Description -->
-                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.description') }}</h2>
+                            <!-- Technical Specifications (Multiple Cable & Pipe Rows with Autofill) -->
+                            <x-reports.cable-selector />
 
-                                <div>
-                                    <x-input-label for="description" :value="__('report.fields.description')" />
-                                    <textarea id="description"
-                                        name="description"
-                                        rows="6"
-                                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
-                                        required
-                                        placeholder="{{ __('report.placeholders.description') }}">{{ old('description') }}</textarea>
-                                    <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                                </div>
-                            </div>
+                            <x-reports.pipe-selector />
+
+                            <!-- Radio Detection (optional) -->
+                            <x-reports.radio-detection />
 
                             <!-- Images -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">

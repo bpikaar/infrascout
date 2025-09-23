@@ -21,7 +21,7 @@ class StoreReportRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'project_id'    => ['required', 'exists:projects,id'],
             'date_of_work'  => ['required', 'date'],
             'field_worker'   => ['required', 'exists:users,id'],
@@ -46,6 +46,24 @@ class StoreReportRequest extends FormRequest
             'images'        => ['nullable', 'array'],
             'images.*'      => ['nullable', 'image', 'max:2048'],
         ];
+
+        // Merge RadioDetection rules (keeps separation of concerns)
+        $rdRules = app(StoreRadioDetectionRequest::class)->rules();
+        // These rules are defined with full keys (radio_detection.*), so we can merge directly
+        $rules = array_merge($rules, $rdRules);
+
+        return $rules;
+    }
+
+    public function messages(): array
+    {
+        // Allow radio detection custom messages to flow through
+        return array_merge(parent::messages(), app(StoreRadioDetectionRequest::class)->messages());
+    }
+
+    public function attributes(): array
+    {
+        return array_merge(parent::attributes(), app(StoreRadioDetectionRequest::class)->attributes());
     }
 
     protected function prepareForValidation(): void
