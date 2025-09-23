@@ -42,6 +42,14 @@
                     @else
                         <p class="text-gray-500 dark:text-gray-400">{{ __('Geen rapporten gevonden.') }}</p>
                     @endif
+
+
+                    @if(request('all') && $reports->hasPages())
+                        <div class="mt-4">
+                            {{ $reports->links() }}
+                        </div>
+                    @endif
+
                     @if(!request('all'))
                         <div class="mt-4">
                             <a href="{{ route('dashboard', ['all' => 1]) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
@@ -53,12 +61,6 @@
                             <a href="{{ route('dashboard') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
                                 {{ __('Toon laatste 5') }}
                             </a>
-                        </div>
-                    @endif
-
-                    @if(request('all') && $reports->hasPages())
-                        <div class="mt-4">
-                            {{ $reports->links() }}
                         </div>
                     @endif
                 </div>
