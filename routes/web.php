@@ -9,13 +9,11 @@ use App\Http\Controllers\CableController;
 use App\Http\Controllers\PipeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(callback: function () {
+    Route::get('/', [HomeController::class, 'dashboard']);
+
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])
+        ->name('dashboard');
     // Contacts AJAX search
     Route::get('/contacts/search', [ContactController::class, 'search'])->name('contacts.search');
 

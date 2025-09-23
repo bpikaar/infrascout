@@ -21,7 +21,10 @@
 
                         <div class="text-center md:text-left">
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('report.title.show', ['id' => $report->id]) }}</h1>
-                            <p class="text-gray-500 dark:text-gray-400">{{ __('report.project.label') }}: {{ $report->project->name ?? __('report.status.n_a') }}</p>
+                            @php
+                                $link = '<a href="'. route('projects.show', $report->project).'">'.$report->project->name.'</a>';
+                            @endphp
+                            <p class="text-gray-500 dark:text-gray-400 hover:text-gray-300 underline">{{ __('report.project.label') }}: {!! $report->project->name ? $link : __('report.status.n_a') !!}</p>
                         </div>
                         <div class="self-center md:self-start md:ml-auto">
                             <p class="text-sm text-center md:text-right text-gray-500 dark:text-gray-400">
