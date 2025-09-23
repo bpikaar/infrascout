@@ -97,4 +97,12 @@ class Report extends Model
         return $this->hasOne(RadioDetection::class);
     }
 
+    /**
+     * Gyroscope associated with this report.
+     */
+    public function gyroscope(): HasOne
+    {
+        return $this->hasOne(Gyroscope::class);
+    }
+
 }

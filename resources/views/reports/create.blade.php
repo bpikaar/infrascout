@@ -114,8 +114,29 @@
 
                             <x-reports.pipe-selector />
 
-                            <!-- Radio Detection (optional) -->
-                            <x-reports.radio-detection />
+                            <div x-data="{ radioEnabled: @js(old('radio_detection_enabled', false)),
+                                           enabledGyroscope: @js(old('gyroscope_enabled', false)) }"
+                                 class="space-y-6">
+                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work_performed') }}</h2>
+                                    <div class="flex gap-6">
+                                        <label class="inline-flex items-center space-x-2">
+                                            <input type="checkbox" name="radio_detection_enabled" x-model="radioEnabled" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
+                                            <span class="text-gray-700 dark:text-gray-300">{{ __('Radiodetectie') }}</span>
+                                        </label>
+                                        <label class="inline-flex items-center space-x-2">
+                                            <input type="checkbox" name="gyroscope_enabled" x-model="enabledGyroscope" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
+                                            <span class="text-gray-700 dark:text-gray-300">{{ __('Gyroscoopmeting') }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Radio Detection (optional) -->
+                                <x-reports.radio-detection />
+
+                                <!-- Gyroscope (optional) -->
+                                <x-reports.gyroscope />
+                            </div>
 
                             <!-- Images -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">

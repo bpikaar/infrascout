@@ -55,7 +55,12 @@ class ReportController extends Controller
         // Optional Radio Detection
         if ($request->boolean('radio_detection_enabled') && $request->filled('radio_detection')) {
             $report->radioDetection()->create($validated['radio_detection']);
+            $report->save();
+        }
 
+        // Optional Gyroscope
+        if ($request->boolean('gyroscope_enabled') && $request->filled('gyroscope')) {
+            $report->gyroscope()->create($validated['gyroscope']);
             $report->save();
         }
 
@@ -87,9 +92,9 @@ class ReportController extends Controller
         foreach ($pipesInput as $pipeData) {
             if (!is_array($pipeData)) { continue; }
             // Existing pipe selected
-            if (!empty($pipeData['id'])) { 
-                $pipeIds[] = (int)$pipeData['id']; 
-                continue; 
+            if (!empty($pipeData['id'])) {
+                $pipeIds[] = (int)$pipeData['id'];
+                continue;
             }
             if (!empty($pipeData['pipe_type']) && !empty($pipeData['material'])) {
                 $pipe = Pipe::firstOrCreate([
@@ -128,7 +133,7 @@ class ReportController extends Controller
     public function show(Project $project, Report $report)
     {
         // Load the report with its relationships
-        $report->load(['project', 'user', 'fieldWorker']);
+        $report->load(['project', 'user', 'fieldWorker', 'radioDetection', 'gyroscope']);
 
         return view('reports.show', compact('report'));
     }

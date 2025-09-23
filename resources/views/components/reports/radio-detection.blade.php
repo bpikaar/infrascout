@@ -1,16 +1,7 @@
-<div x-data="{ enabled: @js(old('radio_detection_enabled', false)), type: @js(old('radio_detection.aansluiting','Passief')) }" class="space-y-6">
-    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work_performed') }}</h2>
-        <label class="inline-flex items-center space-x-2">
-            <input type="checkbox" name="radio_detection_enabled" x-model="enabled" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
-            <span class="text-gray-700 dark:text-gray-300">{{ __('Radiodetectie') }}</span>
-        </label>
-    </div>
+<div x-show="radioEnabled" class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Radiodetectie') }}</h2>
 
-    <div x-show="enabled" class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-        <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Radiodetectie') }}</h2>
-
-        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div x-data="{ type: @js(old('radio_detection.aansluiting','Passief')) }" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="md:col-span-2">
                 <x-input-label for="rd_signaal_op_kabel" value="Signaal op kabel" />
                 <textarea id="rd_signaal_op_kabel" name="radio_detection[signaal_op_kabel]" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('radio_detection.signaal_op_kabel') }}</textarea>
@@ -72,6 +63,5 @@
                 </select>
                 <x-input-error :messages="$errors->get('radio_detection.geleider_frequentie')" class="mt-2" />
             </div>
-        </div>
     </div>
 </div>

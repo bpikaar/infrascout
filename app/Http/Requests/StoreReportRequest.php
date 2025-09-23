@@ -52,18 +52,30 @@ class StoreReportRequest extends FormRequest
         // These rules are defined with full keys (radio_detection.*), so we can merge directly
         $rules = array_merge($rules, $rdRules);
 
+        // Merge Gyroscope rules
+        $gyroRules = app(StoreGyroscopeRequest::class)->rules();
+        $rules = array_merge($rules, $gyroRules);
+
         return $rules;
     }
 
     public function messages(): array
     {
         // Allow radio detection custom messages to flow through
-        return array_merge(parent::messages(), app(StoreRadioDetectionRequest::class)->messages());
+        return array_merge(
+            parent::messages(),
+            app(StoreRadioDetectionRequest::class)->messages(),
+            app(StoreGyroscopeRequest::class)->messages()
+        );
     }
 
     public function attributes(): array
     {
-        return array_merge(parent::attributes(), app(StoreRadioDetectionRequest::class)->attributes());
+        return array_merge(
+            parent::attributes(),
+            app(StoreRadioDetectionRequest::class)->attributes(),
+            app(StoreGyroscopeRequest::class)->attributes()
+        );
     }
 
     protected function prepareForValidation(): void
@@ -83,9 +95,15 @@ class StoreReportRequest extends FormRequest
                 return !empty($row['id']) || (trim($row['pipe_type'] ?? '') !== '' || trim($row['material'] ?? '') !== '' || trim((string)($row['diameter'] ?? '')) !== '');
             }));
         }
+        // Normalize feature toggles so `required_if:* ,1` rules work reliably
+        $radioEnabled = filter_var($this->input('radio_detection_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $gyroEnabled  = filter_var($this->input('gyroscope_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+
         $this->merge([
             'cables' => $cables,
             'pipes' => $pipes,
+            'radio_detection_enabled' => $radioEnabled,
+            'gyroscope_enabled' => $gyroEnabled,
         ]);
     }
 }

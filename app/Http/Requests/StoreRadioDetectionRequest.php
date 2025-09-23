@@ -24,11 +24,11 @@ class StoreRadioDetectionRequest extends FormRequest
         return [
             // Radio detection optional block
             'radio_detection_enabled' => ['nullable', 'boolean'],
-            'radio_detection.signaal_op_kabel' => ['required_with:radio_detection_enabled', 'string'],
-            'radio_detection.signaal_sterkte' => ['required_with:radio_detection_enabled', 'string'],
-            'radio_detection.frequentie' => ['required_with:radio_detection_enabled', 'string'],
-            'radio_detection.aansluiting' => ['required_with:radio_detection_enabled', 'in:Passief,Actief'],
-            'radio_detection.zender_type' => ['required_with:radio_detection_enabled', 'in:Radiodetection TX10,Vivax TX10'],
+            'radio_detection.signaal_op_kabel' => ['required_if:radio_detection_enabled, 1'],
+            'radio_detection.signaal_sterkte' => ['required_if:radio_detection_enabled, 1'],
+            'radio_detection.frequentie' => ['required_if:radio_detection_enabled, 1'],
+            'radio_detection.aansluiting' => ['required_if:radio_detection_enabled, 1', 'in:Passief,Actief'],
+            'radio_detection.zender_type' => ['required_if:radio_detection_enabled, 1', 'in:Radiodetection TX10,Vivax TX10'],
             'radio_detection.sonde_type' => ['nullable', 'in:Rioolsonde,Joepert,Joekeloekie,Boorsonde'],
             'radio_detection.geleider_frequentie' => ['nullable', 'in:285hz,320hz,1khz,4khz cd,8khz,8440khz,33khz'],
         ];
@@ -37,11 +37,11 @@ class StoreRadioDetectionRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'radio_detection.signaal_op_kabel.required_with' => 'Vul ":attribute" in.',
-            'radio_detection.signaal_sterkte.required_with' => 'Vul ":attribute" in.',
-            'radio_detection.frequentie.required_with' => 'Vul ":attribute" in.',
-            'radio_detection.aansluiting.required_with' => 'Selecteer een ":attribute".',
-            'radio_detection.zender_type.required_with' => 'Selecteer een ":attribute".',
+            'radio_detection.signaal_op_kabel.required_if' => 'Vul ":attribute" in.',
+            'radio_detection.signaal_sterkte.required_if' => 'Vul ":attribute" in.',
+            'radio_detection.frequentie.required_if' => 'Vul ":attribute" in.',
+            'radio_detection.aansluiting.required_if' => 'Selecteer een ":attribute".',
+            'radio_detection.zender_type.required_if' => 'Selecteer een ":attribute".',
 
             'radio_detection.aansluiting.in' => 'De gekozen :attribute is ongeldig. Toegestane waarden: Passief of Actief.',
             'radio_detection.zender_type.in' => 'De gekozen :attribute is ongeldig.',
@@ -66,7 +66,8 @@ class StoreRadioDetectionRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $enabled = filter_var($this->input('radio_detection_enabled', false), FILTER_VALIDATE_BOOL);
-        $this->merge(['radio_detection_enabled' => $enabled]);
+//        $enabled = filter_var($this->input('radio_detection_enabled', false), FILTER_VALIDATE_BOOL);
+////        $enabled = ($enabled === true) ? 1 : 0;
+//        $this->merge(['radio_detection_enabled' => $enabled]);
     }
 }
