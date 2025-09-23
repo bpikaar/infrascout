@@ -9,6 +9,7 @@
         <div class="flex-1 ml-4">
             <h2 class="md:text-lg font-semibold group-hover:text-indigo-400 group-hover:dark:text-indigo-600">{{ $project->name }}</h2>
             <p class="text-sm text-gray-500">{{ $project->created_at->toFormattedDayDateString() }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-200 font-bold">{{ $project->reports_count }} {{ __('rapporten') }}</p>
         </div>
     </div>
 </a>

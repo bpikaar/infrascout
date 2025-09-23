@@ -9,7 +9,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-semibold mb-3">{{ __('Laatste 5 rapporten') }}</h3>
+                    <div class="mb-4">
+                        <a href="{{ route('projects.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">{{ __('Ga naar de projecten') }}</a>
+                    </div>
+
+                    <h3 class="text-lg font-semibold mb-3">{{ request('all') ? __('Alle rapporten') : __('Laatste 5 rapporten') }}</h3>
+
                     @if(isset($reports) && $reports->count())
                         <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($reports as $report)
@@ -36,6 +41,25 @@
                         </ul>
                     @else
                         <p class="text-gray-500 dark:text-gray-400">{{ __('Geen rapporten gevonden.') }}</p>
+                    @endif
+                    @if(!request('all'))
+                        <div class="mt-4">
+                            <a href="{{ route('dashboard', ['all' => 1]) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
+                                {{ __('Toon alle rapporten') }}
+                            </a>
+                        </div>
+                    @else
+                        <div class="mt-4">
+                            <a href="{{ route('dashboard') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
+                                {{ __('Toon laatste 5') }}
+                            </a>
+                        </div>
+                    @endif
+
+                    @if(request('all') && $reports->hasPages())
+                        <div class="mt-4">
+                            {{ $reports->links() }}
+                        </div>
                     @endif
                 </div>
             </div>

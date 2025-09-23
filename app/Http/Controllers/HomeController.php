@@ -12,10 +12,13 @@ class HomeController extends Controller
     }
 
     public function dashboard() {
-        $reports = Report::with(['project', 'pdf'])
-            ->latest()
-            ->take(5)
-            ->get();
+        $query = Report::with(['project', 'pdf'])->latest();
+
+        if (request('all')) {
+            $reports = $query->paginate(10)->appends(['all' => 1]);
+        } else {
+            $reports = $query->take(5)->get();
+        }
 
         return view('dashboard', compact('reports'));
     }
