@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTestTrenchRequest extends FormRequest
 {
@@ -23,9 +24,9 @@ class StoreTestTrenchRequest extends FormRequest
     {
         return [
             'test_trench_enabled' => ['nullable', 'boolean'],
-            'test_trench.proefsleuf_gemaakt' => ['required_if:test_trench_enabled, 1'],
-            'test_trench.manier_van_graven' => ['required_if:test_trench_enabled, 1'],
-            'test_trench.type_grondslag' => ['required_if:test_trench_enabled, 1'],
+            'test_trench.proefsleuf_gemaakt' => ['required_if:test_trench_enabled, 1', 'nullable'],
+            'test_trench.manier_van_graven' => ['required_if:test_trench_enabled, 1', 'nullable', Rule::in(['Mini-graver','Handmatig'])],
+            'test_trench.type_grondslag' => ['required_if:test_trench_enabled, 1', 'nullable', Rule::in(['Zand','Grond','Klei','Veen'])],
             'test_trench.klic_melding_gedaan' => ['nullable', 'boolean'],
             'test_trench.klic_nummer' => ['nullable', 'string'],
             'test_trench.locatie' => ['nullable', 'string'],
@@ -39,9 +40,9 @@ class StoreTestTrenchRequest extends FormRequest
         return [
             'test_trench.proefsleuf_gemaakt.required_if' => 'Geef aan of er een proefsleuf gemaakt is.',
             'test_trench.manier_van_graven.required_if' => 'Selecteer een manier van graven.',
-//            'test_trench.manier_van_graven.in' => 'Ongeldige keuze voor manier van graven.',
+            'test_trench.manier_van_graven.in' => 'Ongeldige keuze voor manier van graven.',
             'test_trench.type_grondslag.required_if' => 'Selecteer een type grondslag.',
-//            'test_trench.type_grondslag.in' => 'Ongeldige keuze voor type grondslag.',
+            'test_trench.type_grondslag.in' => 'Ongeldige keuze voor type grondslag.',
         ];
     }
 

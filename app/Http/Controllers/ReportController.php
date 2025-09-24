@@ -77,6 +77,12 @@ class ReportController extends Controller
             $report->save();
         }
 
+        // Optional Cable Failure
+        if ($request->boolean('cable_failure_enabled') && $request->filled('cable_failure')) {
+            $report->cableFailure()->create($validated['cable_failure']);
+            $report->save();
+        }
+
         // Sync / create cables
         $cableIds = [];
         foreach ($cablesInput as $cableData) {
@@ -146,7 +152,7 @@ class ReportController extends Controller
     public function show(Project $project, Report $report)
     {
         // Load the report with its relationships
-        $report->load(['project', 'user', 'fieldWorker', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar']);
+    $report->load(['project', 'user', 'fieldWorker', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure']);
 
         return view('reports.show', compact('report'));
     }

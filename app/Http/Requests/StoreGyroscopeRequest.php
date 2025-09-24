@@ -16,9 +16,9 @@ class StoreGyroscopeRequest extends FormRequest
     {
         return [
             'gyroscope_enabled' => ['nullable', 'boolean'],
-            'gyroscope.type_boring' => ['required_if:gyroscope_enabled,1'],
-            'gyroscope.intredepunt' => ['required_if:gyroscope_enabled,1'],
-            'gyroscope.uittredepunt' => ['required_if:gyroscope_enabled,1'],
+            'gyroscope.type_boring' => ['required_if:gyroscope_enabled,1', 'nullable', Rule::in(['HDD','Persing','Overig'])],
+            'gyroscope.intredepunt' => ['required_if:gyroscope_enabled,1', 'nullable'],
+            'gyroscope.uittredepunt' => ['required_if:gyroscope_enabled,1', 'nullable'],
             'gyroscope.lengte_trace' => ['nullable', 'numeric', 'min:0'],
             'gyroscope.bodemprofiel_ingemeten_met_gps' => ['nullable', 'boolean'],
             'gyroscope.diameter_buis' => ['nullable', 'numeric', 'min:0'],

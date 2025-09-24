@@ -64,6 +64,10 @@ class StoreReportRequest extends FormRequest
         $radarRules = app(StoreGroundRadarRequest::class)->rules();
         $rules = array_merge($rules, $radarRules);
 
+        // Merge CableFailure rules
+        $cfRules = app(StoreCableFailureRequest::class)->rules();
+        $rules = array_merge($rules, $cfRules);
+
         return $rules;
     }
 
@@ -73,7 +77,10 @@ class StoreReportRequest extends FormRequest
         return array_merge(
             parent::messages(),
             app(StoreRadioDetectionRequest::class)->messages(),
-            app(StoreGyroscopeRequest::class)->messages()
+            app(StoreGyroscopeRequest::class)->messages(),
+            app(StoreTestTrenchRequest::class)->messages(),
+            app(StoreGroundRadarRequest::class)->messages(),
+            app(StoreCableFailureRequest::class)->messages()
         );
     }
 
@@ -83,7 +90,9 @@ class StoreReportRequest extends FormRequest
             parent::attributes(),
             app(StoreRadioDetectionRequest::class)->attributes(),
             app(StoreGyroscopeRequest::class)->attributes(),
-            app(StoreTestTrenchRequest::class)->attributes()
+            app(StoreTestTrenchRequest::class)->attributes(),
+            app(StoreGroundRadarRequest::class)->attributes(),
+            app(StoreCableFailureRequest::class)->attributes()
         );
     }
 
@@ -108,7 +117,8 @@ class StoreReportRequest extends FormRequest
         $radioEnabled = filter_var($this->input('radio_detection_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $gyroEnabled  = filter_var($this->input('gyroscope_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $ttEnabled    = filter_var($this->input('test_trench_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
-        $radarEnabled = filter_var($this->input('ground_radar_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+    $radarEnabled = filter_var($this->input('ground_radar_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+    $cableFailureEnabled = filter_var($this->input('cable_failure_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
 
         $this->merge([
             'cables' => $cables,
@@ -117,6 +127,7 @@ class StoreReportRequest extends FormRequest
             'gyroscope_enabled' => $gyroEnabled,
             'test_trench_enabled' => $ttEnabled,
             'ground_radar_enabled' => $radarEnabled,
+            'cable_failure_enabled' => $cableFailureEnabled,
         ]);
     }
 }

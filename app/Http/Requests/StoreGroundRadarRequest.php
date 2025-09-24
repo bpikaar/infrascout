@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreGroundRadarRequest extends FormRequest
 {
@@ -15,11 +16,11 @@ class StoreGroundRadarRequest extends FormRequest
     {
         return [
             'ground_radar_enabled' => ['nullable','boolean'],
-            'ground_radar.onderzoeksgebied' => ['required_if:ground_radar_enabled, 1'],
-            'ground_radar.scanrichting' => ['required_if:ground_radar_enabled, 1'],
+            'ground_radar.onderzoeksgebied' => ['required_if:ground_radar_enabled, 1', 'nullable', Rule::in(['Oppervlak','Grid'])],
+            'ground_radar.scanrichting' => ['required_if:ground_radar_enabled, 1', 'nullable', Rule::in(['X','Y','Beide'])],
             'ground_radar.ingestelde_detectiediepte' => ['nullable','numeric','min:0'],
             'ground_radar.reflecties' => ['nullable','string'],
-            'ground_radar.interpretatie' => ['required_if:ground_radar_enabled, 1'],
+            'ground_radar.interpretatie' => ['required_if:ground_radar_enabled, 1', 'nullable', Rule::in(['Leidingen','Kabels','Holtes','Obstakels','Onbekend signaal'])],
         ];
     }
 
@@ -29,9 +30,9 @@ class StoreGroundRadarRequest extends FormRequest
             'ground_radar.onderzoeksgebied.required_if' => 'Selecteer het onderzoeksgebied.',
             'ground_radar.scanrichting.required_if' => 'Selecteer de scanrichting.',
             'ground_radar.interpretatie.required_if' => 'Selecteer een interpretatie.',
-//            'ground_radar.onderzoeksgebied.in' => 'Ongeldig onderzoeksgebied.',
-//            'ground_radar.scanrichting.in' => 'Ongeldige scanrichting.',
-//            'ground_radar.interpretatie.in' => 'Ongeldige interpretatie.',
+            'ground_radar.onderzoeksgebied.in' => 'Ongeldig onderzoeksgebied.',
+            'ground_radar.scanrichting.in' => 'Ongeldige scanrichting.',
+            'ground_radar.interpretatie.in' => 'Ongeldige interpretatie.',
         ];
     }
 

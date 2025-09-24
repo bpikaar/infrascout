@@ -27,8 +27,8 @@ class StoreRadioDetectionRequest extends FormRequest
             'radio_detection.signaal_op_kabel' => ['required_if:radio_detection_enabled, 1'],
             'radio_detection.signaal_sterkte' => ['required_if:radio_detection_enabled, 1'],
             'radio_detection.frequentie' => ['required_if:radio_detection_enabled, 1'],
-            'radio_detection.aansluiting' => ['required_if:radio_detection_enabled, 1', 'in:Passief,Actief'],
-            'radio_detection.zender_type' => ['required_if:radio_detection_enabled, 1', 'in:Radiodetection TX10,Vivax TX10'],
+            'radio_detection.aansluiting' => ['required_if:radio_detection_enabled, 1', 'nullable', 'in:Passief,Actief'],
+            'radio_detection.zender_type' => ['required_if:radio_detection_enabled, 1', 'nullable', 'in:Radiodetection TX10,Vivax TX10'],
             'radio_detection.sonde_type' => ['nullable', 'in:Rioolsonde,Joepert,Joekeloekie,Boorsonde'],
             'radio_detection.geleider_frequentie' => ['nullable', 'in:285hz,320hz,1khz,4khz cd,8khz,8440khz,33khz'],
         ];

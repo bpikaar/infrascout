@@ -120,4 +120,12 @@ class Report extends Model
     {
         return $this->hasOne(GroundRadar::class);
     }
+
+    /**
+     * Cable failure associated with this report.
+     */
+    public function cableFailure(): HasOne
+    {
+        return $this->hasOne(CableFailure::class);
+    }
 }

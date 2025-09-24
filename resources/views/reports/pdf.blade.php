@@ -259,6 +259,42 @@
         </div>
         @endif
 
+        @if($report->cableFailure)
+        <div class="section">
+            <div class="section-title">Kabelstoring</div>
+            <div class="grid">
+                <div class="grid-col">
+                    <strong>Type storing</strong><br>
+                    {{ $report->cableFailure->type_storing }}
+                </div>
+                <div class="grid-col">
+                    <strong>Locatie storing</strong><br>
+                    {{ $report->cableFailure->locatie_storing }}
+                </div>
+                <div class="grid-col">
+                    <strong>Methode vaststelling</strong><br>
+                    {{ $report->cableFailure->methode_vaststelling }}
+                </div>
+                <div class="grid-col">
+                    <strong>Kabel met aftakking</strong><br>
+                    {{ $report->cableFailure->kabel_met_aftakking ? 'Ja' : 'Nee' }}
+                </div>
+                @if($report->cableFailure->bijzonderheden)
+                    <div class="grid-col" style="flex-basis:100%;">
+                        <strong>Bijzonderheden</strong><br>
+                        {{ $report->cableFailure->bijzonderheden }}
+                    </div>
+                @endif
+                @if($report->cableFailure->advies)
+                    <div class="grid-col" style="flex-basis:100%;">
+                        <strong>Advies</strong><br>
+                        {{ $report->cableFailure->advies }}
+                    </div>
+                @endif
+            </div>
+        </div>
+        @endif
+
         <div class="section">
             <div class="section-title">{{ __('report.title.images') }}</div>
             @if($report->images && $report->images->count())
