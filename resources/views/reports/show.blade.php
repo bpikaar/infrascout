@@ -63,7 +63,7 @@
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
                         <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.cables') }}</h2>
-                        @php($report->loadMissing(['cables','pipes']))
+
                         <div class="space-y-8">
                             <div>
                                 <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">{{ __('report.title.cables_section') }}</h3>
@@ -108,102 +108,17 @@
                         </div>
                     </div>
 
-                    @if($report->radioDetection || $report->gyroscope)
+                    @if($report->radioDetection || $report->gyroscope || $report->testTrench || $report->groundRadar)
                         <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work_performed') }}</h2>
+                            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Uitgevoerde werkzaamheden') }}</h2>
                             <div class="space-y-4">
-                                @if($report->radioDetection)
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Radiodetectie') }}</h3>
+                                <x-report.show.test-trench :report="$report" />
 
+                                <x-report.show.radio-detection :report="$report" />
 
+                                <x-report.show.ground-radar :report="$report" />
 
-                                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Signaal op kabel</h4>
-                                            <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->radioDetection->signaal_op_kabel }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Signaal sterkte</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->radioDetection->signaal_sterkte }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Frequentie</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->radioDetection->frequentie }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Aansluiting</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->radioDetection->aansluiting }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Zender type</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->radioDetection->zender_type }}</p>
-                                        </div>
-
-                                        @if($report->radioDetection->sonde_type)
-                                            <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                                <h4 class="font-semibold text-gray-700 dark:text-gray-300">Sonde type</h4>
-                                                <p class="text-gray-900 dark:text-gray-100">{{ $report->radioDetection->sonde_type }}</p>
-                                            </div>
-                                        @endif
-
-                                        @if($report->radioDetection->geleider_frequentie)
-                                            <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                                <h4 class="font-semibold text-gray-700 dark:text-gray-300">Geleider frequentie</h4>
-                                                <p class="text-gray-900 dark:text-gray-100">{{ $report->radioDetection->geleider_frequentie }}</p>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                @endif
-
-                                @if($report->gyroscope)
-                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">Gyroscoop</h3>
-
-                                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Type boring</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->gyroscope->type_boring }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Intredepunt</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->gyroscope->intredepunt }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Uittredepunt</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->gyroscope->uittredepunt }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Lengte tracé (m)</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->gyroscope->lengte_trace }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Bodemprofiel ingemeten met GPS</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->gyroscope->bodemprofiel_ingemeten_met_gps ? 'Ja' : 'Nee' }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Diameter buis (mm)</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->gyroscope->diameter_buis }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Materiaal</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->gyroscope->materiaal }}</p>
-                                        </div>
-                                        <div class="bg-gray-100 dark:bg-gray-600 p-3 rounded">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Ingemeten met</h4>
-                                            <p class="text-gray-900 dark:text-gray-100">{{ $report->gyroscope->ingemeten_met }}</p>
-                                        </div>
-                                    </div>
-
-                                    @if($report->gyroscope->bijzonderheden)
-                                        <div class="mt-4">
-                                            <h4 class="font-semibold text-gray-700 dark:text-gray-300">Bijzonderheden</h4>
-                                            <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->gyroscope->bijzonderheden }}</p>
-                                        </div>
-                                    @endif
-                                </div>
-                                @endif
+                                <x-report.show.gyroscope :report="$report" />
                             </div>
                         </div>
                     @endif

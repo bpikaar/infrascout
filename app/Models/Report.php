@@ -105,4 +105,19 @@ class Report extends Model
         return $this->hasOne(Gyroscope::class);
     }
 
+    /**
+     * Test trench associated with this report.
+     */
+    public function testTrench(): HasOne
+    {
+        return $this->hasOne(TestTrench::class);
+    }
+
+    /**
+     * Ground Radar associated with this report.
+     */
+    public function groundRadar(): HasOne
+    {
+        return $this->hasOne(GroundRadar::class);
+    }
 }

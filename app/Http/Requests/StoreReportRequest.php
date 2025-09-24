@@ -56,6 +56,14 @@ class StoreReportRequest extends FormRequest
         $gyroRules = app(StoreGyroscopeRequest::class)->rules();
         $rules = array_merge($rules, $gyroRules);
 
+        // Merge TestTrench rules
+        $ttRules = app(StoreTestTrenchRequest::class)->rules();
+        $rules = array_merge($rules, $ttRules);
+
+        // Merge GroundRadar rules
+        $radarRules = app(StoreGroundRadarRequest::class)->rules();
+        $rules = array_merge($rules, $radarRules);
+
         return $rules;
     }
 
@@ -74,7 +82,8 @@ class StoreReportRequest extends FormRequest
         return array_merge(
             parent::attributes(),
             app(StoreRadioDetectionRequest::class)->attributes(),
-            app(StoreGyroscopeRequest::class)->attributes()
+            app(StoreGyroscopeRequest::class)->attributes(),
+            app(StoreTestTrenchRequest::class)->attributes()
         );
     }
 
@@ -98,12 +107,16 @@ class StoreReportRequest extends FormRequest
         // Normalize feature toggles so `required_if:* ,1` rules work reliably
         $radioEnabled = filter_var($this->input('radio_detection_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $gyroEnabled  = filter_var($this->input('gyroscope_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $ttEnabled    = filter_var($this->input('test_trench_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $radarEnabled = filter_var($this->input('ground_radar_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
 
         $this->merge([
             'cables' => $cables,
             'pipes' => $pipes,
             'radio_detection_enabled' => $radioEnabled,
             'gyroscope_enabled' => $gyroEnabled,
+            'test_trench_enabled' => $ttEnabled,
+            'ground_radar_enabled' => $radarEnabled,
         ]);
     }
 }

@@ -191,6 +191,74 @@
             </div>
         </div>
 
+        @if($report->testTrench)
+        <div class="section">
+            <div class="section-title">Proefsleuf</div>
+            <div class="grid">
+                <div class="grid-col">
+                    <strong>Proefsleuf gemaakt</strong><br>
+                    {{ $report->testTrench->proefsleuf_gemaakt ? 'Ja' : 'Nee' }}
+                </div>
+                <div class="grid-col">
+                    <strong>Manier van graven</strong><br>
+                    {{ $report->testTrench->manier_van_graven }}
+                </div>
+                <div class="grid-col">
+                    <strong>Type grondslag</strong><br>
+                    {{ $report->testTrench->type_grondslag }}
+                </div>
+                <div class="grid-col">
+                    <strong>KLIC melding gedaan</strong><br>
+                    {{ $report->testTrench->klic_melding_gedaan ? 'Ja' : 'Nee' }}
+                </div>
+                <div class="grid-col">
+                    <strong>KLIC nummer</strong><br>
+                    {{ $report->testTrench->klic_nummer }}
+                </div>
+                <div class="grid-col" style="flex-basis:100%;">
+                    <strong>Locatie</strong><br>
+                    {{ $report->testTrench->locatie }}
+                </div>
+                <div class="grid-col">
+                    <strong>Doel</strong><br>
+                    {{ $report->testTrench->doel }}
+                </div>
+                <div class="grid-col" style="flex-basis:100%;">
+                    <strong>Bevindingen</strong><br>
+                    {{ $report->testTrench->bevindingen }}
+                </div>
+            </div>
+        </div>
+        @endif
+
+        @if($report->groundRadar)
+        <div class="section">
+            <div class="section-title">Grondradar</div>
+            <div class="grid">
+                <div class="grid-col">
+                    <strong>Onderzoeksgebied</strong><br>
+                    {{ $report->groundRadar->onderzoeksgebied }}
+                </div>
+                <div class="grid-col">
+                    <strong>Scanrichting</strong><br>
+                    {{ $report->groundRadar->scanrichting }}
+                </div>
+                <div class="grid-col">
+                    <strong>ingestelde detectiediepte (m)</strong><br>
+                    {{ $report->groundRadar->ingestelde_detectiediepte }}
+                </div>
+                <div class="grid-col" style="flex-basis:100%;">
+                    <strong>Reflecties / objecten</strong><br>
+                    {{ $report->groundRadar->reflecties }}
+                </div>
+                <div class="grid-col">
+                    <strong>Interpretatie</strong><br>
+                    {{ $report->groundRadar->interpretatie }}
+                </div>
+            </div>
+        </div>
+        @endif
+
         <div class="section">
             <div class="section-title">{{ __('report.title.images') }}</div>
             @if($report->images && $report->images->count())

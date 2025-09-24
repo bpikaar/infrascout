@@ -12,6 +12,7 @@ use App\Jobs\GenerateReportPdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Cable;
 use App\Models\Pipe;
+use App\Models\TestTrench;
 
 class ReportController extends Controller
 {
@@ -61,6 +62,18 @@ class ReportController extends Controller
         // Optional Gyroscope
         if ($request->boolean('gyroscope_enabled') && $request->filled('gyroscope')) {
             $report->gyroscope()->create($validated['gyroscope']);
+            $report->save();
+        }
+
+        // Optional Test Trench
+        if ($request->boolean('test_trench_enabled') && $request->filled('test_trench')) {
+            $report->testTrench()->create($validated['test_trench']);
+            $report->save();
+        }
+
+        // Optional Ground Radar
+        if ($request->boolean('ground_radar_enabled') && $request->filled('ground_radar')) {
+            $report->groundRadar()->create($validated['ground_radar']);
             $report->save();
         }
 
@@ -133,7 +146,7 @@ class ReportController extends Controller
     public function show(Project $project, Report $report)
     {
         // Load the report with its relationships
-        $report->load(['project', 'user', 'fieldWorker', 'radioDetection', 'gyroscope']);
+        $report->load(['project', 'user', 'fieldWorker', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar']);
 
         return view('reports.show', compact('report'));
     }
