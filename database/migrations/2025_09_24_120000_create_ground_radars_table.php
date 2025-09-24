@@ -13,11 +13,9 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Report::class)->constrained()->cascadeOnDelete();
 
-            $table->enum('onderzoeksgebied', ['Oppervlak' , 'Grid'])->nullable(); // oppervlak / grid
-            $table->enum('scanrichting', ['X' , 'Y' , 'Beide'])->nullable(); // X / Y / Beide
             $table->decimal('ingestelde_detectiediepte', 8, 2)->nullable();
-            $table->text('reflecties')->nullable();
-            $table->enum('interpretatie', ['Leidingen','Kabels','Holtes','Obstakels','Onbekend signaal'])->nullable(); //
+
+            $table->enum('radarbeeld', ['Slecht','Matig','Goed','Zeer Goed'])->nullable(); //
 
             $table->timestamps();
         });

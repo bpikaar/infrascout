@@ -6,18 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class GroundRadar extends Model
+class GPSMeasurement extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'report_id',
-        'radarbeeld',
-        'ingestelde_detectiediepte',
+        'gemeten_met',
+        'data_verstuurd_naar_tekenaar',
+        'signaal',
+        'omgeving',
     ];
 
+    protected $table = 'gps_measurements';
     protected $casts = [
-        'ingestelde_detectiediepte' => 'decimal:2',
+        'data_verstuurd_naar_tekenaar' => 'boolean',
     ];
 
     public function report(): BelongsTo

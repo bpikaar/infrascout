@@ -23,7 +23,12 @@
 
         <div>
             <x-input-label for="cf_methode_vaststelling" value="Methode vaststelling" />
-            <x-text-input id="cf_methode_vaststelling" name="cable_failure[methode_vaststelling]" type="text" class="block mt-1 w-full" :value="old('cable_failure.methode_vaststelling')" />
+            <select id="cf_methode_vaststelling" name="cable_failure[methode_vaststelling]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
+                <option value="">-</option>
+                <option value="A-frame" @selected(old('cable_failure.methode_vaststelling')==='A-frame')>A-frame</option>
+                <option value="TDR" @selected(old('cable_failure.methode_vaststelling')==='TDR')>TDR</option>
+                <option value="Meggeren" @selected(old('cable_failure.methode_vaststelling')==='Meggeren')>Meggeren</option>
+            </select>
             <x-input-error :messages="$errors->get('cable_failure.methode_vaststelling')" class="mt-2" />
         </div>
 

@@ -1,7 +1,7 @@
 <div x-show="testTrenchEnabled" class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
     <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Proefsleuf') }}</h2>
 
-    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4" x-data="{ klicMeldingGedaan: {{ old('test_trench.klic_melding_gedaan') ? 'true' : 'false' }} }">
         <div class="md:col-span-2">
             <label class="inline-flex items-center space-x-2">
                 <input type="checkbox" name="test_trench[proefsleuf_gemaakt]" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
@@ -31,21 +31,26 @@
             <x-input-error :messages="$errors->get('test_trench.type_grondslag')" class="mt-2" />
         </div>
 
-        <div>
+        <div class="col-span-2">
             <label class="inline-flex items-center space-x-2">
-                <input type="checkbox" id="tt_klic_melding_gedaan" name="test_trench[klic_melding_gedaan]" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" @checked(old('test_trench.klic_melding_gedaan')) />
+                <input
+                    type="checkbox"
+                    id="tt_klic_melding_gedaan"
+                    name="test_trench[klic_melding_gedaan]"
+                    value="1"
+                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                    x-model="klicMeldingGedaan"
+                />
                 <span class="text-gray-700 dark:text-gray-300">{{ __('KLIC-melding gedaan') }}</span>
             </label>
             <x-input-error :messages="$errors->get('test_trench.klic_melding_gedaan')" class="mt-2" />
         </div>
-
-        <div>
+        <div x-show="klicMeldingGedaan" class="mt-4">
             <x-input-label for="tt_klic_nummer" value="KLIC-nummer" />
             <x-text-input id="tt_klic_nummer" name="test_trench[klic_nummer]" type="text" class="block mt-1 w-full" :value="old('test_trench.klic_nummer')" />
             <x-input-error :messages="$errors->get('test_trench.klic_nummer')" class="mt-2" />
         </div>
-
-        <div class="md:col-span-2">
+        <div x-show="klicMeldingGedaan" class="mt-4">
             <x-input-label for="tt_locatie" value="Locatie" />
             <textarea id="tt_locatie" name="test_trench[locatie]" rows="2" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('test_trench.locatie') }}</textarea>
             <x-input-error :messages="$errors->get('test_trench.locatie')" class="mt-2" />

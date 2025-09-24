@@ -128,4 +128,12 @@ class Report extends Model
     {
         return $this->hasOne(CableFailure::class);
     }
+
+    /**
+     * GPS measurement associated with this report.
+     */
+    public function gpsMeasurement(): HasOne
+    {
+        return $this->hasOne(GPSMeasurement::class);
+    }
 }

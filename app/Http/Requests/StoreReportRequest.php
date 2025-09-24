@@ -68,6 +68,10 @@ class StoreReportRequest extends FormRequest
         $cfRules = app(StoreCableFailureRequest::class)->rules();
         $rules = array_merge($rules, $cfRules);
 
+        // Merge GPSMeasurement rules
+        $gpsRules = app(StoreGPSMeasurementRequest::class)->rules();
+        $rules = array_merge($rules, $gpsRules);
+
         return $rules;
     }
 
@@ -80,7 +84,8 @@ class StoreReportRequest extends FormRequest
             app(StoreGyroscopeRequest::class)->messages(),
             app(StoreTestTrenchRequest::class)->messages(),
             app(StoreGroundRadarRequest::class)->messages(),
-            app(StoreCableFailureRequest::class)->messages()
+            app(StoreCableFailureRequest::class)->messages(),
+            app(StoreGPSMeasurementRequest::class)->messages()
         );
     }
 
@@ -92,7 +97,8 @@ class StoreReportRequest extends FormRequest
             app(StoreGyroscopeRequest::class)->attributes(),
             app(StoreTestTrenchRequest::class)->attributes(),
             app(StoreGroundRadarRequest::class)->attributes(),
-            app(StoreCableFailureRequest::class)->attributes()
+            app(StoreCableFailureRequest::class)->attributes(),
+            app(StoreGPSMeasurementRequest::class)->attributes()
         );
     }
 
@@ -119,6 +125,7 @@ class StoreReportRequest extends FormRequest
         $ttEnabled    = filter_var($this->input('test_trench_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
     $radarEnabled = filter_var($this->input('ground_radar_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
     $cableFailureEnabled = filter_var($this->input('cable_failure_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+    $gpsMeasurementEnabled = filter_var($this->input('gps_measurement_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
 
         $this->merge([
             'cables' => $cables,
@@ -128,6 +135,7 @@ class StoreReportRequest extends FormRequest
             'test_trench_enabled' => $ttEnabled,
             'ground_radar_enabled' => $radarEnabled,
             'cable_failure_enabled' => $cableFailureEnabled,
+            'gps_measurement_enabled' => $gpsMeasurementEnabled,
         ]);
     }
 }

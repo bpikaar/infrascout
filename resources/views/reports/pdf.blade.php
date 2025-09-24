@@ -231,29 +231,41 @@
         </div>
         @endif
 
+        @if($report->gpsMeasurement)
+        <div class="section">
+            <div class="section-title">GPS-meting</div>
+            <div class="grid">
+                <div class="grid-col">
+                    <strong>Gemeten met</strong><br>
+                    {{ $report->gpsMeasurement->gemeten_met }}
+                </div>
+                <div class="grid-col">
+                    <strong>Data verstuurd naar tekenaar</strong><br>
+                    {{ $report->gpsMeasurement->data_verstuurd_naar_tekenaar ? 'Ja' : 'Nee' }}
+                </div>
+                <div class="grid-col">
+                    <strong>Signaal</strong><br>
+                    {{ $report->gpsMeasurement->signaal }}
+                </div>
+                <div class="grid-col">
+                    <strong>Omgeving</strong><br>
+                    {{ $report->gpsMeasurement->omgeving }}
+                </div>
+            </div>
+        </div>
+        @endif
+
         @if($report->groundRadar)
         <div class="section">
             <div class="section-title">Grondradar</div>
             <div class="grid">
                 <div class="grid-col">
-                    <strong>Onderzoeksgebied</strong><br>
-                    {{ $report->groundRadar->onderzoeksgebied }}
+                    <strong>Radarbeeld</strong><br>
+                    {{ $report->groundRadar->radarbeeld }}
                 </div>
                 <div class="grid-col">
-                    <strong>Scanrichting</strong><br>
-                    {{ $report->groundRadar->scanrichting }}
-                </div>
-                <div class="grid-col">
-                    <strong>ingestelde detectiediepte (m)</strong><br>
+                    <strong>Ingestelde detectiediepte (m)</strong><br>
                     {{ $report->groundRadar->ingestelde_detectiediepte }}
-                </div>
-                <div class="grid-col" style="flex-basis:100%;">
-                    <strong>Reflecties / objecten</strong><br>
-                    {{ $report->groundRadar->reflecties }}
-                </div>
-                <div class="grid-col">
-                    <strong>Interpretatie</strong><br>
-                    {{ $report->groundRadar->interpretatie }}
                 </div>
             </div>
         </div>

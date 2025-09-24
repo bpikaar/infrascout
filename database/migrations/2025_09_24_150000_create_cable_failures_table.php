@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('report_id')->constrained()->onDelete('cascade');
             $table->enum('type_storing', ['Kabelbreuk','Slechte verbinding','Kortsluiting','Overig']);
             $table->string('locatie_storing')->nullable();
-            $table->string('methode_vaststelling')->nullable();
+            $table->enum('methode_vaststelling', ['A-frame','TDR','Meggeren'])->nullable();
             $table->boolean('kabel_met_aftakking')->default(false);
             $table->text('bijzonderheden')->nullable();
             $table->text('advies')->nullable();

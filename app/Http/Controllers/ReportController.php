@@ -83,6 +83,12 @@ class ReportController extends Controller
             $report->save();
         }
 
+        // Optional GPS Measurement
+        if ($request->boolean('gps_measurement_enabled') && $request->filled('gps_measurement')) {
+            $report->gpsMeasurement()->create($validated['gps_measurement']);
+            $report->save();
+        }
+
         // Sync / create cables
         $cableIds = [];
         foreach ($cablesInput as $cableData) {
@@ -152,8 +158,18 @@ class ReportController extends Controller
     public function show(Project $project, Report $report)
     {
         // Load the report with its relationships
-    $report->load(['project', 'user', 'fieldWorker', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure']);
-
+        $report->load([
+            'project',
+            'user',
+            'fieldWorker',
+            'radioDetection',
+            'gyroscope',
+            'testTrench',
+            'groundRadar',
+            'cableFailure',
+            'gpsMeasurement'
+        ]);
+        ;
         return view('reports.show', compact('report'));
     }
 

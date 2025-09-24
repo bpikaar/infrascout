@@ -118,7 +118,8 @@
                                            enabledGyroscope: @js(old('gyroscope_enabled', false)),
                                            testTrenchEnabled: @js(old('test_trench_enabled', false)),
                                            groundRadarEnabled: @js(old('ground_radar_enabled', false)),
-                                           cableFailureEnabled: @js(old('cable_failure_enabled', false)) }"
+                                           cableFailureEnabled: @js(old('cable_failure_enabled', false)),
+                                           gpsMeasurementEnabled: @js(old('gps_measurement_enabled', false)) }"
                                  class="space-y-6">
                                 <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                     <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work_performed') }}</h2>
@@ -143,6 +144,10 @@
                                             <input type="checkbox" name="cable_failure_enabled" x-model="cableFailureEnabled" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
                                             <span class="text-gray-700 dark:text-gray-300">{{ __('Kabelstoring') }}</span>
                                         </label>
+                                        <label class="inline-flex items-center space-x-2">
+                                            <input type="checkbox" name="gps_measurement_enabled" x-model="gpsMeasurementEnabled" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
+                                            <span class="text-gray-700 dark:text-gray-300">{{ __('GPS-meting') }}</span>
+                                        </label>
                                     </div>
                                 </div>
 
@@ -160,6 +165,9 @@
 
                                 <!-- Cable Failure (optional) -->
                                 <x-report.create.cable-failure />
+
+                                <!-- GPS Measurement (optional) -->
+                                <x-report.create.gps-measurement />
                             </div>
 
                             <!-- Images -->
