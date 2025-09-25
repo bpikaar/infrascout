@@ -191,6 +191,32 @@
             </div>
         </div>
 
+        <div class="section">
+            <div class="section-title">Samenvatting & Vervolg</div>
+            <div class="grid">
+                <div class="grid-col" style="flex-basis:100%;">
+                    <strong>Samenvatting resultaten</strong><br>
+                    {{ $report->results_summary }}
+                </div>
+                <div class="grid-col" style="flex-basis:100%;">
+                    <strong>Advies / aanbevelingen</strong><br>
+                    {{ $report->advice }}
+                </div>
+                <div class="grid-col" style="flex-basis:100%;">
+                    <strong>Vervolgacties</strong><br>
+                    {{ $report->follow_up }}
+                </div>
+                <div class="grid-col">
+                    <strong>Probleem opgelost</strong><br>
+                    {{ $report->problem_solved ? 'Ja' : 'Nee' }}
+                </div>
+                <div class="grid-col">
+                    <strong>Vraag opdrachtgever beantwoord</strong><br>
+                    {{ $report->question_answered ? 'Ja' : 'Nee' }}
+                </div>
+            </div>
+        </div>
+
         @if($report->testTrench)
         <div class="section">
             <div class="section-title">Proefsleuf</div>

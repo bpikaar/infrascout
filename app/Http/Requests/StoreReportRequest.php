@@ -22,29 +22,36 @@ class StoreReportRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'project_id'    => ['required', 'exists:projects,id'],
-            'date_of_work'  => ['required', 'date'],
-            'field_worker'   => ['required', 'exists:users,id'],
+            'project_id'        => ['required', 'exists:projects,id'],
+            'date_of_work'      => ['required', 'date'],
+            'field_worker'       => ['required', 'exists:users,id'],
 
             // New cables array
-            'cables'        => ['nullable', 'array'],
-            'cables.*.id' => ['nullable', 'integer', 'exists:cables,id'],
+            'cables'            => ['nullable', 'array'],
+            'cables.*.id'       => ['nullable', 'integer', 'exists:cables,id'],
             // If id is NOT present, we require the fields for a new cable
             'cables.*.cable_type' => ['required_without:cables.*.id', 'string', 'max:255'],
             'cables.*.material' => ['required_without:cables.*.id', 'in:GPLK,XLPE,Kunststof'],
             'cables.*.diameter' => ['nullable', 'numeric'],
 
             // If id is NOT present, we require the fields for a new pipe
-            'pipes'        => ['nullable', 'array'],
-            'pipes.*.id' => ['nullable', 'integer', 'exists:pipes,id'],
+            'pipes'             => ['nullable', 'array'],
+            'pipes.*.id'        => ['nullable', 'integer', 'exists:pipes,id'],
             'pipes.*.pipe_type' => ['required_without:pipes.*.id', 'string', 'max:255'],
-            'pipes.*.material' => ['required_without:pipes.*.id', 'string', 'max:255'],
-            'pipes.*.diameter' => ['nullable', 'numeric'],
-            'description'   => ['required', 'string'],
-            'work_hours'    => ['required', 'string', 'max:255'],
-            'travel_time'   => ['required', 'string', 'max:255'],
-            'images'        => ['nullable', 'array'],
-            'images.*'      => ['nullable', 'image', 'max:2048'],
+            'pipes.*.material'  => ['required_without:pipes.*.id', 'string', 'max:255'],
+            'pipes.*.diameter'  => ['nullable', 'numeric'],
+            'description'       => ['required', 'string'],
+            'work_hours'        => ['required', 'string', 'max:255'],
+            'travel_time'       => ['required', 'string', 'max:255'],
+
+            // Results and follow-up (optional)
+            'results_summary'   => ['nullable', 'string'],
+            'advice'            => ['nullable', 'string'],
+            'follow_up'         => ['nullable', 'string'],
+            'problem_solved'    => ['nullable', 'boolean'],
+            'question_answered' => ['nullable', 'boolean'],
+            'images'            => ['nullable', 'array'],
+            'images.*'          => ['nullable', 'image', 'max:2048'],
         ];
 
         // Merge RadioDetection rules (keeps separation of concerns)
@@ -98,7 +105,14 @@ class StoreReportRequest extends FormRequest
             app(StoreTestTrenchRequest::class)->attributes(),
             app(StoreGroundRadarRequest::class)->attributes(),
             app(StoreCableFailureRequest::class)->attributes(),
-            app(StoreGPSMeasurementRequest::class)->attributes()
+            app(StoreGPSMeasurementRequest::class)->attributes(),
+            [
+                'results_summary'   => 'Samenvatting resultaten',
+                'advice'            => 'Advies / aanbevelingen',
+                'follow_up'         => 'Vervolgacties',
+                'problem_solved'    => 'Probleem opgelost',
+                'question_answered' => 'Vraag opdrachtgever beantwoord',
+            ]
         );
     }
 
@@ -123,9 +137,13 @@ class StoreReportRequest extends FormRequest
         $radioEnabled = filter_var($this->input('radio_detection_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $gyroEnabled  = filter_var($this->input('gyroscope_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $ttEnabled    = filter_var($this->input('test_trench_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
-    $radarEnabled = filter_var($this->input('ground_radar_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
-    $cableFailureEnabled = filter_var($this->input('cable_failure_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
-    $gpsMeasurementEnabled = filter_var($this->input('gps_measurement_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $radarEnabled = filter_var($this->input('ground_radar_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $cableFailureEnabled = filter_var($this->input('cable_failure_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $gpsMeasurementEnabled = filter_var($this->input('gps_measurement_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+
+        // Normalize local boolean checkboxes
+        $problemSolved = filter_var($this->input('problem_solved', false), FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+        $questionAnswered = filter_var($this->input('question_answered', false), FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
 
         $this->merge([
             'cables' => $cables,
@@ -136,6 +154,8 @@ class StoreReportRequest extends FormRequest
             'ground_radar_enabled' => $radarEnabled,
             'cable_failure_enabled' => $cableFailureEnabled,
             'gps_measurement_enabled' => $gpsMeasurementEnabled,
+            'problem_solved' => $problemSolved,
+            'question_answered' => $questionAnswered,
         ]);
     }
 }

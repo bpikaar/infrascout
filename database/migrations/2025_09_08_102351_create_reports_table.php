@@ -34,6 +34,11 @@ return new class extends Migration
             $table->string('work_hours');
             $table->string('travel_time');
 
+            $table->text('results_summary')->nullable();
+            $table->text('advice')->nullable();
+            $table->text('follow_up')->nullable();
+            $table->boolean('problem_solved')->default(false);
+            $table->boolean('question_answered')->default(false);
 
             $table->timestamps();
         });

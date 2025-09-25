@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -164,6 +163,37 @@
                             <p class="text-gray-500 dark:text-gray-400 mb-6">{{ __('report.images.none') }}</p>
                         @endif
 
+                    </div>
+
+                    <div class="border-t border-gray-200 dark:border-gray-700 py-4">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Bevindingen werkzaamheden') }}</h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Samenvatting resultaten') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->results_summary }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Advies / aanbevelingen') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->advice }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Vervolgacties') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->follow_up }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Probleem opgelost?') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $report->problem_solved ? 'Ja' : 'Nee' }}</p>
+                            </div>
+
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Vraag opdrachtgever beantwoord?') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $report->question_answered ? 'Ja' : 'Nee' }}</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mt-6 flex space-x-4">

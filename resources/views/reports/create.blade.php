@@ -170,6 +170,55 @@
                                 <x-report.create.gps-measurement />
                             </div>
 
+                            <!-- Results & Follow-up -->
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Resultaten & vervolg</h2>
+
+                                <div class="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <x-input-label for="results_summary" value="Samenvatting resultaten" />
+                                        <textarea id="results_summary"
+                                                  name="results_summary"
+                                                  rows="4"
+                                                  class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                                  placeholder="Korte samenvatting van de bevindingen">{{ old('results_summary') }}</textarea>
+                                        <x-input-error :messages="$errors->get('results_summary')" class="mt-2" />
+                                    </div>
+
+                                    <div>
+                                        <x-input-label for="advice" value="Advies / aanbevelingen" />
+                                        <textarea id="advice"
+                                                  name="advice"
+                                                  rows="4"
+                                                  class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                                  placeholder="Eventuele adviezen of aanbevelingen">{{ old('advice') }}</textarea>
+                                        <x-input-error :messages="$errors->get('advice')" class="mt-2" />
+                                    </div>
+
+                                    <div>
+                                        <x-input-label for="follow_up" value="Vervolgacties" />
+                                        <textarea id="follow_up"
+                                                  name="follow_up"
+                                                  rows="4"
+                                                  class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                                  placeholder="Welke acties volgen hieruit?">{{ old('follow_up') }}</textarea>
+                                        <x-input-error :messages="$errors->get('follow_up')" class="mt-2" />
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <label class="inline-flex items-center space-x-2">
+                                            <input type="checkbox" name="problem_solved" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('problem_solved') ? 'checked' : '' }} />
+                                            <span class="text-gray-700 dark:text-gray-300">Probleem opgelost</span>
+                                        </label>
+
+                                        <label class="inline-flex items-center space-x-2">
+                                            <input type="checkbox" name="question_answered" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" {{ old('question_answered') ? 'checked' : '' }} />
+                                            <span class="text-gray-700 dark:text-gray-300">Vraag opdrachtgever beantwoord</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Images -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.images') }}</h2>

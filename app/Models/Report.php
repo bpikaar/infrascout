@@ -31,6 +31,12 @@ class Report extends Model
         'description',
         'work_hours',
         'travel_time',
+        // Results / follow-up
+        'results_summary',
+        'advice',
+        'follow_up',
+        'problem_solved',
+        'question_answered',
     ];
     /**
      * Get the images for the report.
