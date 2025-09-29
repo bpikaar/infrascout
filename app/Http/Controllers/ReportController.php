@@ -199,7 +199,7 @@ class ReportController extends Controller
 
     public function download(Report $report)
     {
-        $report->loadMissing(['pdf', 'cables']);
+        $report->loadMissing(['project', 'cables', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure', 'gpsMeasurement']);
 
         $filePath = $report->pdf?->file_path;
 
@@ -216,7 +216,7 @@ class ReportController extends Controller
     }
 
     public function directDownload(Report $report) {
-        $report->loadMissing(['project', 'cables']);
+        $report->loadMissing(['project', 'cables', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure', 'gpsMeasurement']);
 
         $project = $report->project;
         $pdf = Pdf::loadView('reports.pdf', compact('report', 'project'));
@@ -225,7 +225,7 @@ class ReportController extends Controller
     }
 
     public function regeneratePdf(Report $report) {
-        $report->loadMissing(['project', 'cables']);
+        $report->loadMissing(['project', 'cables', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure', 'gpsMeasurement']);
 
         // (Re)queue job to generate PDF (record will be created/updated by the job)
         GenerateReportPdf::dispatch($report);

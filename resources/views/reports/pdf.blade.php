@@ -5,27 +5,32 @@
     <title>Rapport {{ $report->id }} - {{ $report->project->name }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
-        /* Reset / base */
-        *{box-sizing:border-box;margin:0;padding:0;}
-        body{font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.4;color:#111;}
-        h1{font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:600;}
-        h2.section-title{font-size:11px;letter-spacing:.5px;font-weight:600;text-transform:uppercase;color:#555;}
-        h3.block-title{font-size:13px;font-weight:600;}
+          /* Reset / base */
+          *{margin:0;padding:0;}
+          /* Use only built-in core fonts for Dompdf (Helvetica/Arial) to avoid embedding complexity */
+          body{font-family:Helvetica, Arial, 'Liberation Sans', sans-serif;font-size:12px;line-height:1.4;color:#111;}
+          /* Force generic sans-serif for h1 with !important to prevent Dompdf bold substitution to Times */
+          /* h1 color set for diagnostic; remove or adjust to brand color as needed */
+          /* Brand heading color */
+          h1{font-family:sans-serif;font-size:24px;color:#21abde;}
+          h2.section-title,h3.block-title{font-family:sans-serif, Arial, 'Liberation Sans';}
+          h2.section-title{font-size:14px;letter-spacing:.5px;text-transform:uppercase;color:#555;}
+          h3.block-title{font-size:13px;}
         img{border:0;max-width:100%;}
         table{border-collapse:collapse;width:100%;}
         th,td{vertical-align:top;}
 
         /* Layout containers */
-        .page{padding:32px;}
+        .page{padding:32px;size: 21cm 29.7cm;margin: 0;}
         .header-table{width:100%;}
         .header-left{width:55%;}
         .right{text-align:right;}
 
         /* Text helpers */
-        .text-muted{color:#555;}
+        .text-muted{font-family:sans-serif;}
         .text-small{font-size:11px;color:#555;}
         .pre{white-space:pre-line;}
-        .fw-600{font-weight:600;}
+        /*.fw-600{font-weight:600;}*/
         .upper{letter-spacing:.5px;text-transform:uppercase;}
 
         /* Spacing utilities */
@@ -39,40 +44,54 @@
         .mb-24{margin-bottom:24px;}
         .mb-28{margin-bottom:28px;}
 
+        .page-break{ page-break-before: always; }
         /* Blocks / panels */
         .panel{background:#f3f4f6;padding:16px;border-radius:6px;}
         .panel--compact{padding:12px;}
         .card-table{border:1px solid #d9d9d9;border-radius:6px;overflow:hidden;}
         .card-table td{padding:16px;}
         .split{border-right:1px solid #e2e2e2;}
-        .subhead{font-size:11px;font-weight:600;color:#555;margin-bottom:8px;}
+        .subhead {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 8px;
+        }
 
         /* Badges */
-        .badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;color:#fff;}
+        .badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;color:#fff;}
         .badge-yes{background:#15803d;}
         .badge-no{background:#b91c1c;}
 
         /* Key/Value tables */
         .kv{width:100%;font-size:11px;border:1px solid #dcdcdc;margin-bottom:18px;}
         .kv:last-child{margin-bottom:0;}
-        .kv th{background:#f3f4f6;text-align:left;padding:6px 8px;width:170px;font-weight:600;}
+        .kv th{background:#f3f4f6;text-align:left;padding:6px 8px;width:170px;}
         .kv td{padding:6px 8px;}
         .kv--tight{margin-bottom:12px;}
 
         /* Data list tables (striped) */
         .striped{width:100%;font-size:11px;border:1px solid #dcdcdc;margin-bottom:18px;}
-        .striped thead th{background:#f3f4f6;padding:6px 8px;text-align:left;font-weight:600;border-bottom:1px solid #dcdcdc;}
+        .striped thead th{background:#f3f4f6;padding:6px 8px;text-align:left;border-bottom:1px solid #dcdcdc;}
         .striped td{padding:6px 8px;}
         .striped tbody tr:nth-child(even){background:#f9fafb;}
         .striped:last-child{margin-bottom:0;}
 
         /* Images */
         .images-wrapper{margin-bottom:4px;}
-        .report-image{border:1px solid #ccc;border-radius:4px;width:155px;height:110px;object-fit:cover;margin:0 8px 8px 0;display:inline-block;}
+        .report-image{
+            border:1px solid #ccc;
+            border-radius:4px;
+            max-width:480px;
+            max-height:320px;
+            width:auto;
+            height:auto;
+            margin:0 8px 8px 0;
+            display:inline-block;
+        }
 
         /* Metadata */
         .meta-table{width:100%;font-size:11px;border:1px solid #dcdcdc;margin-bottom:6px;}
-        .meta-table th{background:#f3f4f6;text-align:left;padding:6px 8px;width:170px;font-weight:600;}
+        .meta-table th{background:#f3f4f6;text-align:left;padding:6px 8px;width:170px;}
         .meta-table td{padding:6px 8px;}
         .footer-note{font-size:10px;color:#666;}
 
@@ -91,28 +110,15 @@
         <tr>
             <td class="header-left">
                 @php
-                    $logoCandidates = [
-                        public_path('build/assets/logo-infrascout.png'),
-                        public_path('assets/logo-infrascout.png'),
-                        public_path('logo-infrascout.png'),
-                    ];
-                    $logoUse = null;
-                    foreach ($logoCandidates as $c) { if (file_exists($c)) { $logoUse = $c; break; } }
+                    $logoPath = public_path('images/static/logo-infrascout.png');
                 @endphp
-                @if($logoUse)
-                    <img src="{{ $logoUse }}" alt="Infrascout" class="logo">
-                @else
-                    <div class="fw-600 mb-16" style="font-size:24px;">Infrascout</div>
+                @if(file_exists($logoPath))
+                    <img src="{{ $logoPath }}" alt="Infrascout" class="logo">
                 @endif
                 <h1 class="mb-4">Werkrapport</h1>
-                <div class="text-muted" style="font-size:13px;">
-                    Project: {{ $report->project->number }} – {{ $report->project->name }}
-                </div>
             </td>
             <td class="right">
                 <div class="text-small mb-2">Datum rapport: {{ now()->format('d-m-Y') }}</div>
-                <div class="text-small mb-2">Uitvoerdatum: {{ $report->date_of_work->format('d-m-Y H:i') }}</div>
-                <div class="text-small">Rapport ID: #{{ $report->id }}</div>
             </td>
         </tr>
     </table>
@@ -124,18 +130,14 @@
                 <div class="subhead upper">Project</div>
                 <div class="mb-4"><strong>Naam:</strong> {{ $report->project->name }}</div>
                 <div class="mb-4"><strong>Nummer:</strong> {{ $report->project->number }}</div>
+                <div class="mb-4"><strong>Uitvoerder:</strong> {{ $report->fieldWorker->name }} (<a href="mailto: {{ $report->fieldWorker->email }} ">{{ $report->fieldWorker->email }}</a>)</div>
+
                 <div><strong>Datum werk:</strong> {{ $report->date_of_work->format('d-m-Y H:i') }}</div>
             </td>
             <td>
-                <div class="subhead upper">Medewerkers</div>
-                <div class="mb-4"><strong>Uitvoerder:</strong> {{ $report->fieldWorker->name ?? 'N.v.t.' }}</div>
-                @if($report->fieldWorker?->email)
-                    <div class="text-small mb-4">{{ $report->fieldWorker->email }}</div>
-                @endif
-                <div class="mb-4"><strong>Aangemaakt door:</strong> {{ $report->user->name ?? 'N.v.t.' }}</div>
-                @if($report->user?->email)
-                    <div class="text-small">{{ $report->user->email }}</div>
-                @endif
+                <div class="subhead upper">Medewerker</div>
+                <div class="mb-4"><strong>Uitvoerder:</strong> </div>
+
             </td>
         </tr>
         <tr>
@@ -143,7 +145,6 @@
                 <div class="subhead upper">Tijden</div>
                 <div class="mb-4"><strong>Werkuren:</strong> {{ $report->work_hours }}</div>
                 <div class="mb-4"><strong>Reistijd:</strong> {{ $report->travel_time }}</div>
-                <div class="text-small"><strong>Aangemaakt:</strong> {{ $report->created_at->format('d-m-Y H:i') }}</div>
             </td>
             <td>
                 <div class="subhead upper">Status</div>
@@ -245,11 +246,8 @@
                     <h3 class="block-title mb-4">Grondradar</h3>
                     <table class="kv">
                         <tbody>
-                        <tr><th>Onderzoeksgebied</th><td>{{ $report->groundRadar->onderzoeksgebied }}</td></tr>
-                        <tr><th>Scanrichting</th><td>{{ $report->groundRadar->scanrichting }}</td></tr>
-                        <tr><th>Ingestelde detectiediepte</th><td>{{ $report->groundRadar->instelde_detectiediepte }}</td></tr>
-                        <tr><th>Reflecties</th><td class="pre">{{ $report->groundRadar->reflecties }}</td></tr>
-                        <tr><th>Interpretatie</th><td>{{ $report->groundRadar->interpretatie }}</td></tr>
+                        <tr><th>Radarbeeld</th><td>{{ $report->groundRadar->radarbeeld }}</td></tr>
+                        <tr><th>Ingestelde detectiediepte</th><td>{{ $report->groundRadar->ingestelde_detectiediepte }}</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -263,9 +261,9 @@
                         <tr><th>Type boring</th><td>{{ $report->gyroscope->type_boring }}</td></tr>
                         <tr><th>Intredepunt</th><td>{{ $report->gyroscope->intredepunt }}</td></tr>
                         <tr><th>Uittredepunt</th><td>{{ $report->gyroscope->uittredepunt }}</td></tr>
-                        <tr><th>Lengte tracé (m)</th><td>{{ $report->gyroscope->lengte_trace_m }}</td></tr>
+                        <tr><th>Lengte tracé (m)</th><td>{{ $report->gyroscope->lengte_trace }}</td></tr>
                         <tr><th>Bodemprofiel GPS</th><td>{{ $report->gyroscope->bodemprofiel_ingemeten_met_gps ? 'Ja':'Nee' }}</td></tr>
-                        <tr><th>Diameter buis (mm)</th><td>{{ $report->gyroscope->diameter_buis_mm }}</td></tr>
+                        <tr><th>Diameter buis (mm)</th><td>{{ $report->gyroscope->diameter_buis }}</td></tr>
                         <tr><th>Materiaal</th><td>{{ $report->gyroscope->materiaal }}</td></tr>
                         <tr><th>Ingemeten met</th><td>{{ $report->gyroscope->ingemeten_met }}</td></tr>
                         @if($report->gyroscope->bijzonderheden)
@@ -331,30 +329,30 @@
     @endif
 
     {{-- Findings / Results --}}
-    <div class="mb-28">
+    <div class="mb-28 mt-10 page-break">
         <h2 class="section-title mb-12">Bevindingen werkzaamheden</h2>
         @if($report->results_summary)
             <div class="mb-16">
-                <div class="text-small fw-600 mb-4">Samenvatting resultaten</div>
+                <h3 class="section-title mb-12">Samenvatting resultaten</h3>
                 <div class="panel panel--compact pre">{{ $report->results_summary }}</div>
             </div>
         @endif
         @if($report->advice)
             <div class="mb-16">
-                <div class="text-small fw-600 mb-4">Advies / aanbevelingen</div>
+                <h3 class="section-title mb-12">Advies / aanbevelingen</h3>
                 <div class="panel panel--compact pre">{{ $report->advice }}</div>
             </div>
         @endif
         @if($report->follow_up)
             <div>
-                <div class="text-small fw-600 mb-4">Vervolgacties</div>
+                <h3 class="section-title mb-12">Vervolgacties</h3>
                 <div class="panel panel--compact pre">{{ $report->follow_up }}</div>
             </div>
         @endif
     </div>
 
     {{-- Images --}}
-    <div class="mb-28">
+    <div class="mb-28 page-break">
         <h2 class="section-title mb-12">Afbeeldingen</h2>
         @if($report->images && $report->images->count())
             <div class="images-wrapper">
@@ -368,23 +366,6 @@
         @else
             <div class="no-data">Geen afbeeldingen toegevoegd.</div>
         @endif
-    </div>
-
-    {{-- Metadata --}}
-    <div>
-        <h2 class="section-title mb-12">Metadata</h2>
-        <table class="meta-table">
-            <tbody>
-            <tr>
-                <th>Aangemaakt op</th>
-                <td>{{ $report->created_at->format('d-m-Y H:i') }}</td>
-            </tr>
-            <tr>
-                <th>Laatst bijgewerkt</th>
-                <td>{{ $report->updated_at->format('d-m-Y H:i') }}</td>
-            </tr>
-            </tbody>
-        </table>
         <div class="footer-note">
             Dit rapport is automatisch gegenereerd op {{ now()->format('d-m-Y H:i') }}.
         </div>
