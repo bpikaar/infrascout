@@ -50,3 +50,8 @@ language folder has been published through
 ```bash
 php artisan lang:publish
 ```
+
+### Server 
+```bash
+/opt/plesk/php/8.3/bin/php /usr/local/bin/composer install
+```
