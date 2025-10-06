@@ -6,7 +6,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if($projects->isEmpty())
                         <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <p>No projects found. You can create the first one with the plus button.</p>
+                            <p>{{ __('project.index_empty') }}</p>
                         </div>
                     @else
                         <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col gap-2">
@@ -21,7 +21,7 @@
                     {{-- Pagination--}}
                     @if($projects->hasPages())
                         <div class="p-6">
-                            {{ $posts->links() }}
+                            {{ $projects->links() }}
                         </div>
                     @endif
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Report extends Model
 {
@@ -30,6 +31,12 @@ class Report extends Model
         'description',
         'work_hours',
         'travel_time',
+        // Results / follow-up
+        'results_summary',
+        'advice',
+        'follow_up',
+        'problem_solved',
+        'question_answered',
     ];
     /**
      * Get the images for the report.
@@ -63,4 +70,76 @@ class Report extends Model
         return $this->belongsTo(User::class, 'field_worker');
     }
 
+    /**
+     * Generated PDF for this report.
+     */
+    public function pdf()
+    {
+        return $this->hasOne(ReportPdf::class);
+    }
+
+    /**
+     * Cables associated with this report.
+     */
+    public function cables()
+    {
+        return $this->belongsToMany(Cable::class);
+    }
+
+    /**
+     * Pipes associated with this report.
+     */
+    public function pipes()
+    {
+        return $this->belongsToMany(Pipe::class);
+    }
+
+    /**
+     * Radio detection associated with this report.
+     */
+    public function radioDetection(): HasOne
+    {
+        // FK lives on radio_detections.report_id
+        return $this->hasOne(RadioDetection::class);
+    }
+
+    /**
+     * Gyroscope associated with this report.
+     */
+    public function gyroscope(): HasOne
+    {
+        return $this->hasOne(Gyroscope::class);
+    }
+
+    /**
+     * Test trench associated with this report.
+     */
+    public function testTrench(): HasOne
+    {
+        return $this->hasOne(TestTrench::class);
+    }
+
+    /**
+     * Ground Radar associated with this report.
+     */
+    public function groundRadar(): HasOne
+    {
+        return $this->hasOne(GroundRadar::class);
+    }
+
+    /**
+     * Cable failure associated with this report.
+     */
+    public function cableFailure(): HasOne
+    {
+        return $this->hasOne(CableFailure::class);
+    }
+
+    /**
+     * GPS measurement associated with this report.
+     */
+    public function gpsMeasurement(): HasOne
+    {
+        return $this->hasOne(GPSMeasurement::class);
+    }
 }
