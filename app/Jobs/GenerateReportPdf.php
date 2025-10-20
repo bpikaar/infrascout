@@ -31,24 +31,35 @@ class GenerateReportPdf implements ShouldQueue
 
     public function handle(): void
     {
-        $report = $this->report->fresh(['project', 'user', 'fieldWorker', 'images']);
-        $project = $report->project;
+        try {
+            $report = $this->report->fresh(['project', 'user', 'fieldWorker', 'images']);
+            $project = $report->project;
 
-        $pdf = Pdf::loadView('reports.pdf', compact('report', 'project'));
+            $pdf = Pdf::loadView('reports.pdf', compact('report', 'project'));
 
-        $projectName = preg_replace(
-            '/[^A-Za-z0-9\-_]/', '',
-            str_replace(' ', '-', $report->project->name)
-        );
-        $reportName = "Rapportage_{$report->id}_{$projectName}_{$report->updated_at->toDateString()}.pdf";
-        $filePath = "reports/pdfs/$reportName";
+            $projectName = preg_replace(
+                '/[^A-Za-z0-9\-_]/',
+                '',
+                str_replace(' ', '-', $report->project->name)
+            );
+            $reportName = "Rapportage_{$report->id}_{$projectName}_{$report->updated_at->toDateString()}.pdf";
+            $filePath = "reports/pdfs/$reportName";
 
-        Storage::disk('public')->put($filePath, $pdf->output());
+            Storage::disk('public')->put($filePath, $pdf->output());
 
-        // Ensure a ReportPdf record exists and stays up-to-date
-        ReportPdf::updateOrCreate(
-            ['report_id' => $report->id],
-            ['file_path' => $filePath, 'file_name' => $reportName]
-        );
+            // Ensure a ReportPdf record exists and stays up-to-date
+            ReportPdf::updateOrCreate(
+                ['report_id' => $report->id],
+                ['file_path' => $filePath, 'file_name' => $reportName]
+            );
+        } catch (\Throwable $e) {
+            Log::error("PDF generation failed for report {$this->report->id}: {$e->getMessage()}", [
+                'trace' => $e->getTraceAsString(),
+                'memory_limit' => ini_get('memory_limit'),
+                'tmp_dir' => sys_get_temp_dir(),
+            ]);
+
+            $this->fail($e);
+        }
     }
 }
