@@ -14,9 +14,9 @@
                         </div>
                     @endif
                     <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
-                        <img src="{{ Vite::asset('resources/images/thumb-image.png') }}"
-                            alt="{{ __('report.images.alt_report_thumb') }}"
-                                 class="h-24 w-24 rounded-lg object-cover mr-6" />
+{{--                        <img src="{{ Vite::asset('resources/images/thumb-image.png') }}"--}}
+{{--                            alt="{{ __('report.images.alt_report_thumb') }}"--}}
+{{--                                 class="h-24 w-24 rounded-lg object-cover mr-6" />--}}
 
                         <div class="text-center md:text-left">
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('report.title.show', ['id' => $report->id]) }}</h1>
@@ -133,10 +133,10 @@
                                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
                                         @foreach($report->images as $image)
                                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden flex flex-col items-center">
-                                                <img src="{{ asset('images/reports/'.$report->id.'/'.$image->path) }}"
+                                                <img src="{{ asset('/storage/images/reports/'.$report->id.'/'.$image->path) }}"
                                                      alt="{{ __('report.images.alt_report_image') }}"
                                                      class="w-full h-32 sm:h-40 object-cover cursor-pointer"
-                                                     @click="$dispatch('open-modal', 'large-image', modalImg = '{{ asset('images/reports/'.$report->id.'/'.$image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')"
+                                                     @click="$dispatch('open-modal', 'large-image', modalImg = '{{ asset('/storage/images/reports/'.$report->id.'/'.$image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')"
                                                  />
                                                 @if($image->caption)
                                                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 px-2 text-center">{{ $image->caption }}</p>

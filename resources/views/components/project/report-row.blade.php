@@ -8,7 +8,7 @@
         <!-- Thumbnails -->
         <div class="flex items-center gap-2">
             @foreach($report->images()->take(2)->get() as $image)
-                <img src="{{ '/images/reports/'.$report->id.'/'.$image->path }}"
+                <img src="{{ '/storage/images/reports/'.$report->id.'/'.$image->path }}"
                      alt="Report image"
                      class="h-20 w-20 object-cover rounded border border-gray-200"
                 />

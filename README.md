@@ -33,7 +33,7 @@ https://github.com/barryvdh/laravel-dompdf
 
 Dompdf need public links to images with `public_path`
 ```
-$imgPath = public_path('images/reports/'.$report->id.'/'.$image->path);
+$imgPath = public_path('/storage/images/reports/'.$report->id.'/'.$image->path);
 ```
 
 ## publish vendor

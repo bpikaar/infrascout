@@ -14,7 +14,7 @@
                         </div>
                     @endif
                     <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
-                        <img src="{{ $project->thumbnail ? asset('images/projects/'.$project->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}"
+                        <img src="{{ $project->thumbnail ? asset('storage/images/projects/'.$project->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}"
                             alt="{{ $project->name }} thumbnail"
                             class="h-24 w-24 rounded-lg object-cover mr-6 md:mr-6" />
                         <div class="text-center md:text-left">

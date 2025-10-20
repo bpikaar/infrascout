@@ -165,6 +165,7 @@ class ProjectController extends Controller
             }
             $thumb = $request->file('thumbnail')->store('images/projects', 'public');
             $projectData['thumbnail'] = str_replace('images/projects/', '', $thumb);
+
         }
 
         $project->update($projectData);
