@@ -13,6 +13,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Cable;
 use App\Models\Pipe;
 use App\Models\TestTrench;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ReportController extends Controller
 {
@@ -137,11 +139,22 @@ class ReportController extends Controller
         // Handle image uploads through relationship
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
+                // temporarily store an image so a unique filename is created
                 $path = $image->store('images/reports/'.$report->id, 'public');
-                // delete the prefix
-                $path = str_replace('images/reports/'.$report->id.'/', '', $path);
+
+                // get only the filename
+                $filename = basename($path);
+
+                // overwrite the image file on disk
+                $imageToResize = Image::read($image)
+                    ->scaleDown(config('image.scale'), config('image.scale'));
+                Storage::disk('public')->put($path,
+                    $imageToResize->encodeByExtension($image->getClientOriginalExtension(), quality: config('image.quality')));
+
                 //todo add caption to images
-                $report->images()->create(['path' => $path]);
+
+                // Store the image
+                $report->images()->create(['path' => $filename]);
             }
         }
 

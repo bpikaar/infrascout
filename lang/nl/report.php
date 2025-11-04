@@ -55,7 +55,7 @@ return [
     'images' => [
         'upload' => 'Afbeeldingen Uploaden',
         'none' => 'Geen afbeeldingen voor dit rapport.',
-        'supported' => 'Je kunt meerdere afbeeldingen selecteren. Ondersteunde formaten: JPG, PNG, GIF, WebP (Max 2MB per stuk)',
+        'supported' => 'Je kunt meerdere afbeeldingen selecteren. Ondersteunde formaten: JPG, PNG, GIF, WebP (Max 50MB totaal)',
         'alt_report_thumb' => 'Rapport miniatuur',
         'alt_new_report_thumb' => 'Nieuwe rapport miniatuur',
         'alt_report_image' => 'Rapportafbeelding',

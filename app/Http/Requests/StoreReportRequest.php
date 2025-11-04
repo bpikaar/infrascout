@@ -51,7 +51,7 @@ class StoreReportRequest extends FormRequest
             'problem_solved'    => ['nullable', 'boolean'],
             'question_answered' => ['nullable', 'boolean'],
             'images'            => ['nullable', 'array'],
-            'images.*'          => ['nullable', 'image', 'max:2048'],
+            'images.*'          => ['nullable', 'image', 'max:51200'],
         ];
 
         // Merge RadioDetection rules (keeps separation of concerns)

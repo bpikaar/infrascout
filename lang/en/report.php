@@ -55,7 +55,7 @@ return [
     'images' => [
         'upload' => 'Upload Images',
         'none' => 'No images for this report.',
-        'supported' => 'You can select multiple images. Supported formats: JPG, PNG, GIF, WebP (Max 2MB each)',
+        'supported' => 'You can select multiple images. Supported formats: JPG, PNG, GIF, WebP (Max 50MB in total)',
         'alt_report_thumb' => 'Report thumbnail',
         'alt_new_report_thumb' => 'New report thumbnail',
         'alt_report_image' => 'Report image',
