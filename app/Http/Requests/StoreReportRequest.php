@@ -22,6 +22,7 @@ class StoreReportRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
+            'title'             => ['required', 'string'],
             'project_id'        => ['required', 'exists:projects,id'],
             'date_of_work'      => ['required', 'date'],
             'field_worker'       => ['required', 'exists:users,id'],

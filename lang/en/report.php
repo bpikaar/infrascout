@@ -30,6 +30,7 @@ return [
         'date_of_work' => 'Date of Work',
         'work_date' => 'Work Date',
         'work_hours' => 'Work Hours',
+        'title' => 'Name of the report',
         'travel_time' => 'Travel Time',
         'cable_type' => 'Cable Type',
         'material' => 'Material',
@@ -43,6 +44,7 @@ return [
     ],
 
     'placeholders' => [
+        'title' => 'e.g. Location',
         'cable_type' => 'e.g., Cat 6, Fiber optic',
         'pipe_type' => 'e.g., PVC, HDPE',
         'material' => 'e.g., Copper, Aluminum',

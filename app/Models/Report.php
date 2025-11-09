@@ -21,6 +21,7 @@ class Report extends Model
      * @var array
      */
     protected $fillable = [
+        'title',
         'user_id',
         'project_id',
         'date_of_work',

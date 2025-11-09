@@ -36,6 +36,12 @@ Dompdf need public links to images with `public_path`
 $imgPath = public_path('/storage/images/reports/'.$report->id.'/'.$image->path);
 ```
 
+[IMPORTANT!!]
+if the generation of a pdf changes in `GenerateReportPdf` restart queue worker
+```bash
+php artisan queue:work
+```
+
 ## publish vendor
 
 ```
@@ -62,3 +68,5 @@ First I needed: stackoverflow.com/a/29292637/470749 Then nohup php artisan queue
 ps -ef |grep artisan
 ```
 . Then you can run kill [pid]
+
+https://laracasts.com/discuss/channels/laravel/queuework-no-way-to-keep-it-running

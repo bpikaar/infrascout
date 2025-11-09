@@ -9,7 +9,7 @@ return [
         'pipes' => 'Gevonden Leidingen',
         'cables_section' => 'Kabels',
         'pipes_section' => 'Leidingen',
-        'work' => 'Werk Informatie',
+        'work' => 'Werkinformatie',
         'description' => 'Beschrijving',
         'images' => 'Afbeeldingen',
         'timestamps' => 'Tijdstempels',
@@ -30,6 +30,7 @@ return [
         'date_of_work' => 'Werkdatum',
         'work_date' => 'Werkdatum',
         'work_hours' => 'Werkuren',
+        'title' => 'Naam van het rapport',
         'travel_time' => 'Reistijd',
         'cable_type' => 'Kabeltype',
         'material' => 'Materiaal',
@@ -43,6 +44,7 @@ return [
     ],
 
     'placeholders' => [
+        'title' => 'bv. Locatie en type meting',
         'cable_type' => 'bv. Cat 6, Glasvezel',
         'pipe_type' => 'bv. PVC, HDPE',
         'material' => 'bv. Koper, Aluminium',

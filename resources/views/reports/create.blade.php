@@ -67,6 +67,20 @@
                                 </div>
                             </div>
 
+                            {{-- Rapport title--}}
+                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                <div>
+                                    <x-input-label for="title" :value="__('report.fields.title')" />
+                                    <x-text-input id="title"
+                                                  class="block mt-1 w-full"
+                                                  type="text"
+                                                  name="title"
+                                                  :value="old('title')"
+                                                  required
+                                                  placeholder="{{ __('report.placeholders.title') }}" />
+                                    <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                                </div>
+                            </div>
                             <!-- Work Information -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                                 <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work') }}</h2>
@@ -254,10 +268,6 @@
                                 </a>
 
                                 <div class="flex space-x-4">
-                                    <x-secondary-button type="button" onclick="document.querySelector('form').reset(); clearImagePreview();">
-                                        {{ __('report.actions.reset') }}
-                                    </x-secondary-button>
-
                                     <x-primary-button>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
@@ -274,17 +284,86 @@
     </div>
 
     @push('scripts')
-    <script>
-        // Image preview functionality (retained)
-        document.getElementById('images').addEventListener('change', function(e){
-            const preview=document.getElementById('image-preview');
-            const files=Array.from(e.target.files); preview.innerHTML='';
-            if(files.length){
-                preview.classList.remove('hidden');
-                files.forEach(file=>{ if(file.type.startsWith('image/')){ const reader=new FileReader(); reader.onload=function(ev){ const div=document.createElement('div'); div.className='relative'; div.innerHTML=`<img src="${ev.target.result}" class=\"w-full h-24 object-cover rounded-lg border border-gray-300\"><p class=\"text-xs text-gray-500 mt-1 truncate\">${file.name}</p>`; preview.appendChild(div); }; reader.readAsDataURL(file); }});
-            } else { preview.classList.add('hidden'); }
-        });
-        function clearImagePreview(){ const preview=document.getElementById('image-preview'); preview.innerHTML=''; preview.classList.add('hidden'); }
-    </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const input = document.getElementById('images');
+                const preview = document.getElementById('image-preview');
+
+                // keep selected files so user can add more later
+                let filesArray = [];
+
+                function isDuplicate(file) {
+                    return filesArray.some(f =>
+                        f.name === file.name &&
+                        f.size === file.size &&
+                        f.lastModified === file.lastModified
+                    );
+                }
+
+                function updateInputFiles() {
+                    const dt = new DataTransfer();
+                    filesArray.forEach(f => dt.items.add(f));
+                    input.files = dt.files;
+                }
+
+                function renderPreview() {
+                    preview.innerHTML = '';
+                    if (filesArray.length === 0) {
+                        preview.classList.add('hidden');
+                        return;
+                    }
+                    preview.classList.remove('hidden');
+
+                    filesArray.forEach((file, idx) => {
+                        if (!file.type.startsWith('image/')) return;
+
+                        const container = document.createElement('div');
+                        container.className = 'relative';
+
+                        const img = document.createElement('img');
+                        img.className = 'w-full h-24 object-cover rounded-lg border border-gray-300';
+                        img.alt = file.name;
+
+                        const caption = document.createElement('p');
+                        caption.className = 'text-xs text-gray-500 mt-1 truncate';
+                        caption.textContent = file.name; // safe: no innerHTML
+
+                        const removeBtn = document.createElement('button');
+                        removeBtn.type = 'button';
+                        removeBtn.className = 'absolute top-1 right-1 bg-white rounded-full p-1 shadow-sm';
+                        removeBtn.textContent = '✕';
+                        removeBtn.setAttribute('aria-label', 'Remove image');
+                        removeBtn.addEventListener('click', () => {
+                            filesArray.splice(idx, 1);
+                            updateInputFiles();
+                            renderPreview();
+                        });
+
+                        const reader = new FileReader();
+                        reader.onload = ev => { img.src = ev.target.result; };
+                        reader.readAsDataURL(file);
+
+                        container.appendChild(img);
+                        container.appendChild(removeBtn);
+                        container.appendChild(caption);
+                        preview.appendChild(container);
+                    });
+                }
+
+                input.addEventListener('change', e => {
+                    const chosen = Array.from(e.target.files || []);
+                    chosen.forEach(file => {
+                        if (file.type.startsWith('image/') && !isDuplicate(file)) filesArray.push(file);
+                    });
+                    updateInputFiles();
+                    renderPreview();
+                    input.value = ''; // allow adding more files afterward
+                });
+
+                // optional: click preview area to reopen picker
+                preview.addEventListener('click', () => input.click());
+            });
+        </script>
     @endpush
+
 </x-app-layout>

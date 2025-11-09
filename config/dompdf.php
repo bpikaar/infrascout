@@ -105,7 +105,8 @@ return [
         /**
          * @var string
          */
-        'log_output_file' => null,
+//        'log_output_file' => null,
+        'log_output_file' => 'storage_path(\'logs/dompdf.log\')',
 
         /**
          * Whether to enable font subsetting or not.

@@ -22,6 +22,7 @@ return new class extends Migration
             // Project
             $table->foreignIdFor(Project::class)->constrained();
 
+            $table->string('title');
             // company
             $table->string('company_location')->nullable();
 

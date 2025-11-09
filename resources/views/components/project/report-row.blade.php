@@ -17,7 +17,7 @@
 
         <!-- Main info -->
         <div class="flex-1 min-w-0">
-            <h3 class="font-semibold text-gray-900 dark:text-gray-100 truncate">Report #{{ $report->id }}</h3>
+            <h3 class="font-semibold text-gray-900 dark:text-gray-100 truncate">{{ $report->title }}</h3>
             <p class="text-gray-700 dark:text-gray-300 truncate">{{ $report->description }}</p>
             <span class="text-sm text-gray-500 block">{{ $report->date_of_work->format('Y-m-d') }}</span>
         </div>

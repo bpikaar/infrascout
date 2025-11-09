@@ -19,7 +19,7 @@
 {{--                                 class="h-24 w-24 rounded-lg object-cover mr-6" />--}}
 
                         <div class="text-center md:text-left">
-                            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('report.title.show', ['id' => $report->id]) }}</h1>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $report->title }}</h1>
                             @php
                                 $link = '<a href="'. route('projects.show', $report->project).'">'.$report->project->name.'</a>';
                             @endphp
