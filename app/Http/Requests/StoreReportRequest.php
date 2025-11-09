@@ -80,6 +80,10 @@ class StoreReportRequest extends FormRequest
         $gpsRules = app(StoreGPSMeasurementRequest::class)->rules();
         $rules = array_merge($rules, $gpsRules);
 
+        // Merge Lance rules
+        $lanceRules = app(StoreLanceRequest::class)->rules();
+        $rules = array_merge($rules, $lanceRules);
+
         return $rules;
     }
 
@@ -93,7 +97,8 @@ class StoreReportRequest extends FormRequest
             app(StoreTestTrenchRequest::class)->messages(),
             app(StoreGroundRadarRequest::class)->messages(),
             app(StoreCableFailureRequest::class)->messages(),
-            app(StoreGPSMeasurementRequest::class)->messages()
+            app(StoreGPSMeasurementRequest::class)->messages(),
+            app(StoreLanceRequest::class)->messages(),
         );
     }
 
@@ -107,6 +112,7 @@ class StoreReportRequest extends FormRequest
             app(StoreGroundRadarRequest::class)->attributes(),
             app(StoreCableFailureRequest::class)->attributes(),
             app(StoreGPSMeasurementRequest::class)->attributes(),
+            app(StoreLanceRequest::class)->attributes(),
             [
                 'results_summary'   => 'Samenvatting resultaten',
                 'advice'            => 'Advies / aanbevelingen',
@@ -141,6 +147,7 @@ class StoreReportRequest extends FormRequest
         $radarEnabled = filter_var($this->input('ground_radar_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $cableFailureEnabled = filter_var($this->input('cable_failure_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $gpsMeasurementEnabled = filter_var($this->input('gps_measurement_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $lanceEnabled = filter_var($this->input('lance_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
 
         // Normalize local boolean checkboxes
         $problemSolved = filter_var($this->input('problem_solved', false), FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
@@ -155,6 +162,7 @@ class StoreReportRequest extends FormRequest
             'ground_radar_enabled' => $radarEnabled,
             'cable_failure_enabled' => $cableFailureEnabled,
             'gps_measurement_enabled' => $gpsMeasurementEnabled,
+            'lance_enabled' => $lanceEnabled,
             'problem_solved' => $problemSolved,
             'question_answered' => $questionAnswered,
         ]);

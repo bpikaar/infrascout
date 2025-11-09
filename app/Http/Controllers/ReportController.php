@@ -15,6 +15,7 @@ use App\Models\Pipe;
 use App\Models\TestTrench;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
+use App\Models\Lance;
 
 class ReportController extends Controller
 {
@@ -88,6 +89,12 @@ class ReportController extends Controller
         // Optional GPS Measurement
         if ($request->boolean('gps_measurement_enabled') && $request->filled('gps_measurement')) {
             $report->gpsMeasurement()->create($validated['gps_measurement']);
+            $report->save();
+        }
+
+        // Optional Lance
+        if ($request->boolean('lance_enabled') && $request->filled('lance')) {
+            $report->lance()->create($validated['lance']);
             $report->save();
         }
 
@@ -180,7 +187,8 @@ class ReportController extends Controller
             'testTrench',
             'groundRadar',
             'cableFailure',
-            'gpsMeasurement'
+            'gpsMeasurement',
+            'lance'
         ]);
         ;
         return view('reports.show', compact('report'));

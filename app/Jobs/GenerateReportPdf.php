@@ -32,7 +32,7 @@ class GenerateReportPdf implements ShouldQueue
     public function handle(): void
     {
         try {
-            $report = $this->report->fresh(['project', 'user', 'fieldWorker', 'images']);
+            $report = $this->report->fresh(['project', 'user', 'fieldWorker', 'images', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure', 'gpsMeasurement', 'lance']);
             $project = $report->project;
 
             $pdf = Pdf::loadView('reports.pdf', compact('report', 'project'));

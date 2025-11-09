@@ -24,7 +24,7 @@ Route::middleware('auth')->group(callback: function () {
 
     Route::get('projects/reports/{report}/download', [ReportController::class, 'download'])
         ->name('projects.reports.download');
-    Route::get('projects/reports/{report}/regenerate', [ReportController::class, 'directDownload'])
+    Route::get('projects/reports/{report}/regenerate', [ReportController::class, 'regeneratePdf'])
         ->name('projects.reports.regenerate');
 
     Route::resource('projects', ProjectController::class);

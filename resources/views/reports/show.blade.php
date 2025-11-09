@@ -107,7 +107,7 @@
                         </div>
                     </div>
 
-                    @if($report->radioDetection || $report->gyroscope || $report->testTrench || $report->groundRadar || $report->cableFailure || $report->gpsMeasurement)
+                    @if($report->radioDetection || $report->gyroscope || $report->testTrench || $report->groundRadar || $report->cableFailure || $report->gpsMeasurement || $report->lance)
                         <div class="border-t border-gray-200 dark:border-gray-700 py-4">
                             <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Uitgevoerde werkzaamheden') }}</h2>
                             <div class="space-y-4">
@@ -122,6 +122,8 @@
                                 <x-report.show.cable-failure :report="$report" />
 
                                 <x-report.show.gps-measurement :report="$report" />
+
+                                <x-report.show.lance :report="$report" />
                             </div>
                         </div>
                     @endif

@@ -143,4 +143,12 @@ class Report extends Model
     {
         return $this->hasOne(GPSMeasurement::class);
     }
+
+    /**
+     * Lance associated with this report.
+     */
+    public function lance(): HasOne
+    {
+        return $this->hasOne(Lance::class);
+    }
 }

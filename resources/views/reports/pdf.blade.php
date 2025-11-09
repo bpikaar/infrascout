@@ -218,7 +218,7 @@
         </div>
 
         {{-- Executed Work --}}
-        @if($report->radioDetection || $report->gyroscope || $report->testTrench || $report->groundRadar || $report->cableFailure || $report->gpsMeasurement)
+        @if($report->radioDetection || $report->gyroscope || $report->testTrench || $report->groundRadar || $report->cableFailure || $report->gpsMeasurement || $report->lance)
             <div class="mb-28">
                 <h2 class="section-title mb-12">Uitgevoerde werkzaamheden</h2>
 
@@ -323,6 +323,23 @@
                             <tr><th>Data verstuurd naar tekenaar</th><td>{{ $report->gpsMeasurement->data_verstuurd_naar_tekenaar ? 'Ja':'Nee' }}</td></tr>
                             <tr><th>Signaal</th><td>{{ $report->gpsMeasurement->signaal }}</td></tr>
                             <tr><th>Omgeving</th><td>{{ $report->gpsMeasurement->omgeving }}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+
+                @if($report->lance)
+                    <div class="mb-18">
+                        <h3 class="block-title mb-4">Aanlansen / aanprikken</h3>
+                        <table class="kv">
+                            <tbody>
+                                @php
+                                    $depth = $report->lance->aanprikdiepte !== null ? number_format($report->lance->aanprikdiepte,2) : '-';
+                                @endphp
+                                <tr>
+                                    <th>aanprikdiepte (m)</th>
+                                    <td>{{ $depth }}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
