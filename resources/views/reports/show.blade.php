@@ -14,9 +14,14 @@
                         </div>
                     @endif
                     <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
-{{--                        <img src="{{ Vite::asset('resources/images/thumb-image.png') }}"--}}
-{{--                            alt="{{ __('report.images.alt_report_thumb') }}"--}}
-{{--                                 class="h-24 w-24 rounded-lg object-cover mr-6" />--}}
+                        @php
+                            $imageSrc = $report->images->isNotEmpty() ?
+                                asset('/storage/images/reports/'.$report->id.'/'.$report->images()->first()->path)  :
+                                Vite::asset('resources/images/thumb-image.png');
+                        @endphp
+                        <img src="{{ $imageSrc }}"
+                            alt="{{ __('report.images.alt_report_thumb') }}"
+                                 class="h-24 w-24 rounded-lg object-cover mr-6" />
 
                         <div class="text-center md:text-left">
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $report->title }}</h1>

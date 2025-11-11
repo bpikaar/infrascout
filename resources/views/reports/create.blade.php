@@ -296,34 +296,16 @@
                 const input = document.getElementById('images');
                 const preview = document.getElementById('image-preview');
 
-                // keep selected files so user can add more later
-                let filesArray = [];
-
-                function isDuplicate(file) {
-                    return filesArray.some(f =>
-                        f.name === file.name &&
-                        f.size === file.size &&
-                        f.lastModified === file.lastModified
-                    );
-                }
-
-                function updateInputFiles() {
-                    const dt = new DataTransfer();
-                    filesArray.forEach(f => dt.items.add(f));
-                    input.files = dt.files;
-                }
-
-                function renderPreview() {
+                function renderPreviewFrom(files) {
                     preview.innerHTML = '';
-                    if (filesArray.length === 0) {
+                    if (!files || files.length === 0) {
                         preview.classList.add('hidden');
                         return;
                     }
                     preview.classList.remove('hidden');
 
-                    filesArray.forEach((file, idx) => {
-                        if (!file.type.startsWith('image/')) return;
-
+                    Array.from(files).forEach(file => {
+                        if (!file.type || !file.type.startsWith('image/')) return;
                         const container = document.createElement('div');
                         container.className = 'relative';
 
@@ -333,41 +315,25 @@
 
                         const caption = document.createElement('p');
                         caption.className = 'text-xs text-gray-500 mt-1 truncate';
-                        caption.textContent = file.name; // safe: no innerHTML
-
-                        const removeBtn = document.createElement('button');
-                        removeBtn.type = 'button';
-                        removeBtn.className = 'absolute top-1 right-1 bg-white rounded-full p-1 shadow-sm';
-                        removeBtn.textContent = '✕';
-                        removeBtn.setAttribute('aria-label', 'Remove image');
-                        removeBtn.addEventListener('click', () => {
-                            filesArray.splice(idx, 1);
-                            updateInputFiles();
-                            renderPreview();
-                        });
+                        caption.textContent = file.name;
 
                         const reader = new FileReader();
                         reader.onload = ev => { img.src = ev.target.result; };
                         reader.readAsDataURL(file);
 
                         container.appendChild(img);
-                        container.appendChild(removeBtn);
                         container.appendChild(caption);
                         preview.appendChild(container);
                     });
                 }
 
                 input.addEventListener('change', e => {
-                    const chosen = Array.from(e.target.files || []);
-                    chosen.forEach(file => {
-                        if (file.type.startsWith('image/') && !isDuplicate(file)) filesArray.push(file);
-                    });
-                    updateInputFiles();
-                    renderPreview();
-                    input.value = ''; // allow adding more files afterward
+                    const chosen = e.target.files || [];
+                    renderPreviewFrom(chosen);
+                    // Do NOT modify input.files or clear input.value; rely on native multiple selection
                 });
 
-                // optional: click preview area to reopen picker
+                // Optional: click preview area to reopen picker
                 preview.addEventListener('click', () => input.click());
             });
         </script>

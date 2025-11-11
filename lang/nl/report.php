@@ -62,6 +62,7 @@ return [
         'alt_new_report_thumb' => 'Nieuwe rapport miniatuur',
         'alt_report_image' => 'Rapportafbeelding',
         'alt_enlarged' => 'Vergrote afbeelding',
+        'delete' => 'Verwijderen',
     ],
 
     'actions' => [
@@ -71,7 +72,8 @@ return [
         'edit' => 'Rapport Bewerken',
         'download' => 'Rapport Downloaden',
         'regenerate' => 'Genereer Rapport Opnieuw',
-        'preparing_pdf' => 'PDF aan het voorbereiden...',
+        'preparing_pdf' => 'PDF voorbereiden...',
+        'update' => 'Rapport Bijwerken'
     ],
 
     'cables' => [

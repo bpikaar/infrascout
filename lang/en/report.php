@@ -62,6 +62,7 @@ return [
         'alt_new_report_thumb' => 'New report thumbnail',
         'alt_report_image' => 'Report image',
         'alt_enlarged' => 'Enlarged image',
+        'delete' => 'Delete'
     ],
 
     'actions' => [
@@ -72,6 +73,7 @@ return [
         'download' => 'Download Report',
         'regenerate' => 'Regenerate Report',
         'preparing_pdf' => 'Preparing PDF...',
+        'update' => 'Update report'
     ],
 
     'cables' => [

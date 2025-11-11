@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReportRequest;
-use App\Http\Requests\UpdateReportRequest;
 use App\Models\Project;
 use App\Models\Report;
 use App\Models\User;
@@ -43,6 +42,8 @@ class ReportController extends Controller
      */
     public function store(StoreReportRequest $request)
     {
+        //todo check if a cable has all fields filled in.
+
         $validated = $request->validated();
 
         // Add the authenticated user as the creator
@@ -199,15 +200,112 @@ class ReportController extends Controller
      */
     public function edit(Project $project, Report $report)
     {
-        //
+        $projects = Project::all();
+        $users = User::all();
+        $report->load(['cables', 'pipes', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure', 'gpsMeasurement', 'lance', 'images']);
+        return view('reports.edit', compact('report', 'project', 'projects', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateReportRequest $request, Report $report)
+    public function update(StoreReportRequest $request, Project $project, Report $report)
     {
-        //
+        $validated = $request->validated();
+
+        // Basic fields
+        $report->fill($validated);
+        $report->save();
+
+        // Sync cables
+        $cableIds = [];
+        foreach ($request->input('cables', []) as $cableData) {
+            if (!is_array($cableData)) continue;
+            if (!empty($cableData['id'])) { $cableIds[] = (int)$cableData['id']; continue; }
+            if (!empty($cableData['cable_type']) && !empty($cableData['material'])) {
+                $cable = Cable::firstOrCreate([
+                    'cable_type' => $cableData['cable_type'],
+                    'material' => $cableData['material'],
+                    'diameter' => $cableData['diameter'] ?? null,
+                ]);
+                $cableIds[] = $cable->id;
+            }
+        }
+        $report->cables()->sync($cableIds);
+
+        // Sync pipes
+        $pipeIds = [];
+        foreach ($request->input('pipes', []) as $pipeData) {
+            if (!is_array($pipeData)) continue;
+            if (!empty($pipeData['id'])) { $pipeIds[] = (int)$pipeData['id']; continue; }
+            if (!empty($pipeData['pipe_type']) && !empty($pipeData['material'])) {
+                $pipe = Pipe::firstOrCreate([
+                    'pipe_type' => $pipeData['pipe_type'],
+                    'material' => $pipeData['material'],
+                    'diameter' => $pipeData['diameter'] ?? null,
+                ]);
+                $pipeIds[] = $pipe->id;
+            }
+        }
+        $report->pipes()->sync($pipeIds);
+
+        // Feature sections: create/update or delete if disabled
+        $this->syncOptionalHasOne($report, $request, 'radio_detection_enabled', 'radio_detection', 'radioDetection');
+        $this->syncOptionalHasOne($report, $request, 'gyroscope_enabled', 'gyroscope', 'gyroscope');
+        $this->syncOptionalHasOne($report, $request, 'test_trench_enabled', 'test_trench', 'testTrench');
+        $this->syncOptionalHasOne($report, $request, 'ground_radar_enabled', 'ground_radar', 'groundRadar');
+        $this->syncOptionalHasOne($report, $request, 'cable_failure_enabled', 'cable_failure', 'cableFailure');
+        $this->syncOptionalHasOne($report, $request, 'gps_measurement_enabled', 'gps_measurement', 'gpsMeasurement');
+        $this->syncOptionalHasOne($report, $request, 'lance_enabled', 'lance', 'lance');
+
+        // Delete images requested
+        foreach ($request->input('delete_images', []) as $imageId) {
+            $img = $report->images()->where('id', $imageId)->first();
+            if ($img) {
+                $diskPath = 'images/reports/'.$report->id.'/'.$img->path;
+                \Storage::disk('public')->delete($diskPath);
+                $img->delete();
+            }
+        }
+
+        // Add new images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('images/reports/'.$report->id, 'public');
+                $filename = basename($path);
+                $imageToResize = \Intervention\Image\Laravel\Facades\Image::read($image)
+                    ->scaleDown(config('image.scale'), config('image.scale'));
+                \Storage::disk('public')->put($path,
+                    $imageToResize->encodeByExtension($image->getClientOriginalExtension(), quality: config('image.quality')));
+                $report->images()->create(['path' => $filename]);
+            }
+        }
+
+        // Regenerate PDF (overwrite)
+        \App\Jobs\GenerateReportPdf::dispatch($report);
+
+        return redirect()->route('projects.reports.show', [$report->project, $report])
+            ->with('status', 'Rapport bijgewerkt. PDF wordt opnieuw gegenereerd.');
+    }
+
+    protected function syncOptionalHasOne(Report $report, \Illuminate\Http\Request $request, string $toggle, string $payloadKey, string $relationMethod): void
+    {
+        $enabled = $request->boolean($toggle);
+        $data = $request->input($payloadKey, []);
+        // If disabled: delete existing
+        if (!$enabled) {
+            if ($report->{$relationMethod}) {
+                $report->{$relationMethod}()->delete();
+            }
+            return;
+        }
+        if (empty($data)) { return; }
+        // If exists update else create
+        if ($report->{$relationMethod}) {
+            $report->{$relationMethod}->update($data);
+        } else {
+            $report->{$relationMethod}()->create($data);
+        }
     }
 
     /**
