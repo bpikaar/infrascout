@@ -134,7 +134,7 @@
                     <div class="mb-4"><strong>Nummer:</strong> {{ $report->project->number }}</div>
                     <div class="mb-4"><strong>Uitvoerder:</strong> {{ $report->fieldWorker->name }} (<a href="mailto: {{ $report->fieldWorker->email }} ">{{ $report->fieldWorker->email }}</a>)</div>
 
-                    <div><strong>Datum werk:</strong> {{ $report->date_of_work->format('d-m-Y H:i') }}</div>
+                    <div><strong>Datum werk:</strong> {{ $report->date_of_work->format('d-m-Y') }}</div>
                 </td>
                 {{--            <td>--}}
                 {{--                <div class="subhead upper">Medewerker</div>--}}
@@ -232,19 +232,53 @@
                             <tr><th>Frequentie</th><td>{{ $report->radioDetection->frequentie }}</td></tr>
                             <tr><th>Aansluiting</th><td>{{ $report->radioDetection->aansluiting }}</td></tr>
                             <tr><th>Zender type</th><td>{{ $report->radioDetection->zender_type }}</td></tr>
+
                             @if($report->radioDetection->sonde_type)
                                 <tr>
-                                    <th>Signaal met sonde</th>
-                                    <td>Omschrijving wordt aangeleverd door Rene</td>
-                                </tr>
-                                <tr>
-                                    <th>Sonde type</th>
-                                    <td>{{ $report->radioDetection->sonde_type }}</td>
+                                    <th style="vertical-align:top">Signaal met sonde</th>
+                                    <td>
+                                        <table style="width:100%;border-collapse:collapse;border:0;margin:0;padding:0;">
+                                            <tr>
+                                                <td style="vertical-align:top;padding:0 12px 0 0;width:50%;">
+                                                    <label style="display:block;align-items:flex-start;">
+                                                        <input type="checkbox" disabled checked style="margin-right:8px;vertical-align:middle;" />
+                                                        <strong style="vertical-align:middle;">Signaal met sonde</strong>
+                                                    </label>
+                                                    <p class="text-small" style="margin-top:6px;">{{ __('report.description.signaal_met_sonde') }}</p>
+                                                </td>
+                                                <td style="vertical-align:top;padding:0 0 0 12px;width:50%;">
+                                                    <strong>Sonde type</strong>
+                                                    <div>{{ $report->radioDetection->sonde_type }}</div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
                                 </tr>
                             @endif
+
                             @if($report->radioDetection->geleider_frequentie)
-                                <tr><th>Geleider frequentie</th><td>{{ $report->radioDetection->geleider_frequentie }}</td></tr>
+                                <tr>
+                                    <th style="vertical-align:top">Signaal met geleider</th>
+                                    <td>
+                                        <table style="width:100%;border-collapse:collapse;border:0;margin:0;padding:0;">
+                                            <tr>
+                                                <td style="vertical-align:top;padding:0 12px 0 0;width:50%;">
+                                                    <label style="display:block;align-items:flex-start;">
+                                                        <input type="checkbox" disabled checked style="margin-right:8px;vertical-align:middle;" />
+                                                        <strong style="vertical-align:middle;">Signaal met geleider</strong>
+                                                    </label>
+                                                    <p class="text-small" style="margin-top:6px;">{{ __('report.description.signaal_met_geleider') }}</p>
+                                                </td>
+                                                <td style="vertical-align:top;padding:0 0 0 12px;width:50%;">
+                                                    <strong>Frequentie (Hz)</strong>
+                                                    <div>{{ $report->radioDetection->geleider_frequentie }}</div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
                             @endif
+
                             </tbody>
                         </table>
                     </div>

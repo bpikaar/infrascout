@@ -16,7 +16,10 @@ return [
         'pdf' => 'Rapport #:id',
         'work_performed' => 'Uitgevoerde werkzaamheden (aanvinken)',
     ],
-
+    'description' => [
+        'signaal_met_sonde' => 'Dummy uitleg: Hiermee lokaliseer je het traject met een sonde geplaatst in de leiding.',
+        'signaal_met_geleider' => 'Dummy uitleg: Actieve meting via geleidende aansluiting voor nauwkeurige tracering.',
+    ],
     'project' => [
         'for_project' => 'Voor project: :name',
         'label' => 'Project',

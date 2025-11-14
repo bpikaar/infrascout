@@ -67,7 +67,7 @@
                 <input type="checkbox" name="signaal_met_sonde" value="1" x-model="metSonde" class="mt-1 rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                 <span class="text-gray-800 dark:text-gray-200">
                     <span class="font-semibold">Signaal met sonde</span><br>
-                    <span class="text-xs text-gray-600 dark:text-gray-400">Dummy uitleg: Hiermee lokaliseer je het traject met een sonde geplaatst in de leiding.</span>
+                    <span class="text-xs text-gray-600 dark:text-gray-400">{{ __('report.description.signaal_met_sonde') }}</span>
                 </span>
             </label>
 
@@ -91,7 +91,7 @@
                 <input type="checkbox" name="signaal_met_geleider" value="1" x-model="metGeleider" class="mt-1 rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                 <span class="text-gray-800 dark:text-gray-200">
                     <span class="font-semibold">Signaal met geleider</span><br>
-                    <span class="text-xs text-gray-600 dark:text-gray-400">Dummy uitleg: Actieve meting via geleidende aansluiting voor nauwkeurige tracering.</span>
+                    <span class="text-xs text-gray-600 dark:text-gray-400">{{ __('report.description.signaal_met_sonde') }}</span>
                 </span>
             </label>
             <div x-show="metGeleider" x-transition>
