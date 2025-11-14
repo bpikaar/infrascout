@@ -1,7 +1,6 @@
 @php
     $mode = $mode ?? 'create'
 @endphp
-
 <!-- Shared form fields for create/edit -->
 <!-- Project & basic details -->
 <div class="bg-gray-200 dark:bg-gray-500 p-4 rounded-lg">
@@ -37,7 +36,7 @@
 
 <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
     <x-input-label for="title" :value="__('report.fields.title')" />
-    <x-text-input id="title" name="title" type="text" class="block mt-1 w-full" :value="old('title', $report->title ?? '')" required />
+    <x-text-input id="title" name="title" type="text" class="block mt-1 w-full" :value="old('title', $report->title ?? '')" placeholder="{{ __('report.placeholders.title') }}" required />
     <x-input-error :messages="$errors->get('title')" class="mt-2" />
 </div>
 
@@ -46,17 +45,17 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
             <x-input-label for="work_hours" :value="__('report.fields.work_hours')" />
-            <x-text-input id="work_hours" name="work_hours" type="text" class="block mt-1 w-full" :value="old('work_hours', $report->work_hours ?? '')" required />
+            <x-text-input id="work_hours" name="work_hours" type="text" class="block mt-1 w-full" :value="old('work_hours', $report->work_hours ?? '')" placeholder="{{__('report.placeholders.work_hours')}}" required />
             <x-input-error :messages="$errors->get('work_hours')" class="mt-2" />
         </div>
         <div>
             <x-input-label for="travel_time" :value="__('report.fields.travel_time')" />
-            <x-text-input id="travel_time" name="travel_time" type="text" class="block mt-1 w-full" :value="old('travel_time', $report->travel_time ?? '')" required />
+            <x-text-input id="travel_time" name="travel_time" type="text" class="block mt-1 w-full" :value="old('travel_time', $report->travel_time ?? '')" placeholder="{{__('report.placeholders.travel_time')}}" required />
             <x-input-error :messages="$errors->get('travel_time')" class="mt-2" />
         </div>
         <div class="md:col-span-2">
             <x-input-label for="description" :value="__('report.fields.description')" />
-            <textarea id="description" name="description" rows="6" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md" required>{{ old('description', $report->description ?? '') }}</textarea>
+            <textarea id="description" name="description" rows="6" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md" placeholder="{{__('report.placeholders.description')}}" required>{{ old('description', $report->description ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
     </div>
@@ -76,6 +75,7 @@
     $gpsMeasurementEnabledOld = (bool) old('gps_measurement_enabled', isset($report) && $report->gpsMeasurement ? true : false);
     $lanceEnabledOld = (bool) old('lance_enabled', isset($report) && $report->lance ? true : false);
 @endphp
+
 <div x-data="{ radioEnabled: @json($radioEnabledOld), enabledGyroscope: @json($gyroEnabledOld), testTrenchEnabled: @json($testTrenchEnabledOld), groundRadarEnabled: @json($groundRadarEnabledOld), cableFailureEnabled: @json($cableFailureEnabledOld), gpsMeasurementEnabled: @json($gpsMeasurementEnabledOld), lanceEnabled: @json($lanceEnabledOld) }" class="space-y-6">
     <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
         <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work_performed') }}</h2>
@@ -125,17 +125,17 @@
     <div class="grid grid-cols-1 gap-4">
         <div>
             <x-input-label for="results_summary" value="Samenvatting resultaten" />
-            <textarea id="results_summary" name="results_summary" rows="4" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('results_summary', $report->results_summary ?? '') }}</textarea>
+            <textarea id="results_summary" name="results_summary" rows="4" placeholder="{{__('report.placeholders.summary')}}" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('results_summary', $report->results_summary ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('results_summary')" class="mt-2" />
         </div>
         <div>
             <x-input-label for="advice" value="Advies / aanbevelingen" />
-            <textarea id="advice" name="advice" rows="4" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('advice', $report->advice ?? '') }}</textarea>
+            <textarea id="advice" name="advice" rows="4" placeholder="{{__('report.placeholders.advice')}}" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('advice', $report->advice ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('advice')" class="mt-2" />
         </div>
         <div>
             <x-input-label for="follow_up" value="Vervolgacties" />
-            <textarea id="follow_up" name="follow_up" rows="4" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('follow_up', $report->follow_up ?? '') }}</textarea>
+            <textarea id="follow_up" name="follow_up" rows="4" placeholder="{{__('report.placeholders.followup')}}" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('follow_up', $report->follow_up ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('follow_up')" class="mt-2" />
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

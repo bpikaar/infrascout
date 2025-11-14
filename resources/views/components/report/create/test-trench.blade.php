@@ -62,7 +62,7 @@
 
         <div class="md:col-span-2">
             <x-input-label for="tt_bevindingen" value="Bevindingen" />
-            <textarea id="tt_bevindingen" name="test_trench[bevindingen]" rows="4" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('test_trench.bevindingen', $report->testTrench->bevindingen ?? '') }}</textarea>
+            <textarea id="tt_bevindingen" name="test_trench[bevindingen]" rows="4" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md" placeholder="Aangetroffen kabels / leidingen, diameter, materiaal">{{ old('test_trench.bevindingen', $report->testTrench->bevindingen ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('test_trench.bevindingen')" class="mt-2" />
         </div>
     </div>

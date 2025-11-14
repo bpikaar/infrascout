@@ -51,7 +51,10 @@ return [
         'diameter' => 'bv. 12.5',
         'work_hours' => 'bv. 8 uur, 09:00-17:00',
         'travel_time' => 'bv. 2 uur, 45 minuten',
-        'description' => 'Beschrijf het uitgevoerde werk, eventuele problemen en resultaten...'
+        'description' => 'Beschrijf het uitgevoerde werk, eventuele problemen en resultaten...',
+        'summary' => 'Beschrijf de samenvatting van de resultaten.',
+        'advice' => 'Beschrijf hier het advies wat uitgebracht wordt aan de opdrachtgever.',
+        'followup' => 'Beschrijf de vervolgacties.',
     ],
 
     'images' => [

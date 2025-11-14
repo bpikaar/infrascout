@@ -16,7 +16,7 @@
         </div>
 
         <div>
-            <x-input-label for="gr_ingestelde_detectiediepte" value="Ingestelde detectiediepte" />
+            <x-input-label for="gr_ingestelde_detectiediepte" value="Ingestelde detectiediepte (m)" />
             <x-text-input id="gr_ingestelde_detectiediepte" name="ground_radar[ingestelde_detectiediepte]" type="text" class="block mt-1 w-full" :value="old('ground_radar.ingestelde_detectiediepte', $report->groundRadar->ingestelde_detectiediepte ?? '')" />
             <x-input-error :messages="$errors->get('ground_radar.ingestelde_detectiediepte')" class="mt-2" />
         </div>

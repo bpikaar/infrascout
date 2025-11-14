@@ -51,7 +51,10 @@ return [
         'diameter' => 'e.g., 12.5',
         'work_hours' => 'e.g., 8 hours, 09:00-17:00',
         'travel_time' => 'e.g., 2 hours, 45 minutes',
-        'description' => 'Describe the work performed, any issues encountered, and results...'
+        'description' => 'Describe the work performed, any issues encountered, and results...',
+        'summary' => 'Describe the summary of the results',
+	    'advice' => 'Describe here the advice that is provided to the client.',
+	    'followup' => 'Describe the follow-up actions.'
     ],
 
     'images' => [
