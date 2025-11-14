@@ -1,2 +1,8 @@
 *
 !.gitignore
+
+# Allow the images directory and the images/static folder to be tracked
+# Allow the images directory and the images/static folder to be tracked
+!images/
+!images/static/
+!images/static/**
