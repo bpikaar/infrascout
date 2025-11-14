@@ -3,15 +3,38 @@
     <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Radiodetectie') }}</h2>
 
     @php($radio = $report?->radioDetection)
-    <div x-data="{ type: @js(old('radio_detection.aansluiting', $radio->aansluiting ?? 'Passief')) }" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    @php($sonde = $radio->sonde_type ?? '')
+    @php($freq = $radio->geleider_frequentie ?? '')
+    <div x-data="{
+            aansluiting: @js(old('radio_detection.aansluiting', $radio->aansluiting ?? 'Passief')),
+            metSonde: @js((bool) (old('signaal_met_sonde') ?? old('radio_detection.sonde_type') ?? $sonde)),
+            metGeleider: @js((bool) (old('signaal_met_geleider') ?? old('radio_detection.geleider_frequentie') ?? $freq)),
+        }"
+        x-init="
+            // clear sonde select when checkbox becomes unchecked
+            $watch('metSonde', value => {
+                if (!value && $refs.rd_sonde_type) {
+                    $refs.rd_sonde_type.value = '';
+                    $refs.rd_sonde_type.selectedIndex = 0;
+                }
+            });
+            // clear geleider select when checkbox becomes unchecked
+            $watch('metGeleider', value => {
+                if (!value && $refs.rd_geleider_frequentie) {
+                    $refs.rd_geleider_frequentie.value = '';
+                    $refs.rd_geleider_frequentie.selectedIndex = 0;
+                }
+            });
+        " class="mt-4 space-y-6">
+        <!-- Base grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="md:col-span-2">
-                <x-input-label for="rd_signaal_op_kabel" value="Signaal op kabel (mA)" />
+                <x-input-label for="rd_signaal_op_kabel" value="Signaal op kabel" />
                 <textarea id="rd_signaal_op_kabel" name="radio_detection[signaal_op_kabel]" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('radio_detection.signaal_op_kabel', $radio->signaal_op_kabel ?? '') }}</textarea>
                 <x-input-error :messages="$errors->get('radio_detection.signaal_op_kabel')" class="mt-2" />
             </div>
-
             <div>
-                <x-input-label for="rd_signaal_sterkte" value="Signaal sterkte" />
+                <x-input-label for="rd_signaal_sterkte" value="Signaalsterkte (mA)" />
                 <x-text-input id="rd_signaal_sterkte" name="radio_detection[signaal_sterkte]" type="text" class="block mt-1 w-full" :value="old('radio_detection.signaal_sterkte', $radio->signaal_sterkte ?? '')" />
                 <x-input-error :messages="$errors->get('radio_detection.signaal_sterkte')" class="mt-2" />
             </div>
@@ -20,10 +43,9 @@
                 <x-text-input id="rd_frequentie" name="radio_detection[frequentie]" type="text" class="block mt-1 w-full" :value="old('radio_detection.frequentie', $radio->frequentie ?? '')" />
                 <x-input-error :messages="$errors->get('radio_detection.frequentie')" class="mt-2" />
             </div>
-
             <div>
                 <x-input-label for="rd_aansluiting" value="Aansluiting" />
-                <select id="rd_aansluiting" name="radio_detection[aansluiting]" x-model="type" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
+                <select id="rd_aansluiting" name="radio_detection[aansluiting]" x-model="aansluiting" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                     <option value="Passief">Passief</option>
                     <option value="Actief">Actief</option>
                 </select>
@@ -37,13 +59,23 @@
                 </select>
                 <x-input-error :messages="$errors->get('radio_detection.zender_type')" class="mt-2" />
             </div>
+        </div>
 
-            <!-- Conditional fields -->
-            <div x-show="type==='Passief'">
+        <!-- Checkbox: signaal met sonde -->
+        <div class="space-y-2">
+            <label class="flex items-start space-x-2">
+                <input type="checkbox" name="signaal_met_sonde" value="1" x-model="metSonde" class="mt-1 rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                <span class="text-gray-800 dark:text-gray-200">
+                    <span class="font-semibold">Signaal met sonde</span><br>
+                    <span class="text-xs text-gray-600 dark:text-gray-400">Dummy uitleg: Hiermee lokaliseer je het traject met een sonde geplaatst in de leiding.</span>
+                </span>
+            </label>
+
+            <div x-show="metSonde" x-transition>
                 <x-input-label for="rd_sonde_type" value="Sonde type" />
-                @php($sonde = $radio->sonde_type ?? '')
-                <select id="rd_sonde_type" name="radio_detection[sonde_type]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
+                <select id="rd_sonde_type" x-ref="rd_sonde_type" name="radio_detection[sonde_type]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                     <option value="">-</option>
+                    <option value="S18" @selected(old('radio_detection.sonde_type', $sonde)==='S18')>S18</option>
                     <option value="Rioolsonde" @selected(old('radio_detection.sonde_type', $sonde)==='Rioolsonde')>Rioolsonde</option>
                     <option value="Joepert" @selected(old('radio_detection.sonde_type', $sonde)==='Joepert')>Joepert</option>
                     <option value="Joekeloekie" @selected(old('radio_detection.sonde_type', $sonde)==='Joekeloekie')>Joekeloekie</option>
@@ -51,11 +83,20 @@
                 </select>
                 <x-input-error :messages="$errors->get('radio_detection.sonde_type')" class="mt-2" />
             </div>
+        </div>
 
-            <div x-show="type==='Actief'">
-                <x-input-label for="rd_geleider_frequentie" value="Geleider frequentie" />
-                @php($freq = $radio->geleider_frequentie ?? '')
-                <select id="rd_geleider_frequentie" name="radio_detection[geleider_frequentie]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
+        <!-- Checkbox: signaal met geleider -->
+        <div class="space-y-2">
+            <label class="flex items-start space-x-2">
+                <input type="checkbox" name="signaal_met_geleider" value="1" x-model="metGeleider" class="mt-1 rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                <span class="text-gray-800 dark:text-gray-200">
+                    <span class="font-semibold">Signaal met geleider</span><br>
+                    <span class="text-xs text-gray-600 dark:text-gray-400">Dummy uitleg: Actieve meting via geleidende aansluiting voor nauwkeurige tracering.</span>
+                </span>
+            </label>
+            <div x-show="metGeleider" x-transition>
+                <x-input-label for="rd_geleider_frequentie" value="Frequentie (Hz)" />
+                <select id="rd_geleider_frequentie" x-ref="rd_geleider_frequentie" name="radio_detection[geleider_frequentie]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                     <option value="">-</option>
                     <option value="285hz" @selected(old('radio_detection.geleider_frequentie', $freq)==='285hz')>285hz</option>
                     <option value="320hz" @selected(old('radio_detection.geleider_frequentie', $freq)==='320hz')>320hz</option>
@@ -67,5 +108,6 @@
                 </select>
                 <x-input-error :messages="$errors->get('radio_detection.geleider_frequentie')" class="mt-2" />
             </div>
+        </div>
     </div>
 </div>

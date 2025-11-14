@@ -233,7 +233,14 @@
                             <tr><th>Aansluiting</th><td>{{ $report->radioDetection->aansluiting }}</td></tr>
                             <tr><th>Zender type</th><td>{{ $report->radioDetection->zender_type }}</td></tr>
                             @if($report->radioDetection->sonde_type)
-                                <tr><th>Sonde type</th><td>{{ $report->radioDetection->sonde_type }}</td></tr>
+                                <tr>
+                                    <th>Signaal met sonde</th>
+                                    <td>Omschrijving wordt aangeleverd door Rene</td>
+                                </tr>
+                                <tr>
+                                    <th>Sonde type</th>
+                                    <td>{{ $report->radioDetection->sonde_type }}</td>
+                                </tr>
                             @endif
                             @if($report->radioDetection->geleider_frequentie)
                                 <tr><th>Geleider frequentie</th><td>{{ $report->radioDetection->geleider_frequentie }}</td></tr>

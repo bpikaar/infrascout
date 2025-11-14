@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('zender_type', ['Radiodetection TX10', 'Vivax TX10']);
 
             // Signaal met sonde
-            $table->enum('sonde_type', ['Rioolsonde', 'Joepert', 'Joekeloekie', 'Boorsonde'])->nullable();
+            $table->enum('sonde_type', ['S18', 'Rioolsonde', 'Joepert', 'Joekeloekie', 'Boorsonde'])->nullable();
             // signaal met geleider
             $table->enum('geleider_frequentie', ['285hz', '320hz', '1khz', '4khz cd', '8khz', '8440khz', '33khz'])->nullable();
 

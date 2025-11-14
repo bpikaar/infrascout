@@ -18,8 +18,8 @@ class RadioDetection extends Model
         'frequentie',
         'aansluiting',
         'zender_type',
-        'sonde_type',
-        'geleider_frequentie',
+        'sonde_type', // only when "signaal met sonde" checkbox is ticked in UI
+        'geleider_frequentie', // only when "signaal met geleider" checkbox is ticked in UI
     ];
 
     public function report(): BelongsTo
