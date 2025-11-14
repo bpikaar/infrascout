@@ -33,14 +33,14 @@ class StoreReportRequest extends FormRequest
             // If id is NOT present, we require the fields for a new cable
             'cables.*.cable_type' => ['required_without:cables.*.id', 'string', 'max:255'],
             'cables.*.material' => ['required_without:cables.*.id', 'in:GPLK,XLPE,Kunststof'],
-            'cables.*.diameter' => ['nullable', 'numeric'],
+            'cables.*.diameter' => ['required_without:cables.*.id', 'numeric'],
 
             // If id is NOT present, we require the fields for a new pipe
             'pipes'             => ['nullable', 'array'],
             'pipes.*.id'        => ['nullable', 'integer', 'exists:pipes,id'],
             'pipes.*.pipe_type' => ['required_without:pipes.*.id', 'string', 'max:255'],
             'pipes.*.material'  => ['required_without:pipes.*.id', 'string', 'max:255'],
-            'pipes.*.diameter'  => ['nullable', 'numeric'],
+            'pipes.*.diameter'  => ['required_without:pipes.*.id', 'numeric'],
             'description'       => ['required', 'string'],
             'work_hours'        => ['required', 'string', 'max:255'],
             'travel_time'       => ['required', 'string', 'max:255'],
