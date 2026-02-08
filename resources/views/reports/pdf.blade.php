@@ -6,7 +6,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
         /* Base Styling */
-        @page { margin: 0; }
+        @page {
+            /* Dit zorgt voor ruimte op ELKE pagina, inclusief pagina 2, 3, etc. */
+            margin-top: 2cm;
+            margin-bottom: 1cm;
+            margin-left: 1.75cm;
+            margin-right: 1.75cm;
+        }
         body {
             font-family: Helvetica, Arial, sans-serif;
             font-size: 13px;
@@ -30,7 +36,7 @@
 
         /* Layout */
         .page {
-            padding: 40px 50px 80px 50px; /* Bottom padding for footer */
+            /*padding: 40px 50px 80px 50px; !* Bottom padding for footer *!*/
             position: relative;
         }
         .page-break { page-break-after: always; }
@@ -82,9 +88,9 @@
         /* Component: Footer */
         .footer {
             position: fixed;
-            bottom: 30px;
-            left: 50px;
-            right: 50px;
+            bottom: 25px;
+            left: 10px;
+            right: 10px;
             height: 30px;
             border-top: 1px solid #eee;
             padding-top: 10px;
