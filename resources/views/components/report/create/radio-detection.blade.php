@@ -26,6 +26,8 @@
                 }
             });
         " class="mt-4 space-y-6">
+
+        <p class="text-sm text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-line bg-white/70 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-md p-3">{{ \App\Models\RadioDetection::description() }}</p>
         <!-- Base grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="md:col-span-2">

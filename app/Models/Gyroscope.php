@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\MethodType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,5 +34,11 @@ class Gyroscope extends Model
     public function report(): BelongsTo
     {
         return $this->belongsTo(Report::class);
+    }
+
+    public static function description(): ?string {
+        return \DB::table('method_descriptions')
+            ->where('method_type', MethodType::Lance->value)
+            ->value('description');
     }
 }

@@ -51,12 +51,12 @@
         /* Component: Tables */
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         th, td { padding: 8px 10px; text-align: left; vertical-align: top; font-size: 12px; }
-        
+
         /* Key-Value Table */
         .kv-table td { border-bottom: 1px solid #f0f0f0; }
         .kv-table th { width: 160px; color: #666; font-weight: normal; border-bottom: 1px solid #f0f0f0; }
         .kv-table tr:last-child th, .kv-table tr:last-child td { border-bottom: none; }
-        
+
         /* Data Table (Striped) */
         .data-table thead th {
             background-color: #21abde;
@@ -197,7 +197,7 @@
 
         {{-- Cables & Pipes Section --}}
         <h2>Kabels &amp; Leidingen</h2>
-        
+
         <h3>Kabels</h3>
         @if($report->cables->count())
             <table class="data-table">
@@ -256,6 +256,7 @@
             @if($report->radioDetection)
                 <div class="mb-28">
                     <h3>Radiodetectie</h3>
+                    <div class="panel">{{ \App\Models\RadioDetection::description() }}</div>
                     <table class="kv-table">
                         <tr><th>Signaal op kabel</th><td>{{ $report->radioDetection->signaal_op_kabel }}</td></tr>
                         <tr><th>Signaal sterkte</th><td>{{ $report->radioDetection->signaal_sterkte }}</td></tr>
@@ -275,6 +276,7 @@
             @if($report->groundRadar)
                 <div class="mb-28">
                     <h3>Grondradar</h3>
+                    <div class="panel">{{ \App\Models\GroundRadar::description() }}</div>
                     <table class="kv-table">
                         <tr><th>Radarbeeld</th><td>{{ $report->groundRadar->radarbeeld }}</td></tr>
                         <tr><th>Detectiediepte</th><td>{{ $report->groundRadar->ingestelde_detectiediepte }}</td></tr>
@@ -285,6 +287,7 @@
             @if($report->gyroscope)
                 <div class="mb-28">
                     <h3>Gyroscoopmeting</h3>
+                    <div class="panel">{{ \App\Models\Gyroscope::description() }}</div>
                     <table class="kv-table">
                         <tr><th>Type boring</th><td>{{ $report->gyroscope->type_boring }}</td></tr>
                         <tr><th>Intredepunt</th><td>{{ $report->gyroscope->intredepunt }}</td></tr>
@@ -304,6 +307,7 @@
             @if($report->testTrench)
                 <div class="mb-28">
                     <h3>Proefsleuf</h3>
+                    <div class="panel">{{ \App\Models\TestTrench::description() }}</div>
                     <table class="kv-table">
                         <tr><th>Gemaakt</th><td>{{ $report->testTrench->proefsleuf_gemaakt ? 'Ja' : 'Nee' }}</td></tr>
                         <tr><th>Manier van graven</th><td>{{ $report->testTrench->manier_van_graven }}</td></tr>
@@ -316,9 +320,10 @@
                 </div>
             @endif
 
-             @if($report->cableFailure)
+            @if($report->cableFailure)
                 <div class="mb-28">
                     <h3>Kabelstoring</h3>
+                    <div class="panel">{{ \App\Models\CableFailure::description() }}</div>
                     <table class="kv-table">
                         <tr><th>Type storing</th><td>{{ $report->cableFailure->type_storing }}</td></tr>
                         <tr><th>Locatie</th><td>{{ $report->cableFailure->locatie_storing }}</td></tr>
@@ -337,6 +342,7 @@
             @if($report->gpsMeasurement)
                 <div class="mb-28">
                     <h3>GPS-meting</h3>
+                    <div class="panel">{{ \App\Models\GPSMeasurement::description() }}</div>
                      <table class="kv-table">
                         <tr><th>Gemeten met</th><td>{{ $report->gpsMeasurement->gemeten_met }}</td></tr>
                         <tr><th>Data naar tekenaar</th><td>{{ $report->gpsMeasurement->data_verstuurd_naar_tekenaar ? 'Ja' : 'Nee' }}</td></tr>
@@ -349,6 +355,7 @@
             @if($report->lance)
                  <div class="mb-28">
                     <h3>Aanlansen / Aanprikken</h3>
+                    <div class="panel">{{ \App\Models\Lance::description() }}</div>
                      <table class="kv-table">
                          <tr><th>Aanprikdiepte</th><td>{{ $report->lance->aanprikdiepte !== null ? number_format($report->lance->aanprikdiepte, 2, ',', '.') : '-' }} m</td></tr>
                     </table>
@@ -382,10 +389,10 @@
         @if($report->images->count())
             <div class="page-break"></div>
             <h2>Afbeeldingen</h2>
-            
+
             <div class="image-gallery">
                 @foreach($report->images as $image)
-                    @php 
+                    @php
                         $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path);
                     @endphp
                     @if(file_exists($path))
