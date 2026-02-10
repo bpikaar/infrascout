@@ -4,6 +4,7 @@ return [
     'dashboard' => 'Dashboard',
     'projects' => 'Projects',
     'reports' => 'Reports',
+    'descriptions' => 'Descriptions',
     'profile' => 'Profile',
     'logout' => 'Log Out',
     'login' => 'Log In',

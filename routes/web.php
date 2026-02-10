@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MethodDescriptionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReportController;
@@ -33,6 +34,10 @@ Route::middleware('auth')->group(callback: function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/method-descriptions', [MethodDescriptionController::class, 'index'])->name('method-descriptions.index');
+    Route::get('/method-descriptions/{methodDescription}/edit', [MethodDescriptionController::class, 'edit'])->name('method-descriptions.edit');
+    Route::put('/method-descriptions/{methodDescription}', [MethodDescriptionController::class, 'update'])->name('method-descriptions.update');
 });
 
 require __DIR__.'/auth.php';
