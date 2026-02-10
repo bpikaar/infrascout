@@ -27,8 +27,7 @@ class GroundRadar extends Model
     }
 
     public static function description(): ?string {
-        return \DB::table('method_descriptions')
-            ->where('method_type', MethodType::GroundRadar->value)
+        return MethodDescription::where('method_type', MethodType::GroundRadar->value)
             ->value('description');
     }
 }

@@ -29,8 +29,12 @@ class RadioDetection extends Model
     }
 
     public static function description(): ?string {
-        return \DB::table('method_descriptions')
-            ->where('method_type', MethodType::RadioDetection->value)
+        return MethodDescription::where('method_type', MethodType::RadioDetection->value)
+            ->value('description');
+    }
+
+    public static function signalDescriptionFor(string $type): ?string {
+        return MethodDescription::where('method_type', $type)
             ->value('description');
     }
 }

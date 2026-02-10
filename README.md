@@ -42,6 +42,18 @@ if the generation of a pdf changes in `GenerateReportPdf` restart queue worker
 php artisan queue:work
 ```
 
+#### known issue
+The problem: The Blade compiler can have issues with multi-line `@php` blocks, especially when nested inside loops like `@foreach`. When Blade compiles `@php...@endphp` to raw PHP, it can sometimes create parsing conflicts with the surrounding Blade directives, leading to "unexpected token" errors.
+
+domPdf recently shows issues with `@php` directives
+
+```php
+<?php ?>
+// instead of 
+@php
+    somehing
+@endphp
+```
 ## publish vendor
 
 ```

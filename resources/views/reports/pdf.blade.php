@@ -135,7 +135,6 @@
             height: auto;
             border: 1px solid #eee;
             border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .no-data { font-style: italic; color: #888; padding: 10px 0; }
     </style>
@@ -254,7 +253,7 @@
             <div class="no-data">Geen leidingen geregistreerd.</div>
         @endif
 
-        {{-- Measurements / Executed Work --}}
+        {{-- Measurements / Executed Work--}}
         @if($report->radioDetection || $report->gyroscope || $report->testTrench || $report->groundRadar || $report->cableFailure || $report->gpsMeasurement || $report->lance)
             <div class="page-break"></div>
             <h2>Uitgevoerde Werkzaamheden</h2>
@@ -263,19 +262,32 @@
                 <div class="mb-28">
                     <h3>Radiodetectie</h3>
                     <div class="panel">{{ \App\Models\RadioDetection::description() }}</div>
+
+                    @if($report->radioDetection->sonde_type)
+                        <h4>Signaal met sonde</h4>
+                        <div class="panel">{{ \App\Models\RadioDetection::signalDescriptionFor(\App\Enums\MethodType::SignalSonde->value) }}</div>
+                        <table class="kv-table" style="margin-top: 10px;">
+                            <tr><th>Sonde type</th><td>{{ $report->radioDetection->sonde_type }}</td></tr>
+                        </table>
+                    @endif
+
+                    @if($report->radioDetection->geleider_frequentie)
+                        <h4>Signaal met geleider</h4>
+                        <div class="panel">{{ \App\Models\RadioDetection::signalDescriptionFor(\App\Enums\MethodType::SignalGeleider->value) }}</div>
+                        <table class="kv-table" style="margin-top: 10px;">
+                            <tr><th>Geleider frequentie</th><td>{{ $report->radioDetection->geleider_frequentie }} Hz</td></tr>
+                        </table>
+                    @endif
+
                     <table class="kv-table">
                         <tr><th>Signaal op kabel</th><td>{{ $report->radioDetection->signaal_op_kabel }}</td></tr>
                         <tr><th>Signaal sterkte</th><td>{{ $report->radioDetection->signaal_sterkte }}</td></tr>
                         <tr><th>Frequentie</th><td>{{ $report->radioDetection->frequentie }}</td></tr>
                         <tr><th>Aansluiting</th><td>{{ $report->radioDetection->aansluiting }}</td></tr>
                         <tr><th>Zender type</th><td>{{ $report->radioDetection->zender_type }}</td></tr>
-                        @if($report->radioDetection->sonde_type)
-                            <tr><th>Sonde type</th><td>{{ $report->radioDetection->sonde_type }}</td></tr>
-                        @endif
-                         @if($report->radioDetection->geleider_frequentie)
-                            <tr><th>Geleider Freq.</th><td>{{ $report->radioDetection->geleider_frequentie }} Hz</td></tr>
-                        @endif
                     </table>
+
+
                 </div>
             @endif
 
@@ -330,11 +342,15 @@
                 <div class="mb-28">
                     <h3>Kabelstoring</h3>
                     <div class="panel">{{ \App\Models\CableFailure::description() }}</div>
+                    @php($methodeDescription = \App\Models\CableFailure::methodDescriptionFor($report->cableFailure->methode_vaststelling ?? null))
+                    @if($methodeDescription)
+                        <div class="panel">{{ $methodeDescription }}</div>
+                    @endif
                     <table class="kv-table">
                         <tr><th>Type storing</th><td>{{ $report->cableFailure->type_storing }}</td></tr>
                         <tr><th>Locatie</th><td>{{ $report->cableFailure->locatie_storing }}</td></tr>
+                        <tr><th>Kabel met aftakking</th><td>{{ $report->cableFailure->kabel_met_aftakking ? 'Ja' : 'Nee' }}</td></tr>
                         <tr><th>Methode</th><td>{{ $report->cableFailure->methode_vaststelling }}</td></tr>
-                        <tr><th>Aftakking</th><td>{{ $report->cableFailure->kabel_met_aftakking ? 'Ja' : 'Nee' }}</td></tr>
                         @if($report->cableFailure->bijzonderheden)
                             <tr><th>Bijzonderheden</th><td>{{ $report->cableFailure->bijzonderheden }}</td></tr>
                         @endif
@@ -398,9 +414,7 @@
 
             <div class="image-gallery">
                 @foreach($report->images as $image)
-                    @php
-                        $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path);
-                    @endphp
+                    <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
                     @if(file_exists($path))
                         <div class="gallery-item">
                             <img src="{{ $path }}" alt="Report Image" class="report-image">

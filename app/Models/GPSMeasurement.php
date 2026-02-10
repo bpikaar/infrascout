@@ -30,8 +30,7 @@ class GPSMeasurement extends Model
     }
 
     public static function description(): ?string {
-        return \DB::table('method_descriptions')
-            ->where('method_type', MethodType::GpsMeasurement->value)
+        return MethodDescription::where('method_type', MethodType::GpsMeasurement->value)
             ->value('description');
     }
 }

@@ -32,9 +32,10 @@ class MethodDescriptionsSeeder extends Seeder
         ],
         [
             'method_type' => MethodType::CableFailure->value,
-            'method_name' => 'Kabelstoring lokaliseren met TDR (Megger 2050)',
-            'description' => 'Met een Time Domain Reflectometer wordt een puls door de kabel gestuurd. Reflecties tonen de afstand tot de storing langs het kabeltracé. De nauwkeurigheid bedraagt doorgaans ±1% van de kabellengte (vaak ±0,5–2 m in de praktijk). De methode bepaalt geen diepte, alleen de lengtepositie.',
+            'method_name' => 'Kabelstoring',
+            'description' => 'Moet nog ingevuld worden.',
         ],
+
         [
             'method_type' => MethodType::GpsMeasurement->value,
             'method_name' => 'GPS inmeten (GNSS)',
@@ -45,21 +46,36 @@ class MethodDescriptionsSeeder extends Seeder
             'method_name' => 'Aanprikken met prikstok of spuitlans',
             'description' => 'Fysieke verificatiemethode waarbij voorzichtig wordt geprikt om de ligging te bevestigen. De positie kan tot enkele centimeters worden bepaald, situatie ter plaatse bepalen of deze techniek ingezet kan worden, zoals harde lagen en/of puin in de ondergrond.',
         ],
+
+        // cable failure
         [
-            'method_type' => '',
+            'method_type' => MethodType::TDR->value,
+            'method_name' => 'Kabelstoring lokaliseren met TDR (Megger 2050)',
+            'description' => 'Met een Time Domain Reflectometer wordt een puls door de kabel gestuurd. Reflecties tonen de afstand tot de storing langs het kabeltracé. De nauwkeurigheid bedraagt doorgaans ±1% van de kabellengte (vaak ±0,5–2 m in de praktijk). De methode bepaalt geen diepte, alleen de lengtepositie.',
+        ],
+        [
+            'method_type' => MethodType::AFrame->value,
             'method_name' => 'Kabelstoring opsporen met A-frame',
             'description' => 'Bij aardfouten wordt een foutstroom op de kabel gezet en het spanningsverschil in de bodem gemeten. De foutlocatie wordt doorgaans bepaald binnen ±0,1–0,5 m, afhankelijk van bodemgeleiding en foutsterkte. De diepteligging volgt uit de werkelijke ligging van de kabel.',
         ],
         [
-            'method_type' => '',
+            'method_type' => MethodType::Meggeren->value,
             'method_name' => 'Kabelstoring opsporen met radiodetectie',
             'description' => 'Het kabeltracé wordt gevolgd met een opgezet storingssignaal. Signaalveranderingen kunnen wijzen op de storingslocatie. De tracénauwkeurigheid is vergelijkbaar met standaard radiodetectie (±0,1–0,3 m). De storingslocatie is sterk afhankelijk van het type kabelstoring.',
         ],
+
+        // radiodetection
         [
-            'method_type' => '',
+            'method_type' => MethodType::SignalSonde->value,
             'method_name' => 'Lokaliseren d.m.v. sondes',
             'description' => 'Een sonde wordt in een leiding of mantelbuis ingebracht en bovengronds gedetecteerd. Hiermee worden tracé en diepte-indicatie bepaald. Fabrieksmatig wordt vaak ±5% van de diepte opgegeven. In de praktijk wordt rekening gehouden met ±5-10% van de meetdiepte, afhankelijk van diepte en storende invloeden. De sonde moet fysiek toegang hebben tot de leiding of buis.',
         ],
+        [
+            'method_type' => MethodType::SignalGeleider->value,
+            'method_name' => 'Lokaliseren d.m.v. geleider',
+            'description' => 'Een geleider',
+        ],
+
     ];
 
     /**
@@ -68,7 +84,7 @@ class MethodDescriptionsSeeder extends Seeder
     public function run(): void
     {
         foreach ($this->descriptions as $description) {
-            dump($description['method_type']);
+            
             DB::table('method_descriptions')->insert(
                 [
                     'method_type' => $description['method_type'],

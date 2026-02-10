@@ -31,8 +31,28 @@ class CableFailure extends Model
     }
 
     public static function description(): ?string {
-        return \DB::table('method_descriptions')
-            ->where('method_type', MethodType::CableFailure->value)
+        return MethodDescription::where('method_type', MethodType::CableFailure->value)
+            ->value('description');
+    }
+
+    public static function methodDescriptionFor(?string $method): ?string
+    {
+        if (!$method) {
+            return null;
+        }
+
+        $methodType = match ($method) {
+            'A-frame' => MethodType::AFrame->value,
+            'TDR' => MethodType::TDR->value,
+            'Meggeren' => MethodType::Meggeren->value,
+            default => null,
+        };
+
+        if (!$methodType) {
+            return null;
+        }
+
+        return MethodDescription::where('method_type', $methodType)
             ->value('description');
     }
 }

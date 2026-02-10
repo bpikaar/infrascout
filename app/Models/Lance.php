@@ -26,9 +26,7 @@ class Lance extends Model
     }
 
     public static function description(): ?string {
-        return \DB::table('method_descriptions')
-            ->where('method_type', MethodType::Lance->value)
+        return MethodDescription::where('method_type', MethodType::Lance->value)
             ->value('description');
     }
 }
-
