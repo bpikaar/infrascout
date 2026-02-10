@@ -75,7 +75,9 @@ php artisan lang:publish
 nohup php artisan queue:work --daemon &
 ```
 
-First I needed: stackoverflow.com/a/29292637/470749 Then nohup php artisan queue:work --daemon > storage/logs/laravel.log & worked for me. Note: if you want to kill the nohup daemon, you need to first discover its PID by running something like 
+First I needed: stackoverflow.com/a/29292637/470749 
+
+Then nohup php artisan queue:work --daemon > storage/logs/laravel.log & worked for me. Note: if you want to kill the nohup daemon, you need to first discover its PID by running something like 
 ```
 ps -ef |grep artisan
 ```

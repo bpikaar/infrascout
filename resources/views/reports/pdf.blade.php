@@ -260,22 +260,38 @@
 
             @if($report->radioDetection)
                 <div class="mb-28">
-                    <h3>Radiodetectie</h3>
+                    <h4>Radiodetectie</h4>
                     <div class="panel">{{ \App\Models\RadioDetection::description() }}</div>
 
                     @if($report->radioDetection->sonde_type)
-                        <h4>Signaal met sonde</h4>
-                        <div class="panel">{{ \App\Models\RadioDetection::signalDescriptionFor(\App\Enums\MethodType::SignalSonde->value) }}</div>
-                        <table class="kv-table" style="margin-top: 10px;">
-                            <tr><th>Sonde type</th><td>{{ $report->radioDetection->sonde_type }}</td></tr>
+                        <h4 style="margin-left: 10px">Signaal met sonde</h4>
+                        <table style="width: 100%; margin-bottom: 20px;">
+                            <tr>
+                                <td class="col-half" style="padding-right: 20px;">
+                                    <div class="panel" style="margin-bottom: 0;">{{ \App\Models\RadioDetection::signalDescriptionFor(\App\Enums\MethodType::SignalSonde->value) }}</div>
+                                </td>
+                                <td class="col-half" style="padding-left: 20px;">
+                                    <table class="kv-table">
+                                        <tr><th>Sonde type</th><td>{{ $report->radioDetection->sonde_type }}</td></tr>
+                                    </table>
+                                </td>
+                            </tr>
                         </table>
                     @endif
 
                     @if($report->radioDetection->geleider_frequentie)
-                        <h4>Signaal met geleider</h4>
-                        <div class="panel">{{ \App\Models\RadioDetection::signalDescriptionFor(\App\Enums\MethodType::SignalGeleider->value) }}</div>
-                        <table class="kv-table" style="margin-top: 10px;">
-                            <tr><th>Geleider frequentie</th><td>{{ $report->radioDetection->geleider_frequentie }} Hz</td></tr>
+                        <h4 style="margin-left: 10px">Signaal met geleider</h4>
+                        <table style="width: 100%; margin-bottom: 20px;">
+                            <tr>
+                                <td class="col-half" style="padding-right: 20px;">
+                                    <div class="panel" style="margin-bottom: 0;">{{ \App\Models\RadioDetection::signalDescriptionFor(\App\Enums\MethodType::SignalGeleider->value) }}</div>
+                                </td>
+                                <td class="col-half" style="padding-left: 20px;">
+                                    <table class="kv-table">
+                                        <tr><th>Geleider frequentie</th><td>{{ $report->radioDetection->geleider_frequentie }} Hz</td></tr>
+                                    </table>
+                                </td>
+                            </tr>
                         </table>
                     @endif
 
