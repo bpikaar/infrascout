@@ -71,16 +71,25 @@ php artisan lang:publish
 
 ## live server
 
-```
-nohup php artisan queue:work --daemon &
+On the server the queue is running under `screen`
+
+type to enter screen (attach)
+```bash
+screen -r
 ```
 
-First I needed: stackoverflow.com/a/29292637/470749 
-
-Then nohup php artisan queue:work --daemon > storage/logs/laravel.log & worked for me. Note: if you want to kill the nohup daemon, you need to first discover its PID by running something like 
+here runs 
+```bash
+php artisan queue:work
 ```
-ps -ef |grep artisan
-```
-. Then you can run kill [pid]
 
-https://laracasts.com/discuss/channels/laravel/queuework-no-way-to-keep-it-running
+Het standaard php artisan queue:work commando draait tegenwoordig altijd als daemon. Het laadt het framework één keer en blijft draaien tot je het handmatig stopt.
+
+## Navigate to window
+`CTRL + A + "`
+
+`CTRL + A + d` (detach)
+
+
+**REMEMBER TO RESTART queue:work after code update**
+
