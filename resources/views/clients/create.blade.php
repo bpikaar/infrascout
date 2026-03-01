@@ -51,7 +51,7 @@
                                             {{ old('name') ?: __('client.name') }}
                                         </h2>
                                         <p class="text-sm text-gray-500">
-                                            #<span id="preview-number">{{ old('number') ?: '000' }}</span> • {{ now()->toFormattedDayDateString() }}
+                                            <span id="preview-contact">{{ old('contact') ?: 'Meneer / Mevrouw' }}</span> • {{ now()->toDateString() }}
                                         </p>
                                     </div>
                                 </div>
@@ -86,9 +86,9 @@
             // Live preview update
             document.addEventListener('DOMContentLoaded', function() {
                 const nameInput = document.getElementById('name');
-                const numberInput = document.getElementById('number');
+                const contactInput = document.getElementById('contact');
                 const previewName = document.getElementById('preview-name');
-                const previewNumber = document.getElementById('preview-number');
+                const previewContact = document.getElementById('preview-contact');
                 const thumbnailInput = document.getElementById('thumbnail');
                 const previewImage = document.getElementById('preview-image');
 
@@ -96,8 +96,8 @@
                     previewName.textContent = this.value || @json(__('client.name'));
                 });
 
-                numberInput.addEventListener('input', function() {
-                    previewNumber.textContent = this.value || '000';
+                contactInput.addEventListener('input', function() {
+                    previewContact.textContent = this.value || 'Meneer / Mevrouw';
                 });
 
                 thumbnailInput.addEventListener('change', function(e) {

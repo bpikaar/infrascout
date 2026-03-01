@@ -21,6 +21,7 @@ return new class extends Migration {
             // Client
             $table->foreignIdFor(Client::class)->constrained();
 
+            $table->string('report_number')->nullable()->unique();
             $table->string('title');
             // company
             $table->string('company_location')->nullable();

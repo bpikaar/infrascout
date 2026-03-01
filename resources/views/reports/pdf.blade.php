@@ -167,7 +167,7 @@
                 <td style="vertical-align: middle; text-align: right;">
                     <h1>Werkrapport</h1>
                     <div class="text-muted" style="font-size: 16px;">{{ $report->title }}</div>
-                    <div class="mt-4 text-muted" style="font-size: 12px;">Datum waarop rapport is aangemaakt: {{ now()->format('d-m-Y') }}</div>
+                    <div class="mt-4 text-muted" style="font-size: 12px;">Rapportnummer: {{ $report->report_number }}<br>Aangemaakt op: {{ now()->format('d-m-Y') }}</div>
                 </td>
             </tr>
         </table>

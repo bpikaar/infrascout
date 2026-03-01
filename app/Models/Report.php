@@ -16,11 +16,23 @@ class Report extends Model
     ];
 
     /**
+     * Boot the model to automatically generate report_number.
+     */
+    protected static function booted()
+    {
+        static::created(function ($report) {
+            $report->report_number = $report->created_at->format('Ymd') . $report->id;
+            $report->saveQuietly();
+        });
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'report_number',
         'title',
         'user_id',
         'client_id',
