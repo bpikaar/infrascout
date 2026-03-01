@@ -181,7 +181,6 @@
                     <h3>Client</h3>
                     <table class="kv-table">
                         <tr><th>Clientnaam</th><td>{{ $report->client->name }}</td></tr>
-                        <tr><th>Clientnummer</th><td>{{ $report->client->number }}</td></tr>
                         <tr><th>Datum werk</th><td>{{ $report->date_of_work->format('d-m-Y') }}</td></tr>
                     </table>
                 </td>
@@ -201,10 +200,10 @@
         <div class="panel">{{ $report->description }}</div>
 
         {{-- Cables & Pipes Section --}}
+        @if($report->cables->count())
         <h2>Kabels &amp; Leidingen</h2>
 
         <h3>Kabels</h3>
-        @if($report->cables->count())
             <table class="data-table">
                 <thead>
                     <tr>
@@ -223,14 +222,12 @@
                 @endforeach
                 </tbody>
             </table>
-        @else
-            <div class="no-data">Geen kabels geregistreerd.</div>
         @endif
 
+        @if($report->pipes->count())
         <div style="height: 20px;"></div> {{-- Spacer --}}
 
         <h3>Leidingen</h3>
-        @if($report->pipes->count())
             <table class="data-table">
                 <thead>
                     <tr>
@@ -249,8 +246,6 @@
                 @endforeach
                 </tbody>
             </table>
-        @else
-            <div class="no-data">Geen leidingen geregistreerd.</div>
         @endif
 
         {{-- Measurements / Executed Work--}}
