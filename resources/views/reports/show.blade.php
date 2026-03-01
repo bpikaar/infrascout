@@ -4,10 +4,15 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     @if(session('status'))
-                        <div class="mb-4 rounded-md bg-blue-50 p-4 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800">
+                        <div
+                            class="mb-4 rounded-md bg-blue-50 p-4 border border-blue-200 dark:bg-blue-900/30 dark:border-blue-800">
                             <div class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 dark:text-blue-300 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 102 0v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 text-blue-600 dark:text-blue-300 mt-0.5" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 102 0v-3a1 1 0 00-1-1H9z"
+                                        clip-rule="evenodd" />
                                 </svg>
                                 <p class="ml-3 text-sm text-blue-800 dark:text-blue-200">{{ session('status') }}</p>
                             </div>
@@ -16,71 +21,95 @@
                     <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
                         @php
                             $imageSrc = $report->images->isNotEmpty() ?
-                                asset('/storage/images/reports/'.$report->id.'/'.$report->images()->first()->path)  :
+                                asset('/storage/images/reports/' . $report->id . '/' . $report->images()->first()->path) :
                                 Vite::asset('resources/images/thumb-image.png');
                         @endphp
-                        <img src="{{ $imageSrc }}"
-                            alt="{{ __('report.images.alt_report_thumb') }}"
-                                 class="h-24 w-24 rounded-lg object-cover mr-6" />
+                        <img src="{{ $imageSrc }}" alt="{{ __('report.images.alt_report_thumb') }}"
+                            class="h-24 w-24 rounded-lg object-cover mr-6" />
 
                         <div class="text-center md:text-left">
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $report->title }}</h1>
-                            <p class="text-gray-500 dark:text-gray-400 mb-1">Rapportnummer: {{ $report->report_number }}</p>
+                            <p class="text-gray-500 dark:text-gray-400 mb-1">Rapportnummer: {{ $report->report_number }}
+                            </p>
                             @php
-                                $link = '<a href="'. route('clients.show', $report->client).'">'.$report->client->name.'</a>';
+                                $link = '<a href="' . route('clients.show', $report->client) . '">' . $report->client->name . '</a>';
                             @endphp
-                            <p class="text-gray-500 dark:text-gray-400 hover:text-gray-300 underline">{{ __('report.client.label') }}: {!! $report->client->name ? $link : __('report.status.n_a') !!}</p>
+                            <p class="text-gray-500 dark:text-gray-400 hover:text-gray-300 underline">
+                                {{ __('report.client.label') }}:
+                                {!! $report->client->name ? $link : __('report.status.n_a') !!}</p>
                         </div>
                         <div class="self-center md:self-start md:ml-auto">
                             <p class="text-sm text-center md:text-right text-gray-500 dark:text-gray-400">
-                                <span class="font-bold">{{ __('report.fields.work_date') }}</span>: {{ $report->date_of_work->format('l, j F Y H:i') }}</p>
+                                <span class="font-bold">{{ __('report.fields.work_date') }}</span>:
+                                {{ $report->date_of_work->format('l, j F Y H:i') }}
+                            </p>
                         </div>
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.work') }}</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+                            {{ __('report.title.work') }}</h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Field Worker -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.field_worker') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->fieldWorker->name ?? 'N/A' }}</p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $report->fieldWorker->email ?? 'N/A' }}</p>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">
+                                    {{ __('report.fields.field_worker') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $report->fieldWorker->name ?? 'N/A' }}
+                                </p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ $report->fieldWorker->email ?? 'N/A' }}</p>
 
                                 <br />
 
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.work_hours') }}</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">
+                                    {{ __('report.fields.work_hours') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $report->work_hours }}</p>
 
                                 <br />
 
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('report.fields.travel_time') }}</h3>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">
+                                    {{ __('report.fields.travel_time') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">{{ $report->travel_time }}</p>
                             </div>
 
                             <!-- Description -->
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.description') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->description }}</p>
+                                <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+                                    {{ __('report.title.description') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">
+                                    {{ $report->description }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.cables') }}</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+                            {{ __('report.title.cables') }}</h2>
 
                         <div class="space-y-8">
                             <div>
-                                <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">{{ __('report.title.cables_section') }}</h3>
+                                <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                                    {{ __('report.title.cables_section') }}</h3>
                                 @if($report->cables->count())
                                     <div class="space-y-2">
                                         @foreach($report->cables as $cable)
-                                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
-                                                <div>
-                                                    <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $cable->cable_type }}</span>
-                                                    <span class="text-gray-500 dark:text-gray-400 ml-2">{{ $cable->material }}</span>
+                                            <div
+                                                class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
+                                                <div class="flex items-center gap-8 text-sm">
+                                                    <div>
+                                                        <span class="font-semibold text-gray-500 dark:text-gray-400 block text-xs uppercase tracking-wider">Type</span>
+                                                        <span class="font-semibold text-gray-700 dark:text-gray-300 text-base">{{ $cable->cable_type }}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-semibold text-gray-500 dark:text-gray-400 block text-xs uppercase tracking-wider">Materiaal</span>
+                                                        <span class="text-gray-600 dark:text-gray-300 text-base">{{ $cable->material }}</span>
+                                                    </div>
                                                     @if($cable->diameter)
-                                                        <span class="text-gray-500 dark:text-gray-400 ml-2">{{ number_format($cable->diameter, 2) }} mm</span>
+                                                        <div>
+                                                            <span class="font-semibold text-gray-500 dark:text-gray-400 block text-xs uppercase tracking-wider">Diameter</span>
+                                                            <span class="text-gray-600 dark:text-gray-300 text-base">{{ $cable->diameter === 'onbekend' ? 'onbekend' : (is_numeric($cable->diameter) ? number_format((float) $cable->diameter, 2) . ' mm' : $cable->diameter) }}</span>
+                                                        </div>
                                                     @endif
                                                 </div>
                                             </div>
@@ -91,16 +120,27 @@
                                 @endif
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">{{ __('report.title.pipes_section') }}</h3>
+                                <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                                    {{ __('report.title.pipes_section') }}</h3>
                                 @if($report->pipes && $report->pipes->count())
                                     <div class="space-y-2">
                                         @foreach($report->pipes as $pipe)
-                                            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
-                                                <div>
-                                                    <span class="font-semibold text-gray-700 dark:text-gray-300">{{ $pipe->pipe_type }}</span>
-                                                    <span class="text-gray-500 dark:text-gray-400 ml-2">{{ $pipe->material }}</span>
+                                            <div
+                                                class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between">
+                                                <div class="flex items-center gap-8 text-sm">
+                                                    <div>
+                                                        <span class="font-semibold text-gray-500 dark:text-gray-400 block text-xs uppercase tracking-wider">Type</span>
+                                                        <span class="font-semibold text-gray-700 dark:text-gray-300 text-base">{{ $pipe->pipe_type }}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span class="font-semibold text-gray-500 dark:text-gray-400 block text-xs uppercase tracking-wider">Materiaal</span>
+                                                        <span class="text-gray-600 dark:text-gray-300 text-base">{{ $pipe->material }}</span>
+                                                    </div>
                                                     @if($pipe->diameter)
-                                                        <span class="text-gray-500 dark:text-gray-400 ml-2">{{ number_format($pipe->diameter, 2) }} mm</span>
+                                                        <div>
+                                                            <span class="font-semibold text-gray-500 dark:text-gray-400 block text-xs uppercase tracking-wider">Diameter</span>
+                                                            <span class="text-gray-600 dark:text-gray-300 text-base">{{ $pipe->diameter === 'onbekend' ? 'onbekend' : (is_numeric($pipe->diameter) ? number_format((float) $pipe->diameter, 2) . ' mm' : $pipe->diameter) }}</span>
+                                                        </div>
                                                     @endif
                                                 </div>
                                             </div>
@@ -115,7 +155,8 @@
 
                     @if($report->radioDetection || $report->gyroscope || $report->testTrench || $report->groundRadar || $report->cableFailure || $report->gpsMeasurement || $report->lance)
                         <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Uitgevoerde werkzaamheden') }}</h2>
+                            <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+                                {{ __('Uitgevoerde werkzaamheden') }}</h2>
                             <div class="space-y-4">
                                 <x-report.show.test-trench :report="$report" />
 
@@ -135,38 +176,42 @@
                     @endif
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.images') }}</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+                            {{ __('report.title.images') }}</h2>
                         @if($report->images && $report->images->count())
-                                <div x-data="{ showModal: false, modalImg: '', modalCaption: '' }">
-                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
-                                        @foreach($report->images as $image)
-                                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden flex flex-col items-center">
-                                                <img src="{{ asset('/storage/images/reports/'.$report->id.'/'.$image->path) }}"
-                                                     alt="{{ __('report.images.alt_report_image') }}"
-                                                     class="w-full h-32 sm:h-40 object-cover cursor-pointer"
-                                                     @click="$dispatch('open-modal', 'large-image', modalImg = '{{ asset('/storage/images/reports/'.$report->id.'/'.$image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')"
-                                                 />
-                                                @if($image->caption)
-                                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 px-2 text-center">{{ $image->caption }}</p>
-                                                @endif
-                                            </div>
-                                        @endforeach
-                                    </div>
-
-                                    <!-- Test Model -->
-                                    <x-modal name="large-image" focusable>
-                                        <div class="p-6">
-                                            <img :src="modalImg" alt="{{ __('report.images.alt_enlarged') }}" class="w-full h-auto max-h-[70vh] object-contain rounded-lg" />
-                                            <div class="mt-6 flex justify-end gap-3">
-                                                <button type="button" class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-800"
-                                                        @click="$dispatch('close')">
-                                                    {{ __('Close') }}
-                                                </button>
-                                            </div>
+                            <div x-data="{ showModal: false, modalImg: '', modalCaption: '' }">
+                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
+                                    @foreach($report->images as $image)
+                                        <div
+                                            class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden flex flex-col items-center">
+                                            <img src="{{ asset('/storage/images/reports/' . $report->id . '/' . $image->path) }}"
+                                                alt="{{ __('report.images.alt_report_image') }}"
+                                                class="w-full h-32 sm:h-40 object-cover cursor-pointer"
+                                                @click="$dispatch('open-modal', 'large-image', modalImg = '{{ asset('/storage/images/reports/' . $report->id . '/' . $image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')" />
+                                            @if($image->caption)
+                                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 px-2 text-center">
+                                                    {{ $image->caption }}</p>
+                                            @endif
                                         </div>
-                                    </x-modal>
-
+                                    @endforeach
                                 </div>
+
+                                <!-- Test Model -->
+                                <x-modal name="large-image" focusable>
+                                    <div class="p-6">
+                                        <img :src="modalImg" alt="{{ __('report.images.alt_enlarged') }}"
+                                            class="w-full h-auto max-h-[70vh] object-contain rounded-lg" />
+                                        <div class="mt-6 flex justify-end gap-3">
+                                            <button type="button"
+                                                class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 text-gray-800"
+                                                @click="$dispatch('close')">
+                                                {{ __('Close') }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </x-modal>
+
+                            </div>
                         @else
                             <p class="text-gray-500 dark:text-gray-400 mb-6">{{ __('report.images.none') }}</p>
                         @endif
@@ -174,67 +219,96 @@
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('Bevindingen werkzaamheden') }}</h2>
+                        <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+                            {{ __('Bevindingen werkzaamheden') }}</h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Samenvatting resultaten') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->results_summary }}</p>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">
+                                    {{ __('Samenvatting resultaten') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">
+                                    {{ $report->results_summary }}</p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Advies / aanbevelingen') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->advice }}</p>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">
+                                    {{ __('Advies / aanbevelingen') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->advice }}
+                                </p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Vervolgacties') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->follow_up }}</p>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Vervolgacties') }}
+                                </h3>
+                                <p class="text-gray-900 dark:text-gray-100 whitespace-pre-line">{{ $report->follow_up }}
+                                </p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Probleem opgelost?') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->problem_solved ? 'Ja' : 'Nee' }}</p>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">
+                                    {{ __('Probleem opgelost?') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100">{{ $report->problem_solved ? 'Ja' : 'Nee' }}
+                                </p>
                             </div>
 
                             <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('Vraag opdrachtgever beantwoord?') }}</h3>
-                                <p class="text-gray-900 dark:text-gray-100">{{ $report->question_answered ? 'Ja' : 'Nee' }}</p>
+                                <h3 class="font-semibold text-gray-700 dark:text-gray-300">
+                                    {{ __('Vraag opdrachtgever beantwoord?') }}</h3>
+                                <p class="text-gray-900 dark:text-gray-100">
+                                    {{ $report->question_answered ? 'Ja' : 'Nee' }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="mt-6 flex space-x-4">
-                        <a href="{{ route('clients.show', $report->client) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                        <a href="{{ route('clients.show', $report->client) }}"
+                            class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                                    clip-rule="evenodd" />
                             </svg>
                             {{ __('report.client.back') }}
                         </a>
 
-                        <a href="{{ route('clients.reports.edit', [$report->client, $report]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        <a href="{{ route('clients.reports.edit', [$report->client, $report]) }}"
+                            class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path
+                                    d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                             </svg>
                             {{ __('report.actions.edit') }}
                         </a>
 
                         @php($report->loadMissing('pdf'))
                         @if($report->pdf && \Storage::disk('public')->exists($report->pdf->file_path))
-                            <a href="{{ route('clients.reports.download', [$report]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            <a href="{{ route('clients.reports.download', [$report]) }}"
+                                class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                 </svg>
                                 {{ __('report.actions.download') }}
                             </a>
                         @else
-                            <span class="inline-flex items-center px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke-width="4" class="opacity-75"/></svg>
+                            <span
+                                class="inline-flex items-center px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 animate-spin"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25" />
+                                    <path d="M4 12a8 8 0 018-8" stroke-width="4" class="opacity-75" />
+                                </svg>
                                 {{ __('report.actions.preparing_pdf') }}
                             </span>
-                            <a href="{{ route('clients.reports.regenerate', [$report]) }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            <a href="{{ route('clients.reports.regenerate', [$report]) }}"
+                                class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                 </svg>
                                 {{ __('report.actions.regenerate') }}
                             </a>

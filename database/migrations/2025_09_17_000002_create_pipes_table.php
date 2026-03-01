@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('pipe_type');
             $table->string('material')->nullable();
-            $table->decimal('diameter',8,2)->nullable();
+            $table->string('diameter')->nullable();
             $table->timestamps();
         });
 
@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->foreignId('pipe_id')->constrained()->cascadeOnDelete();
             $table->foreignId('report_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
-            $table->unique(['pipe_id','report_id']);
+            $table->unique(['pipe_id', 'report_id']);
         });
     }
 

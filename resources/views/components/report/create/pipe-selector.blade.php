@@ -1,4 +1,5 @@
-<div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg" x-data="multiPipeManager(@js(old('pipes', [])))">
+@props(['pipes' => []])
+<div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg" x-data="multiPipeManager(@js($pipes))">
     <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.pipes') }}</h2>
     <template x-for="(row, index) in rows" :key="row.uid">
         <div class="mb-4 border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-gray-800 relative">
@@ -29,7 +30,7 @@
                             <button type="button" class="w-full text-left px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm" @click="selectExisting(index, r)">
                                 <span class="font-medium" x-text="r.pipe_type"></span>
                                 <span class="text-xs text-gray-500 ml-1" x-text="r.material"></span>
-                                <span class="text-xs text-gray-500 ml-1" x-text="r.diameter ? (r.diameter + ' mm') : ''"></span>
+                                <span class="text-xs text-gray-500 ml-1" x-text="r.diameter ? (r.diameter == 'onbekend' ? r.diameter : r.diameter + ' mm') : ''"></span>
                             </button>
                         </template>
                     </div>
@@ -41,7 +42,7 @@
                             x-model="row.material"
                             x-bind:name="`pipes[${index}][material]`"
                             class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
-                        <option value="">-</option>
+                        <option value="Onbekend">Onbekend</option>
                         <option value="PVC">PVC</option>
                         <option value="HDPE">HDPE</option>
                         <option value="Steel">{{ __('report.pipes.material.steel') }}</option>
@@ -52,7 +53,7 @@
                 <div>
                     <label class="block font-medium text-sm text-gray-700 dark:text-gray-300" x-bind:for="'pipe_diameter_'+index">Diameter (mm)</label>
                     <input x-bind:id="'pipe_diameter_'+index"
-                           type="number" step="0.01"
+                           type="text"
                            x-model="row.diameter"
                            x-bind:name="`pipes[${index}][diameter]`"
                            class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md" />
@@ -110,7 +111,7 @@
             }
             function newPipeRow(){
                 const uid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('p_'+Date.now()+Math.random().toString(16).slice(2));
-                return { uid, pipe_type:'', material:'', diameter:'', id:null, results:[], showResults:false, loadedAll:false, requestToken:0 };
+                return { uid, pipe_type:'', material:'Onbekend', diameter:'', id:null, results:[], showResults:false, loadedAll:false, requestToken:0 };
             }
             function hydratePipeRow(p) {
                 const r = newPipeRow();

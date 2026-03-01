@@ -1,4 +1,5 @@
-<div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg" x-data="multiCableManager(@js(old('cables', [])))">
+@props(['cables' => []])
+<div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg" x-data="multiCableManager(@js($cables))">
     <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.title.cables') }}</h2>
     <template x-for="(row, index) in rows" :key="row.uid">
         <div class="mb-4 border border-gray-200 dark:border-gray-600 rounded-md p-4 bg-white dark:bg-gray-800 relative">
@@ -29,7 +30,7 @@
                             <button type="button" class="w-full text-left px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm" @click="selectExisting(index, r)">
                                 <span class="font-medium" x-text="r.cable_type"></span>
                                 <span class="text-xs text-gray-500 ml-1" x-text="r.material"></span>
-                                <span class="text-xs text-gray-500 ml-1" x-text="r.diameter ? (r.diameter + ' mm') : ''"></span>
+                                <span class="text-xs text-gray-500 ml-1" x-text="r.diameter ? (r.diameter == 'onbekend' ? r.diameter : r.diameter + ' mm') : ''"></span>
                             </button>
                         </template>
                     </div>
@@ -41,7 +42,7 @@
                             x-model="row.material"
                             x-bind:name="`cables[${index}][material]`"
                             class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
-                        <option value="">-</option>
+                        <option value="Onbekend">Onbekend</option>
                         <option value="GPLK">GPLK</option>
                         <option value="XLPE">XLPE</option>
                         <option value="Kunststof">{{ __('report.cables.material.plastic') }}</option>
@@ -51,7 +52,7 @@
                 <div>
                     <label class="block font-medium text-sm text-gray-700 dark:text-gray-300" x-bind:for="'diameter_'+index">Diameter (mm)</label>
                     <input x-bind:id="'diameter_'+index"
-                           type="number" step="0.01"
+                           type="text"
                            x-model="row.diameter"
                            x-bind:name="`cables[${index}][diameter]`"
                            class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md" />
@@ -125,7 +126,7 @@
             }
             function newRow(){
                 const uid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('c_'+Date.now()+Math.random().toString(16).slice(2));
-                return { uid, cable_type:'', material:'', diameter:'', id:null, results:[], showResults:false, loadedAll:false, requestToken:0 };
+                return { uid, cable_type:'', material:'Onbekend', diameter:'', id:null, results:[], showResults:false, loadedAll:false, requestToken:0 };
             }
             function hydrateRow(c) {
                 const r = newRow();

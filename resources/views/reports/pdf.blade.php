@@ -217,7 +217,7 @@
                     <tr>
                         <td>{{ $c->cable_type }}</td>
                         <td>{{ $c->material }}</td>
-                        <td>{{ $c->diameter ? number_format($c->diameter, 2, ',', '.') : '-' }}</td>
+                        <td>{{ $c->diameter ? ($c->diameter === 'onbekend' ? 'onbekend' : (is_numeric($c->diameter) ? number_format((float)$c->diameter, 2, ',', '.') : $c->diameter)) : '-' }}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -241,7 +241,7 @@
                     <tr>
                         <td>{{ $p->pipe_type }}</td>
                         <td>{{ $p->material }}</td>
-                        <td>{{ $p->diameter ? number_format($p->diameter, 2, ',', '.') : '-' }}</td>
+                        <td>{{ $p->diameter ? ($p->diameter === 'onbekend' ? 'onbekend' : (is_numeric($p->diameter) ? number_format((float)$p->diameter, 2, ',', '.') : $p->diameter)) : '-' }}</td>
                     </tr>
                 @endforeach
                 </tbody>

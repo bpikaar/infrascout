@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::create('cables', function (Blueprint $table) {
             $table->id();
             $table->string('cable_type');
-            $table->enum('material', ['GPLK', 'XLPE', 'Kunststof']);
-            $table->decimal('diameter', 8, 2)->nullable();
+            $table->enum('material', ['GPLK', 'XLPE', 'Kunststof', 'Onbekend']);
+            $table->string('diameter')->nullable();
             $table->timestamps();
             $table->unique(['cable_type', 'material', 'diameter']);
         });

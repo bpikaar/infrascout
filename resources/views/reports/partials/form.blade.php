@@ -62,8 +62,8 @@
 </div>
 
 <!-- Cable & Pipe selectors could be refactored to accept existing items via props; reusing components for simplicity -->
-<x-report.create.cable-selector />
-<x-report.create.pipe-selector />
+<x-report.create.cable-selector :cables="old('cables', isset($report) ? $report->cables->toArray() : [])" />
+<x-report.create.pipe-selector :pipes="old('pipes', isset($report) ? $report->pipes->toArray() : [])" />
 
 @php
     // Normalize to booleans so Alpine receives true/false consistently and @checked works for server-side rendering
