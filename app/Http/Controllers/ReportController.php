@@ -11,10 +11,10 @@ use App\Jobs\GenerateReportPdf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Cable;
 use App\Models\Pipe;
-use App\Models\TestTrench;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
-use App\Models\Lance;
+use Illuminate\Http\UploadedFile;
+use App\Enums\MethodType;
 
 class ReportController extends Controller
 {
@@ -102,10 +102,12 @@ class ReportController extends Controller
         // Sync / create cables
         $cableIds = [];
         foreach ($cablesInput as $cableData) {
-            if (!is_array($cableData)) { continue; }
+            if (!is_array($cableData)) {
+                continue;
+            }
             // Existing cable selected
             if (!empty($cableData['id'])) {
-                $cableIds[] = (int)$cableData['id'];
+                $cableIds[] = (int) $cableData['id'];
                 continue;
             }
             // New cable definition - require cable_type & material (validated already)
@@ -125,10 +127,12 @@ class ReportController extends Controller
         // Sync / create pipes
         $pipeIds = [];
         foreach ($pipesInput as $pipeData) {
-            if (!is_array($pipeData)) { continue; }
+            if (!is_array($pipeData)) {
+                continue;
+            }
             // Existing pipe selected
             if (!empty($pipeData['id'])) {
-                $pipeIds[] = (int)$pipeData['id'];
+                $pipeIds[] = (int) $pipeData['id'];
                 continue;
             }
             if (!empty($pipeData['pipe_type']) && !empty($pipeData['material'])) {
@@ -144,25 +148,20 @@ class ReportController extends Controller
             $report->pipes()->sync($pipeIds);
         }
 
-        // Handle image uploads through relationship
+        // Handle general images uploads
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                // temporarily store an image so a unique filename is created
-                $path = $image->store('images/reports/'.$report->id, 'public');
+            $this->processAndStoreImages($report, $request->file('images'));
+        }
 
-                // get only the filename
-                $filename = basename($path);
-
-                // overwrite the image file on disk
-                $imageToResize = Image::read($image)
-                    ->scaleDown(config('image.scale'), config('image.scale'));
-                Storage::disk('public')->put($path,
-                    $imageToResize->encodeByExtension($image->getClientOriginalExtension(), quality: config('image.quality')));
-
-                //todo add caption to images
-
-                // Store the image
-                $report->images()->create(['path' => $filename]);
+        // Handle method-specific images
+        if ($request->has('method_images') && is_array($request->method_images)) {
+            foreach ($request->method_images as $method => $images) {
+                if (is_array($images)) {
+                    $methodType = MethodType::tryFrom($method);
+                    if ($methodType) {
+                        $this->processAndStoreImages($report, $images, $methodType);
+                    }
+                }
             }
         }
 
@@ -220,8 +219,12 @@ class ReportController extends Controller
         // Sync cables
         $cableIds = [];
         foreach ($request->input('cables', []) as $cableData) {
-            if (!is_array($cableData)) continue;
-            if (!empty($cableData['id'])) { $cableIds[] = (int)$cableData['id']; continue; }
+            if (!is_array($cableData))
+                continue;
+            if (!empty($cableData['id'])) {
+                $cableIds[] = (int) $cableData['id'];
+                continue;
+            }
             if (!empty($cableData['cable_type']) && !empty($cableData['material'])) {
                 $cable = Cable::firstOrCreate([
                     'cable_type' => $cableData['cable_type'],
@@ -236,8 +239,12 @@ class ReportController extends Controller
         // Sync pipes
         $pipeIds = [];
         foreach ($request->input('pipes', []) as $pipeData) {
-            if (!is_array($pipeData)) continue;
-            if (!empty($pipeData['id'])) { $pipeIds[] = (int)$pipeData['id']; continue; }
+            if (!is_array($pipeData))
+                continue;
+            if (!empty($pipeData['id'])) {
+                $pipeIds[] = (int) $pipeData['id'];
+                continue;
+            }
             if (!empty($pipeData['pipe_type']) && !empty($pipeData['material'])) {
                 $pipe = Pipe::firstOrCreate([
                     'pipe_type' => $pipeData['pipe_type'],
@@ -262,22 +269,26 @@ class ReportController extends Controller
         foreach ($request->input('delete_images', []) as $imageId) {
             $img = $report->images()->where('id', $imageId)->first();
             if ($img) {
-                $diskPath = 'images/reports/'.$report->id.'/'.$img->path;
+                $diskPath = 'images/reports/' . $report->id . '/' . $img->path;
                 \Storage::disk('public')->delete($diskPath);
                 $img->delete();
             }
         }
 
-        // Add new images
+        // Add new general images
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('images/reports/'.$report->id, 'public');
-                $filename = basename($path);
-                $imageToResize = \Intervention\Image\Laravel\Facades\Image::read($image)
-                    ->scaleDown(config('image.scale'), config('image.scale'));
-                \Storage::disk('public')->put($path,
-                    $imageToResize->encodeByExtension($image->getClientOriginalExtension(), quality: config('image.quality')));
-                $report->images()->create(['path' => $filename]);
+            $this->processAndStoreImages($report, $request->file('images'));
+        }
+
+        // Add new method-specific images
+        if ($request->has('method_images') && is_array($request->method_images)) {
+            foreach ($request->method_images as $method => $images) {
+                if (is_array($images)) {
+                    $methodType = MethodType::tryFrom($method);
+                    if ($methodType) {
+                        $this->processAndStoreImages($report, $images, $methodType);
+                    }
+                }
             }
         }
 
@@ -299,7 +310,9 @@ class ReportController extends Controller
             }
             return;
         }
-        if (empty($data)) { return; }
+        if (empty($data)) {
+            return;
+        }
         // If exists update else create
         if ($report->{$relationMethod}) {
             $report->{$relationMethod}->update($data);
@@ -334,7 +347,8 @@ class ReportController extends Controller
         return back()->with('status', 'PDF is being generated. Please try again shortly.');
     }
 
-    public function directDownload(Report $report) {
+    public function directDownload(Report $report)
+    {
         $report->loadMissing(['client', 'cables']);
 
         $client = $report->client;
@@ -343,12 +357,45 @@ class ReportController extends Controller
         return $pdf->download($report->pdf->file_name);
     }
 
-    public function regeneratePdf(Report $report) {
+    public function regeneratePdf(Report $report)
+    {
         $report->loadMissing(['client', 'cables']);
 
         // (Re)queue job to generate PDF (record will be created/updated by the job)
         GenerateReportPdf::dispatch($report);
 
         return back()->with('status', 'PDF is being generated. Please try again shortly.');
+    }
+
+    /**
+     * Process and store an array of uploaded images, automatically converting HEIC/any format to JPG.
+     *
+     * @param Report $report
+     * @param array<UploadedFile> $images
+     * @param MethodType|null $method
+     * @return void
+     */
+    private function processAndStoreImages(Report $report, array $images, ?MethodType $method = null): void
+    {
+        foreach ($images as $image) {
+            // Read the image (Intervention Image w/ Imagick handles HEIC natively)
+            $imageToProcess = Image::read($image);
+
+            // Generate unique filename and always force the .jpg extension
+            $filename = uniqid() . '.jpg';
+            $path = 'images/reports/' . $report->id . '/' . $filename;
+
+            // Resize based on config
+            $imageToProcess->scaleDown(config('image.scale'), config('image.scale'));
+
+            // Store directly to disk, encoding as JPG
+            Storage::disk('public')->put($path, $imageToProcess->encodeByExtension('jpg', quality: config('image.quality')));
+
+            // Create record
+            $report->images()->create([
+                'path' => $filename,
+                'method' => $method,
+            ]);
+        }
     }
 }

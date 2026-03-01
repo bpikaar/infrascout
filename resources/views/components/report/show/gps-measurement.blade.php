@@ -12,5 +12,7 @@
             <x-report.show.info-item header="Signaal" :p="$report->gpsMeasurement->signaal" />
             <x-report.show.info-item header="Omgeving" :p="$report->gpsMeasurement->omgeving" />
         </div>
+
+        <x-report.show.method-images :images="$report->images->where('method', \App\Enums\MethodType::GpsMeasurement)" :reportId="$report->id" />
     </div>
 @endif

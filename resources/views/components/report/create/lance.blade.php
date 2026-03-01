@@ -9,5 +9,7 @@
             <x-text-input id="lance_aanprikdiepte" name="lance[aanprikdiepte]" type="number" step="0.01" class="block mt-1 w-full" :value="old('lance.aanprikdiepte', $report->lance->aanprikdiepte ?? '')" />
             <x-input-error :messages="$errors->get('lance.aanprikdiepte')" class="mt-2" />
         </div>
+
+        <x-report.create.method-image-upload id="lance_images" name="method_images[{{ \App\Enums\MethodType::Lance->value }}][]" label="Afbeeldingen Aanlansen / aanprikken" />
     </div>
 </div>

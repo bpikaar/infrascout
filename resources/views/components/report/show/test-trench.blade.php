@@ -19,5 +19,7 @@
             <x-report.show.info-item header="Doel" :p="$report->testTrench->doel" />
             <x-report.show.info-item header="Bevindingen" :p="$report->testTrench->bevindingen" pre="true" colspan="md:col-span-2" />
         </div>
+
+        <x-report.show.method-images :images="$report->images->where('method', \App\Enums\MethodType::TestTrench)" :reportId="$report->id" />
     </div>
 @endif

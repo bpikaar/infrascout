@@ -12,5 +12,7 @@
             <x-report.show.info-item header="Radarbeeld" :p="$report->groundRadar->radarbeeld" />
             <x-report.show.info-item header="Ingestelde detectiediepte (m)" :p="$report->groundRadar->ingestelde_detectiediepte" />
         </div>
+
+        <x-report.show.method-images :images="$report->images->where('method', \App\Enums\MethodType::GroundRadar)" :reportId="$report->id" />
     </div>
 @endif

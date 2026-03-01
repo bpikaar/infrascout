@@ -9,8 +9,7 @@
             aansluiting: @js(old('radio_detection.aansluiting', $radio->aansluiting ?? 'Passief')),
             metSonde: @js((bool) (old('signaal_met_sonde') ?? old('radio_detection.sonde_type') ?? $sonde)),
             metGeleider: @js((bool) (old('signaal_met_geleider') ?? old('radio_detection.geleider_frequentie') ?? $freq)),
-        }"
-        x-init="
+        }" x-init="
             // clear sonde select when checkbox becomes unchecked
             $watch('metSonde', value => {
                 if (!value && $refs.rd_sonde_type) {
@@ -56,8 +55,8 @@
             <div>
                 <x-input-label for="rd_zender_type" value="Zender type" />
                 <select id="rd_zender_type" name="radio_detection[zender_type]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
-                    <option value="Radiodetection TX10" @selected(old('radio_detection.zender_type', $radio->zender_type ?? '')==='Radiodetection TX10')>Radiodetection TX10</option>
-                    <option value="Vivax TX10" @selected(old('radio_detection.zender_type', $radio->zender_type ?? '')==='Vivax TX10')>Vivax TX10</option>
+                    <option value="Radiodetection TX10" @selected(old('radio_detection.zender_type', $radio->zender_type ?? '') === 'Radiodetection TX10')>Radiodetection TX10</option>
+                    <option value="Vivax TX10" @selected(old('radio_detection.zender_type', $radio->zender_type ?? '') === 'Vivax TX10')>Vivax TX10</option>
                 </select>
                 <x-input-error :messages="$errors->get('radio_detection.zender_type')" class="mt-2" />
             </div>
@@ -77,11 +76,15 @@
                 <x-input-label for="rd_sonde_type" value="Sonde type" />
                 <select id="rd_sonde_type" x-ref="rd_sonde_type" name="radio_detection[sonde_type]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                     <option value="">-</option>
-                    <option value="S18" @selected(old('radio_detection.sonde_type', $sonde)==='S18')>S18</option>
-                    <option value="Rioolsonde" @selected(old('radio_detection.sonde_type', $sonde)==='Rioolsonde')>Rioolsonde</option>
-                    <option value="Joepert" @selected(old('radio_detection.sonde_type', $sonde)==='Joepert')>Joepert</option>
-                    <option value="Joekeloekie" @selected(old('radio_detection.sonde_type', $sonde)==='Joekeloekie')>Joekeloekie</option>
-                    <option value="Boorsonde" @selected(old('radio_detection.sonde_type', $sonde)==='Boorsonde')>Boorsonde</option>
+                    <option value="S18" @selected(old('radio_detection.sonde_type', $sonde) === 'S18')>S18</option>
+                    <option value="Rioolsonde" @selected(old('radio_detection.sonde_type', $sonde) === 'Rioolsonde')>
+                        Rioolsonde</option>
+                    <option value="Joepert" @selected(old('radio_detection.sonde_type', $sonde) === 'Joepert')>Joepert
+                    </option>
+                    <option value="Joekeloekie" @selected(old('radio_detection.sonde_type', $sonde) === 'Joekeloekie')>
+                        Joekeloekie</option>
+                    <option value="Boorsonde" @selected(old('radio_detection.sonde_type', $sonde) === 'Boorsonde')>
+                        Boorsonde</option>
                 </select>
                 <x-input-error :messages="$errors->get('radio_detection.sonde_type')" class="mt-2" />
             </div>
@@ -100,16 +103,25 @@
                 <x-input-label for="rd_geleider_frequentie" value="Frequentie (Hz)" />
                 <select id="rd_geleider_frequentie" x-ref="rd_geleider_frequentie" name="radio_detection[geleider_frequentie]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                     <option value="">-</option>
-                    <option value="285hz" @selected(old('radio_detection.geleider_frequentie', $freq)==='285hz')>285hz</option>
-                    <option value="320hz" @selected(old('radio_detection.geleider_frequentie', $freq)==='320hz')>320hz</option>
-                    <option value="1khz" @selected(old('radio_detection.geleider_frequentie', $freq)==='1khz')>1khz</option>
-                    <option value="4khz cd" @selected(old('radio_detection.geleider_frequentie', $freq)==='4khz cd')>4khz cd</option>
-                    <option value="8khz" @selected(old('radio_detection.geleider_frequentie', $freq)==='8khz')>8khz</option>
-                    <option value="8440khz" @selected(old('radio_detection.geleider_frequentie', $freq)==='8440khz')>8440khz</option>
-                    <option value="33khz" @selected(old('radio_detection.geleider_frequentie', $freq)==='33khz')>33khz</option>
+                    <option value="285hz" @selected(old('radio_detection.geleider_frequentie', $freq) === '285hz')>285hz
+                    </option>
+                    <option value="320hz" @selected(old('radio_detection.geleider_frequentie', $freq) === '320hz')>320hz
+                    </option>
+                    <option value="1khz" @selected(old('radio_detection.geleider_frequentie', $freq) === '1khz')>1khz
+                    </option>
+                    <option value="4khz cd" @selected(old('radio_detection.geleider_frequentie', $freq) === '4khz cd')>
+                        4khz cd</option>
+                    <option value="8khz" @selected(old('radio_detection.geleider_frequentie', $freq) === '8khz')>8khz
+                    </option>
+                    <option value="8440khz" @selected(old('radio_detection.geleider_frequentie', $freq) === '8440khz')>
+                        8440khz</option>
+                    <option value="33khz" @selected(old('radio_detection.geleider_frequentie', $freq) === '33khz')>33khz
+                    </option>
                 </select>
                 <x-input-error :messages="$errors->get('radio_detection.geleider_frequentie')" class="mt-2" />
             </div>
         </div>
+
+        <x-report.create.method-image-upload id="rd_images" name="method_images[{{ \App\Enums\MethodType::RadioDetection->value }}][]" label="Afbeeldingen Radiodetectie" />
     </div>
 </div>

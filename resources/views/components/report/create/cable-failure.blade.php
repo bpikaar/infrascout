@@ -18,10 +18,10 @@
             <x-input-label for="cf_type_storing" value="Type storing" />
             <select id="cf_type_storing" name="cable_failure[type_storing]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                 <option value="">-</option>
-                <option value="Kabelbreuk" @selected(old('cable_failure.type_storing', $report->cableFailure->type_storing ?? '')==='Kabelbreuk')>Kabelbreuk</option>
-                <option value="Slechte verbinding" @selected(old('cable_failure.type_storing', $report->cableFailure->type_storing ?? '')==='Slechte verbinding')>Slechte verbinding</option>
-                <option value="Kortsluiting" @selected(old('cable_failure.type_storing', $report->cableFailure->type_storing ?? '')==='Kortsluiting')>Kortsluiting</option>
-                <option value="Overig" @selected(old('cable_failure.type_storing', $report->cableFailure->type_storing ?? '')==='Overig')>Overig</option>
+                <option value="Kabelbreuk" @selected(old('cable_failure.type_storing', $report->cableFailure->type_storing ?? '') === 'Kabelbreuk')>Kabelbreuk</option>
+                <option value="Slechte verbinding" @selected(old('cable_failure.type_storing', $report->cableFailure->type_storing ?? '') === 'Slechte verbinding')>Slechte verbinding</option>
+                <option value="Kortsluiting" @selected(old('cable_failure.type_storing', $report->cableFailure->type_storing ?? '') === 'Kortsluiting')>Kortsluiting</option>
+                <option value="Overig" @selected(old('cable_failure.type_storing', $report->cableFailure->type_storing ?? '') === 'Overig')>Overig</option>
             </select>
             <x-input-error :messages="$errors->get('cable_failure.type_storing')" class="mt-2" />
         </div>
@@ -33,8 +33,8 @@
         <div>
             <x-input-label for="cf_kabel_met_aftakking" value="Kabel met aftakking" />
             <select id="cf_kabel_met_aftakking" name="cable_failure[kabel_met_aftakking]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
-                <option value="0" @selected(old('cable_failure.kabel_met_aftakking', (string)($report->cableFailure->kabel_met_aftakking ?? '0'))==='0')>Nee</option>
-                <option value="1" @selected(old('cable_failure.kabel_met_aftakking', (string)($report->cableFailure->kabel_met_aftakking ?? '0'))==='1')>Ja</option>
+                <option value="0" @selected(old('cable_failure.kabel_met_aftakking', (string) ($report->cableFailure->kabel_met_aftakking ?? '0')) === '0')>Nee</option>
+                <option value="1" @selected(old('cable_failure.kabel_met_aftakking', (string) ($report->cableFailure->kabel_met_aftakking ?? '0')) === '1')>Ja</option>
             </select>
             <x-input-error :messages="$errors->get('cable_failure.kabel_met_aftakking')" class="mt-2" />
         </div>
@@ -64,5 +64,7 @@
             <textarea id="cf_advies" name="cable_failure[advies]" rows="4" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('cable_failure.advies', $report->cableFailure->advies ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('cable_failure.advies')" class="mt-2" />
         </div>
+
+        <x-report.create.method-image-upload id="cf_images" name="method_images[{{ \App\Enums\MethodType::CableFailure->value }}][]" label="Afbeeldingen Kabelstoring" />
     </div>
 </div>

@@ -11,7 +11,15 @@ class ReportImage extends Model
         'report_id',
         'path',
         'caption',
+        'method',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'method' => \App\Enums\MethodType::class,
+        ];
+    }
 
     public function report(): BelongsTo
     {

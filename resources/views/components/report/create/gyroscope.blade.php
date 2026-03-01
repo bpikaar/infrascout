@@ -9,9 +9,12 @@
             <x-input-label for="gyro_type_boring" value="Type boring" />
             <select id="gyro_type_boring" name="gyroscope[type_boring]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                 <option value="">-</option>
-                <option value="HDD" @selected(old('gyroscope.type_boring', $gyro->type_boring ?? '')==='HDD')>HDD</option>
-                <option value="Persing" @selected(old('gyroscope.type_boring', $gyro->type_boring ?? '')==='Persing')>Persing</option>
-                <option value="Overig" @selected(old('gyroscope.type_boring', $gyro->type_boring ?? '')==='Overig')>Overig</option>
+                <option value="HDD" @selected(old('gyroscope.type_boring', $gyro->type_boring ?? '') === 'HDD')>HDD
+                </option>
+                <option value="Persing" @selected(old('gyroscope.type_boring', $gyro->type_boring ?? '') === 'Persing')>
+                    Persing</option>
+                <option value="Overig" @selected(old('gyroscope.type_boring', $gyro->type_boring ?? '') === 'Overig')>
+                    Overig</option>
             </select>
             <x-input-error :messages="$errors->get('gyroscope.type_boring')" class="mt-2" />
         </div>
@@ -37,8 +40,8 @@
         <div>
             <x-input-label for="gyro_bodemprofiel" value="Bodemprofiel ingemeten met GPS" />
             <select id="gyro_bodemprofiel" name="gyroscope[bodemprofiel_ingemeten_met_gps]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
-                <option value="0" @selected(old('gyroscope.bodemprofiel_ingemeten_met_gps', (string)($gyro->bodemprofiel_ingemeten_met_gps ?? '0'))==='0')>Nee</option>
-                <option value="1" @selected(old('gyroscope.bodemprofiel_ingemeten_met_gps', (string)($gyro->bodemprofiel_ingemeten_met_gps ?? '0'))==='1')>Ja</option>
+                <option value="0" @selected(old('gyroscope.bodemprofiel_ingemeten_met_gps', (string) ($gyro->bodemprofiel_ingemeten_met_gps ?? '0')) === '0')>Nee</option>
+                <option value="1" @selected(old('gyroscope.bodemprofiel_ingemeten_met_gps', (string) ($gyro->bodemprofiel_ingemeten_met_gps ?? '0')) === '1')>Ja</option>
             </select>
             <x-input-error :messages="$errors->get('gyroscope.bodemprofiel_ingemeten_met_gps')" class="mt-2" />
         </div>
@@ -53,13 +56,17 @@
             <x-input-label for="gyro_materiaal" value="Materiaal" />
             <select id="gyro_materiaal" name="gyroscope[materiaal]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                 <option value="">-</option>
-                <option value="PVC" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '')==='PVC')>PVC</option>
-                <option value="PE" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '')==='PE')>PE</option>
-                <option value="HDPE" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '')==='HDPE')>HDPE</option>
-                <option value="Gietijzer" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '')==='Gietijzer')>Gietijzer</option>
-                <option value="Staal" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '')==='Staal')>Staal</option>
-                <option value="RVS" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '')==='RVS')>RVS</option>
-                <option value="Overig" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '')==='Overig')>Overig</option>
+                <option value="PVC" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '') === 'PVC')>PVC</option>
+                <option value="PE" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '') === 'PE')>PE</option>
+                <option value="HDPE" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '') === 'HDPE')>HDPE
+                </option>
+                <option value="Gietijzer" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '') === 'Gietijzer')>
+                    Gietijzer</option>
+                <option value="Staal" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '') === 'Staal')>Staal
+                </option>
+                <option value="RVS" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '') === 'RVS')>RVS</option>
+                <option value="Overig" @selected(old('gyroscope.materiaal', $gyro->materiaal ?? '') === 'Overig')>Overig
+                </option>
             </select>
             <x-input-error :messages="$errors->get('gyroscope.materiaal')" class="mt-2" />
         </div>
@@ -68,8 +75,9 @@
             <x-input-label for="gyro_ingemeten_met" value="Ingemeten met" />
             <select id="gyro_ingemeten_met" name="gyroscope[ingemeten_met]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
                 <option value="">-</option>
-                <option value="Trektouw" @selected(old('gyroscope.ingemeten_met', $gyro->ingemeten_met ?? '')==='Trektouw')>Trektouw</option>
-                <option value="Cable-pusher (glasfiber pees)" @selected(old('gyroscope.ingemeten_met', $gyro->ingemeten_met ?? '')==='Cable-pusher (glasfiber pees)')>Cable-pusher (glasfiber pees)</option>
+                <option value="Trektouw" @selected(old('gyroscope.ingemeten_met', $gyro->ingemeten_met ?? '') === 'Trektouw')>Trektouw</option>
+                <option value="Cable-pusher (glasfiber pees)" @selected(old('gyroscope.ingemeten_met', $gyro->ingemeten_met ?? '') === 'Cable-pusher (glasfiber pees)')>Cable-pusher (glasfiber pees)
+                </option>
             </select>
             <x-input-error :messages="$errors->get('gyroscope.ingemeten_met')" class="mt-2" />
         </div>
@@ -79,5 +87,7 @@
             <textarea id="gyro_bijzonderheden" name="gyroscope[bijzonderheden]" rows="4" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">{{ old('gyroscope.bijzonderheden', $gyro->bijzonderheden ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('gyroscope.bijzonderheden')" class="mt-2" />
         </div>
+
+        <x-report.create.method-image-upload id="gyro_images" name="method_images[{{ \App\Enums\MethodType::Gyroscope->value }}][]" label="Afbeeldingen Gyroscoopmeting" />
     </div>
 </div>

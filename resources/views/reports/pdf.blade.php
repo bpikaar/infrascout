@@ -298,7 +298,19 @@
                         <tr><th>Zender type</th><td>{{ $report->radioDetection->zender_type }}</td></tr>
                     </table>
 
-
+                    @php($methodImages = $report->images->where('method', \App\Enums\MethodType::RadioDetection))
+                    @if($methodImages->count())
+                        <div class="image-gallery">
+                            @foreach($methodImages as $image)
+                                <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
+                                @if(file_exists($path))
+                                    <div class="gallery-item">
+                                        <img src="{{ $path }}" alt="Report Image" class="report-image">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             @endif
 
@@ -310,6 +322,19 @@
                         <tr><th>Radarbeeld</th><td>{{ $report->groundRadar->radarbeeld }}</td></tr>
                         <tr><th>Detectiediepte</th><td>{{ $report->groundRadar->ingestelde_detectiediepte }}</td></tr>
                     </table>
+                    @php($methodImages = $report->images->where('method', \App\Enums\MethodType::GroundRadar))
+                    @if($methodImages->count())
+                        <div class="image-gallery">
+                            @foreach($methodImages as $image)
+                                <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
+                                @if(file_exists($path))
+                                    <div class="gallery-item">
+                                        <img src="{{ $path }}" alt="Report Image" class="report-image">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             @endif
 
@@ -330,6 +355,19 @@
                             <tr><th>Bijzonderheden</th><td>{{ $report->gyroscope->bijzonderheden }}</td></tr>
                         @endif
                     </table>
+                    @php($methodImages = $report->images->where('method', \App\Enums\MethodType::Gyroscope))
+                    @if($methodImages->count())
+                        <div class="image-gallery">
+                            @foreach($methodImages as $image)
+                                <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
+                                @if(file_exists($path))
+                                    <div class="gallery-item">
+                                        <img src="{{ $path }}" alt="Report Image" class="report-image">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             @endif
 
@@ -346,6 +384,19 @@
                         <tr><th>Doel</th><td>{{ $report->testTrench->doel }}</td></tr>
                         <tr><th>Bevindingen</th><td>{{ $report->testTrench->bevindingen }}</td></tr>
                     </table>
+                    @php($methodImages = $report->images->where('method', \App\Enums\MethodType::TestTrench))
+                    @if($methodImages->count())
+                        <div class="image-gallery">
+                            @foreach($methodImages as $image)
+                                <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
+                                @if(file_exists($path))
+                                    <div class="gallery-item">
+                                        <img src="{{ $path }}" alt="Report Image" class="report-image">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             @endif
 
@@ -369,6 +420,19 @@
                             <tr><th>Advies</th><td>{{ $report->cableFailure->advies }}</td></tr>
                         @endif
                     </table>
+                    @php($methodImages = $report->images->where('method', \App\Enums\MethodType::CableFailure))
+                    @if($methodImages->count())
+                        <div class="image-gallery">
+                            @foreach($methodImages as $image)
+                                <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
+                                @if(file_exists($path))
+                                    <div class="gallery-item">
+                                        <img src="{{ $path }}" alt="Report Image" class="report-image">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             @endif
 
@@ -382,6 +446,19 @@
                         <tr><th>Signaal</th><td>{{ $report->gpsMeasurement->signaal }}</td></tr>
                         <tr><th>Omgeving</th><td>{{ $report->gpsMeasurement->omgeving }}</td></tr>
                     </table>
+                    @php($methodImages = $report->images->where('method', \App\Enums\MethodType::GpsMeasurement))
+                    @if($methodImages->count())
+                        <div class="image-gallery">
+                            @foreach($methodImages as $image)
+                                <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
+                                @if(file_exists($path))
+                                    <div class="gallery-item">
+                                        <img src="{{ $path }}" alt="Report Image" class="report-image">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             @endif
 
@@ -392,6 +469,19 @@
                      <table class="kv-table">
                          <tr><th>Aanprikdiepte</th><td>{{ $report->lance->aanprikdiepte !== null ? number_format($report->lance->aanprikdiepte, 2, ',', '.') : '-' }} m</td></tr>
                     </table>
+                    @php($methodImages = $report->images->where('method', \App\Enums\MethodType::Lance))
+                    @if($methodImages->count())
+                        <div class="image-gallery">
+                            @foreach($methodImages as $image)
+                                <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
+                                @if(file_exists($path))
+                                    <div class="gallery-item">
+                                        <img src="{{ $path }}" alt="Report Image" class="report-image">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             @endif
 
@@ -419,12 +509,15 @@
         @endif
 
         {{-- Images --}}
-        @if($report->images->count())
+        @php
+            $generalImages = $report->images ? $report->images->where('method', null) : collect();
+        @endphp
+        @if($generalImages->count())
             <div class="page-break"></div>
-            <h2>Afbeeldingen</h2>
+            <h2>Algemene Afbeeldingen</h2>
 
             <div class="image-gallery">
-                @foreach($report->images as $image)
+                @foreach($generalImages as $image)
                     <?php $path = public_path('storage/images/reports/'.$report->id.'/'.$image->path); ?>
                     @if(file_exists($path))
                         <div class="gallery-item">

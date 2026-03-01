@@ -22,5 +22,7 @@
         @if($report->gyroscope->bijzonderheden)
             <x-report.show.info-item class="mt-4" header="Bijzonderheden" :p="$report->gyroscope->bijzonderheden" pre="true" colspan="md:col-span-2" />
         @endif
+
+        <x-report.show.method-images :images="$report->images->where('method', \App\Enums\MethodType::Gyroscope)" :reportId="$report->id" />
     </div>
 @endif

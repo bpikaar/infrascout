@@ -176,18 +176,21 @@
                     @endif
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
+                        @php
+                            $generalImages = $report->images ? $report->images->where('method', null) : collect();
+                        @endphp
                         <h2 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-                            {{ __('report.title.images') }}</h2>
-                        @if($report->images && $report->images->count())
+                            {{ __('Algemene Afbeeldingen') }}</h2>
+                        @if($generalImages->count())
                             <div x-data="{ showModal: false, modalImg: '', modalCaption: '' }">
                                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-6">
-                                    @foreach($report->images as $image)
+                                    @foreach($generalImages as $image)
                                         <div
                                             class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden flex flex-col items-center">
                                             <img src="{{ asset('/storage/images/reports/' . $report->id . '/' . $image->path) }}"
                                                 alt="{{ __('report.images.alt_report_image') }}"
-                                                class="w-full h-32 sm:h-40 object-cover cursor-pointer"
-                                                @click="$dispatch('open-modal', 'large-image', modalImg = '{{ asset('/storage/images/reports/' . $report->id . '/' . $image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')" />
+                                                class="w-full h-32 sm:h-40 object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                                                @click="$dispatch('open-modal', 'large-image-general', modalImg = '{{ asset('/storage/images/reports/' . $report->id . '/' . $image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')" />
                                             @if($image->caption)
                                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 px-2 text-center">
                                                     {{ $image->caption }}</p>
@@ -197,7 +200,7 @@
                                 </div>
 
                                 <!-- Test Model -->
-                                <x-modal name="large-image" focusable>
+                                <x-modal name="large-image-general" focusable>
                                     <div class="p-6">
                                         <img :src="modalImg" alt="{{ __('report.images.alt_enlarged') }}"
                                             class="w-full h-auto max-h-[70vh] object-contain rounded-lg" />

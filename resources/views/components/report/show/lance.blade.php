@@ -12,5 +12,7 @@
             @endphp
             <x-report.show.info-item header="aanprikdiepte (m)" :p="$depth" />
         </div>
+
+        <x-report.show.method-images :images="$report->images->where('method', \App\Enums\MethodType::Lance)" :reportId="$report->id" />
     </div>
 @endif

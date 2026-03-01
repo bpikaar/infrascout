@@ -42,5 +42,7 @@
                 <x-report.show.info-item header="Geleider frequentie" :p="$report->radioDetection->geleider_frequentie" />
             @endif
         </div>
+
+        <x-report.show.method-images :images="$report->images->where('method', \App\Enums\MethodType::RadioDetection)" :reportId="$report->id" />
     </div>
 @endif
