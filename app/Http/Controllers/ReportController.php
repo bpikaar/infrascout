@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReportRequest;
-use App\Models\Project;
+use App\Models\Client;
 use App\Models\Report;
 use App\Models\User;
 use Auth;
@@ -29,12 +29,12 @@ class ReportController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Project $project)
+    public function create(Client $client)
     {
-        $projects = Project::all();
+        $clients = Client::all();
         $users = User::all();
 
-        return view('reports.create', compact('project', 'projects', 'users'));
+        return view('reports.create', compact('client', 'clients', 'users'));
     }
 
     /**
@@ -169,18 +169,18 @@ class ReportController extends Controller
         // Dispatch PDF generation job
         GenerateReportPdf::dispatch($report);
 
-        return redirect()->route('projects.show', $report->project)
+        return redirect()->route('clients.show', $report->client)
             ->with('status', 'PDF is being prepared. You can download it once it is ready.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Project $project, Report $report)
+    public function show(Client $client, Report $report)
     {
         // Load the report with its relationships
         $report->load([
-            'project',
+            'client',
             'user',
             'fieldWorker',
             'radioDetection',
@@ -198,18 +198,18 @@ class ReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Project $project, Report $report)
+    public function edit(Client $client, Report $report)
     {
-        $projects = Project::all();
+        $clients = Client::all();
         $users = User::all();
         $report->load(['cables', 'pipes', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure', 'gpsMeasurement', 'lance', 'images']);
-        return view('reports.edit', compact('report', 'project', 'projects', 'users'));
+        return view('reports.edit', compact('report', 'client', 'clients', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreReportRequest $request, Project $project, Report $report)
+    public function update(StoreReportRequest $request, Client $client, Report $report)
     {
         $validated = $request->validated();
 
@@ -284,7 +284,7 @@ class ReportController extends Controller
         // Regenerate PDF (overwrite)
         \App\Jobs\GenerateReportPdf::dispatch($report);
 
-        return redirect()->route('projects.reports.show', [$report->project, $report])
+        return redirect()->route('clients.reports.show', [$report->client, $report])
             ->with('status', 'Rapport bijgewerkt. PDF wordt opnieuw gegenereerd.');
     }
 
@@ -335,16 +335,16 @@ class ReportController extends Controller
     }
 
     public function directDownload(Report $report) {
-        $report->loadMissing(['project', 'cables']);
+        $report->loadMissing(['client', 'cables']);
 
-        $project = $report->project;
-        $pdf = Pdf::loadView('reports.pdf', compact('report', 'project'));
+        $client = $report->client;
+        $pdf = Pdf::loadView('reports.pdf', compact('report', 'client'));
 
         return $pdf->download($report->pdf->file_name);
     }
 
     public function regeneratePdf(Report $report) {
-        $report->loadMissing(['project', 'cables']);
+        $report->loadMissing(['client', 'cables']);
 
         // (Re)queue job to generate PDF (record will be created/updated by the job)
         GenerateReportPdf::dispatch($report);

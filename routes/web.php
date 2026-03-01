@@ -4,7 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MethodDescriptionController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CableController;
 use App\Http\Controllers\PipeController;
@@ -23,13 +23,13 @@ Route::middleware('auth')->group(callback: function () {
     // Pipes AJAX search
     Route::get('/pipes/search', [PipeController::class, 'search'])->name('pipes.search');
 
-    Route::get('projects/reports/{report}/download', [ReportController::class, 'download'])
-        ->name('projects.reports.download');
-    Route::get('projects/reports/{report}/regenerate', [ReportController::class, 'regeneratePdf'])
-        ->name('projects.reports.regenerate');
+    Route::get('clients/reports/{report}/download', [ReportController::class, 'download'])
+        ->name('clients.reports.download');
+    Route::get('clients/reports/{report}/regenerate', [ReportController::class, 'regeneratePdf'])
+        ->name('clients.reports.regenerate');
 
-    Route::resource('projects', ProjectController::class);
-    Route::resource('projects.reports', ReportController::class);
+    Route::resource('clients', ClientController::class);
+    Route::resource('clients.reports', ReportController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

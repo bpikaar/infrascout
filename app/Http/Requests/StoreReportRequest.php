@@ -23,7 +23,7 @@ class StoreReportRequest extends FormRequest
     {
         $rules = [
             'title'             => ['required', 'string'],
-            'project_id'        => ['required', 'exists:projects,id'],
+            'client_id'        => ['required', 'exists:clients,id'],
             'date_of_work'      => ['required', 'date'],
             'field_worker'       => ['required', 'exists:users,id'],
 

@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
     <meta charset="utf-8">
-    <title>Rapport {{ $report->id }} - {{ $report->project->name }}</title>
+    <title>Rapport {{ $report->id }} - {{ $report->client->name }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
         /* Base Styling */
@@ -145,7 +145,7 @@
     <div class="footer">
         <table class="footer-table">
             <tr>
-                <td class="footer-left">Infrascout Rapportage | {{ $report->project->name }}</td>
+                <td class="footer-left">Infrascout Rapportage | {{ $report->client->name }}</td>
                 <td class="footer-right">Pagina <span class="page-number"></span></td>
             </tr>
         </table>
@@ -172,16 +172,16 @@
             </tr>
         </table>
 
-        {{-- Project Details Section --}}
-        <h2>Projectinformatie</h2>
+        {{-- Client Details Section --}}
+        <h2>Clientinformatie</h2>
         <table style="width: 100%; margin-bottom: 30px;">
             <tr>
-                {{-- Left Column: Project --}}
+                {{-- Left Column: Client --}}
                 <td class="col-half" style="padding-right: 20px;">
-                    <h3>Project</h3>
+                    <h3>Client</h3>
                     <table class="kv-table">
-                        <tr><th>Projectnaam</th><td>{{ $report->project->name }}</td></tr>
-                        <tr><th>Projectnummer</th><td>{{ $report->project->number }}</td></tr>
+                        <tr><th>Clientnaam</th><td>{{ $report->client->name }}</td></tr>
+                        <tr><th>Clientnummer</th><td>{{ $report->client->number }}</td></tr>
                         <tr><th>Datum werk</th><td>{{ $report->date_of_work->format('d-m-Y') }}</td></tr>
                     </table>
                 </td>

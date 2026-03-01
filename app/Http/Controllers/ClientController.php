@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use App\Models\Contact;
-use App\Models\Project;
+use App\Models\Client;
 use Storage;
 
-class ProjectController extends Controller
+class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $projects = Project::withCount('reports')->orderBy('created_at', 'DESC')->paginate(15);
-        return view('projects.index', compact('projects'));
+        $clients = Client::withCount('reports')->orderBy('created_at', 'DESC')->paginate(15);
+        return view('clients.index', compact('clients'));
     }
 
     /**
@@ -24,13 +24,13 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        return view('clients.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProjectRequest $request)
+    public function store(StoreClientRequest $request)
     {
         $validated = $request->validated();
 
@@ -71,54 +71,53 @@ class ProjectController extends Controller
             $contactId = $contact->id;
         }
 
-        // Prepare data for projects table only
-        $projectData = [
-            'number'     => $validated['number'],
+        // Prepare data for clients table only
+        $clientData = [
+            'number'     => uniqid(),
             'name'       => $validated['name'],
-            'client'     => $validated['client'],
             'contact_id' => $contactId,
         ];
 
         if ($request->hasFile('thumbnail')) {
-            $thumb = $request->file('thumbnail')->store('images/projects', 'public');
-            $projectData['thumbnail'] = str_replace('images/projects/', '', $thumb);
+            $thumb = $request->file('thumbnail')->store('images/clients', 'public');
+            $clientData['thumbnail'] = str_replace('images/clients/', '', $thumb);
         }
 
-        $project = Project::create($projectData);
+        $client = Client::create($clientData);
 
-        return redirect()->route('projects.show', $project)
-            ->with('success', 'Project created successfully!');
+        return redirect()->route('clients.show', $client)
+            ->with('success', 'Client created successfully!');
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show(Client $client)
     {
-        // Load project with its reports
-        $project->load(['reports', 'contact']);
+        // Load client with its reports
+        $client->load(['reports', 'contact']);
 
-        return view('projects.show', compact('project'));
+        return view('clients.show', compact('client'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Project $project)
+    public function edit(Client $client)
     {
-        return view('projects.edit', compact('project'));
+        return view('clients.edit', compact('client'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(UpdateClientRequest $request, Client $client)
     {
         $validated = $request->validated();
 
         // Resolve contact
-        $contactId = $validated['contact_id'] ?? $project->contact_id ?? null;
+        $contactId = $validated['contact_id'] ?? $client->contact_id ?? null;
         if (!$contactId) {
             $contact = Contact::query()
                 ->where(function ($q) use ($validated) {
@@ -153,30 +152,29 @@ class ProjectController extends Controller
             $contactId = $contact->id;
         }
 
-        $projectData = [
+        $clientData = [
             'name'       => $validated['name'],
-            'client'     => $validated['client'],
             'contact_id' => $contactId,
         ];
 
         if($request->hasFile('thumbnail')) {
-            if($project->thumbnail) {
-                Storage::disk('public')->delete('images/projects/'.$project->thumbnail);
+            if($client->thumbnail) {
+                Storage::disk('public')->delete('images/clients/'.$client->thumbnail);
             }
-            $thumb = $request->file('thumbnail')->store('images/projects', 'public');
-            $projectData['thumbnail'] = str_replace('images/projects/', '', $thumb);
+            $thumb = $request->file('thumbnail')->store('images/clients', 'public');
+            $clientData['thumbnail'] = str_replace('images/clients/', '', $thumb);
 
         }
 
-        $project->update($projectData);
+        $client->update($clientData);
 
-        return redirect()->route('projects.show', $project);
+        return redirect()->route('clients.show', $client);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
+    public function destroy(Client $client)
     {
         //
     }

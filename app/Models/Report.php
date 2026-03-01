@@ -23,7 +23,7 @@ class Report extends Model
     protected $fillable = [
         'title',
         'user_id',
-        'project_id',
+        'client_id',
         'date_of_work',
         'field_worker',
         'cable_type',
@@ -48,11 +48,11 @@ class Report extends Model
     }
 
     /**
-     * Get the project that owns the report.
+     * Get the client that owns the report.
      */
-    public function project(): BelongsTo
+    public function client(): BelongsTo
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Client::class);
     }
 
     /**

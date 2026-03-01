@@ -32,17 +32,17 @@ class GenerateReportPdf implements ShouldQueue
     public function handle(): void
     {
         try {
-            $report = $this->report->fresh(['project', 'user', 'fieldWorker', 'images', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure', 'gpsMeasurement', 'lance']);
-            $project = $report->project;
+            $report = $this->report->fresh(['client', 'user', 'fieldWorker', 'images', 'radioDetection', 'gyroscope', 'testTrench', 'groundRadar', 'cableFailure', 'gpsMeasurement', 'lance']);
+            $client = $report->client;
 
-            $pdf = Pdf::loadView('reports.pdf', compact('report', 'project'));
+            $pdf = Pdf::loadView('reports.pdf', compact('report', 'client'));
 
-            $projectName = preg_replace(
+            $clientName = preg_replace(
                 '/[^A-Za-z0-9\-_]/',
                 '',
-                str_replace(' ', '-', $report->project->name)
+                str_replace(' ', '-', $report->client->name)
             );
-            $reportName = "Rapportage_{$report->id}_{$projectName}_{$report->updated_at->toDateString()}.pdf";
+            $reportName = "Rapportage_{$report->id}_{$clientName}_{$report->updated_at->toDateString()}.pdf";
             $filePath = "reports/pdfs/$reportName";
 
             Storage::disk('public')->put($filePath, $pdf->output());

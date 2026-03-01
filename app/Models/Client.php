@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Project extends Model
+class Client extends Model
 {
     use HasFactory;
 
@@ -19,13 +19,12 @@ class Project extends Model
     protected $fillable = [
         'number',
         'name',
-        'client',
         'contact_id',
         'thumbnail',
     ];
 
     /**
-     * Get the reports associated with the project.
+     * Get the reports associated with the client.
      */
     public function reports(): HasMany
     {
@@ -33,7 +32,7 @@ class Project extends Model
     }
 
     /**
-     * Contact person for the project.
+     * Contact person for the client.
      */
     public function contact(): BelongsTo
     {

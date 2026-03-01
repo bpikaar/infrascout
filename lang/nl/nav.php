@@ -2,7 +2,7 @@
 
 return [
     'dashboard' => 'Dashboard',
-    'projects' => 'Projecten',
+    'clients' => 'Opdrachtgevers',
     'reports' => 'Rapporten',
     'descriptions' => 'Beschrijvingen',
     'profile' => 'Profiel',

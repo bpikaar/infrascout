@@ -16,12 +16,12 @@
                         </div>
                         <div>
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('report.actions.edit') }}</h1>
-                            <p class="text-gray-500 dark:text-gray-400">#{{ $report->project->number }} - {{ $report->project->name }}</p>
+                            <p class="text-gray-500 dark:text-gray-400">#{{ $report->client->number }} - {{ $report->client->name }}</p>
                         </div>
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <form method="POST" action="{{ route('projects.reports.update', [$report->project, $report]) }}" enctype="multipart/form-data" class="space-y-6">
+                        <form method="POST" action="{{ route('clients.reports.update', [$report->client, $report]) }}" enctype="multipart/form-data" class="space-y-6">
                             @csrf
                             @method('PUT')
 
@@ -55,7 +55,7 @@
 
                             <!-- Actions -->
                             <div class="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
-                                <a href="{{ route('projects.reports.show', [$report->project, $report]) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">{{ __('report.actions.cancel') }}</a>
+                                <a href="{{ route('clients.reports.show', [$report->client, $report]) }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">{{ __('report.actions.cancel') }}</a>
                                 <x-primary-button>{{ __('report.actions.update') }}</x-primary-button>
                             </div>
                         </form>

@@ -2,19 +2,19 @@
     $mode = $mode ?? 'create'
 @endphp
 <!-- Shared form fields for create/edit -->
-<!-- Project & basic details -->
+<!-- Client & basic details -->
 <div class="bg-gray-200 dark:bg-gray-500 p-4 rounded-lg">
-    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.fields.project') }} / {{ __('report.title.details') }}</h2>
+    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('report.fields.client') }} / {{ __('report.title.details') }}</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <x-input-label for="project_id" :value="__('report.fields.project')" />
-            <select id="project_id" name="project_id" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md" required>
-                <option value="">{{ __('report.project.select') }}</option>
-                @foreach($projects as $p)
-                    <option value="{{ $p->id }}" @selected(old('project_id', $report->project_id ?? $project->id) == $p->id)>#{{ $p->number }} - {{ $p->name }}</option>
+            <x-input-label for="client_id" :value="__('report.fields.client')" />
+            <select id="client_id" name="client_id" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md" required>
+                <option value="">{{ __('report.client.select') }}</option>
+                @foreach($clients as $p)
+                    <option value="{{ $p->id }}" @selected(old('client_id', $report->client_id ?? $client->id) == $p->id)>{{ $p->name }}</option>
                 @endforeach
             </select>
-            <x-input-error :messages="$errors->get('project_id')" class="mt-2" />
+            <x-input-error :messages="$errors->get('client_id')" class="mt-2" />
         </div>
         <div>
             <x-input-label for="date_of_work" :value="__('report.fields.date_of_work')" />

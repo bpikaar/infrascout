@@ -1,10 +1,10 @@
 @props([
-    'project',
+    'client',
     'report'
 ])
 
 <div class="border border-gray-200 dark:border-gray-700 p-4 rounded-lg hover:border-blue-400 transition">
-    <a href="{{ route('projects.reports.show', [$project, $report]) }}" class="flex items-center gap-4 text-blue-500 hover:text-blue-700">
+    <a href="{{ route('clients.reports.show', [$client, $report]) }}" class="flex items-center gap-4 text-blue-500 hover:text-blue-700">
         <!-- Thumbnails -->
         <div class="flex items-center gap-2">
             @foreach($report->images()->take(2)->get() as $image)
@@ -24,7 +24,7 @@
 
         <!-- View Details -->
         <div class="ml-4 whitespace-nowrap text-right text-blue-500 hover:text-blue-700 font-semibold">
-            View Details →
+            Klik voor details →
         </div>
     </a>
 </div>

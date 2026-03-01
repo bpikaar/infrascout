@@ -1,13 +1,12 @@
 <?php
 
-use App\Models\Project;
+use App\Models\Client;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,8 +18,8 @@ return new class extends Migration
             // creator
             $table->foreignIdFor(User::class)->constrained();
 
-            // Project
-            $table->foreignIdFor(Project::class)->constrained();
+            // Client
+            $table->foreignIdFor(Client::class)->constrained();
 
             $table->string('title');
             // company

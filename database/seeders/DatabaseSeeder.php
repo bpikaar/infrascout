@@ -33,6 +33,6 @@ class DatabaseSeeder extends Seeder
         Contact::factory(10)->create();
 
         $this->call(MethodDescriptionsSeeder::class);
-        $this->call(ProjectSeeder::class);
+        $this->call(ClientSeeder::class);
     }
 }

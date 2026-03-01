@@ -10,7 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="mb-4">
-                        <a href="{{ route('projects.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">{{ __('Ga naar de projecten') }}</a>
+                        <a href="{{ route('clients.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">{{ __('Ga naar de opdrachtgevers') }}</a>
                     </div>
 
                     <h3 class="text-lg font-semibold mb-3">{{ request('all') ? __('Alle rapporten') : __('Laatste 5 rapporten') }}</h3>
@@ -20,16 +20,16 @@
                             @foreach($reports as $report)
                                 <li class="py-3 flex items-center justify-between">
                                     <div>
-                                        <a href="{{ route('projects.reports.show', [$report->project_id, $report->id]) }}" class="text-gray-900 dark:text-gray-100 hover:underline">
-                                            #{{ $report->id }} – {{ optional($report->project)->number ? '#'.$report->project->number.' ' : '' }}{{ optional($report->project)->name }}
+                                        <a href="{{ route('clients.reports.show', [$report->client_id, $report->id]) }}" class="text-gray-900 dark:text-gray-100 hover:underline">
+                                            {{ optional($report->client)->name }} • {{ optional($report)->title }}
                                         </a>
                                         <div class="text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $report->date_of_work?->format('d-m-Y H:i') }} • {{ __('Door') }} {{ optional($report->fieldWorker)->name ?? optional($report->user)->name }}
+                                            Aangemaakt: {{ $report->date_of_work?->format('d-m-Y H:i') }} • {{ __('Door') }} {{ optional($report->fieldWorker)->name ?? optional($report->user)->name }}
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-3">
                                         @if($report->pdf && $report->pdf->file_path)
-                                            <a href="{{ route('projects.reports.download', $report) }}" class="inline-flex items-center px-3 py-1.5 text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
+                                            <a href="{{ route('clients.reports.download', $report) }}" class="inline-flex items-center px-3 py-1.5 text-sm bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
                                                 {{ __('Download PDF') }}
                                             </a>
                                         @else

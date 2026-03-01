@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Project>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client>
  */
-class ProjectFactory extends Factory
+class ClientFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,7 +23,6 @@ class ProjectFactory extends Factory
         return [
             'number'     => fake()->unique()->numberBetween(10000, 99999),
             'name'       => fake()->company(),
-            'client'     => fake()->name(),
             'contact_id' => \App\Models\Contact::factory(),
             'created_at' => $created,
             'updated_at' => $updated,

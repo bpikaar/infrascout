@@ -1,18 +1,18 @@
 @props([
-    'project'
+    'client'
 ])
 <div class="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
-    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('project.contact_section') }}</h2>
+    <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('client.contact_section') }}</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Contact with autocomplete -->
         <div class="relative">
-            <x-input-label for="contact" :value="__('project.contact')" />
-            <input type="hidden" id="contact_id" name="contact_id" value="{{ old('contact_id') ?? $project->contact_id ?? '' }}">
+            <x-input-label for="contact" :value="__('client.contact')" />
+            <input type="hidden" id="contact_id" name="contact_id" value="{{ old('contact_id') ?? $client->contact_id ?? '' }}">
             <x-text-input id="contact"
                           class="block mt-1 w-full"
                           type="text"
                           name="contact"
-                          :value="old('contact') ?? ($project->contact?->name ?? '')"
+                          :value="old('contact') ?? ($client->contact?->name ?? '')"
                           autocomplete="off"
                           required />
             <x-input-error :messages="$errors->get('contact')" class="mt-2" />
@@ -23,30 +23,30 @@
 
         <!-- Phone (optional) -->
         <div>
-            <x-input-label for="phone" :value="__('project.phone_optional')" />
+            <x-input-label for="phone" :value="__('client.phone_optional')" />
             <x-text-input id="phone"
                           class="block mt-1 w-full"
                           type="text"
                           name="phone"
-                          :value="old('phone') ?? ($project->contact?->phone ?? '')" />
+                          :value="old('phone') ?? ($client->contact?->phone ?? '')" />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
 
         <!-- Mail (optional) -->
         <div>
-            <x-input-label for="mail" :value="__('project.mail_optional')" />
+            <x-input-label for="mail" :value="__('client.mail_optional')" />
             <x-text-input id="mail"
                           class="block mt-1 w-full"
                           type="email"
                           name="mail"
-                          :value="old('mail') ?? ($project->contact?->email ?? '')" />
+                          :value="old('mail') ?? ($client->contact?->email ?? '')" />
             <x-input-error :messages="$errors->get('mail')" class="mt-2" />
         </div>
 
         <!-- Address (optional) -->
         <div class="md:col-span-2">
-            <x-input-label for="address" :value="__('project.address_optional')" />
-            <textarea id="address" name="address" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('address') ?? ($project->contact?->address ?? '') }}</textarea>
+            <x-input-label for="address" :value="__('client.address_optional')" />
+            <textarea id="address" name="address" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('address') ?? ($client->contact?->address ?? '') }}</textarea>
             <x-input-error :messages="$errors->get('address')" class="mt-2" />
         </div>
     </div>

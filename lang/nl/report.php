@@ -20,16 +20,16 @@ return [
         'signaal_met_sonde' => 'Dummy uitleg: Hiermee lokaliseer je het traject met een sonde geplaatst in de leiding.',
         'signaal_met_geleider' => 'Dummy uitleg: Actieve meting via geleidende aansluiting voor nauwkeurige tracering.',
     ],
-    'project' => [
-        'for_project' => 'Voor project: :name',
-        'label' => 'Project',
-        'select' => 'Selecteer een project',
-        'number' => 'Project #:number',
-        'back' => 'Terug naar Project',
+    'client' => [
+        'for_client' => 'Voor opdrachtgever: :name',
+        'label' => 'Opdrachtgever',
+        'select' => 'Selecteer een opdrachtgever',
+        'number' => 'Opdrachtgever #:number',
+        'back' => 'Terug naar Opdrachtgever',
     ],
 
     'fields' => [
-        'project' => 'Project',
+        'client' => 'Client',
         'date_of_work' => 'Werkdatum',
         'work_date' => 'Werkdatum',
         'work_hours' => 'Werkuren',
