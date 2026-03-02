@@ -159,7 +159,24 @@ class StoreReportRequest extends FormRequest
         $radarEnabled = filter_var($this->input('ground_radar_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $cableFailureEnabled = filter_var($this->input('cable_failure_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
         $gpsMeasurementEnabled = filter_var($this->input('gps_measurement_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+
+        // Lance logic from StoreLanceRequest
         $lanceEnabled = filter_var($this->input('lance_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $lance = $this->input('lance', []);
+
+        if ($lanceEnabled && filter_var($lance['grond_aanwezig'] ?? false, FILTER_VALIDATE_BOOL)) {
+            $grondTypes = isset($lance['grond']) && is_array($lance['grond']) ? array_filter($lance['grond']) : [];
+            if (count($grondTypes) > 0) {
+                $lance['description'] = "De grond bestaat uit: " . implode(', ', $grondTypes);
+            } else {
+                $lance['description'] = "De grond is beoordeeld.";
+            }
+        } else {
+            $lance['description'] = null;
+        }
+
+        unset($lance['grond']);
+        unset($lance['grond_aanwezig']);
 
         // Normalize local boolean checkboxes
         $problemSolved = filter_var($this->input('problem_solved', false), FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
@@ -175,6 +192,7 @@ class StoreReportRequest extends FormRequest
             'cable_failure_enabled' => $cableFailureEnabled,
             'gps_measurement_enabled' => $gpsMeasurementEnabled,
             'lance_enabled' => $lanceEnabled,
+            'lance' => $lance,
             'problem_solved' => $problemSolved,
             'question_answered' => $questionAnswered,
         ]);

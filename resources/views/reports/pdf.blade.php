@@ -1,6 +1,7 @@
 @php use App\Enums\MethodType; @endphp
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="utf-8">
     <title>Rapport {{ $report->id }} - {{ $report->client->name }}</title>
@@ -680,6 +681,12 @@
                                 m
                             </td>
                         </tr>
+                        @if($report->lance->description)
+                            <tr>
+                                <th>Beschrijving</th>
+                                <td>{{ $report->lance->description }}</td>
+                            </tr>
+                        @endif
                     </table>
                     <x-report.pdf.method-images :report="$report" :methodType="MethodType::Lance" />
                 </div>

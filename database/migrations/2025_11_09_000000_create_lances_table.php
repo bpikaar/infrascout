@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('report_id')->constrained()->cascadeOnDelete();
             $table->decimal('aanprikdiepte', 8, 2)->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -11,6 +11,10 @@
                 $depth = $report->lance->aanprikdiepte !== null ? number_format($report->lance->aanprikdiepte, 2) : '-';
             @endphp
             <x-report.show.info-item header="aanprikdiepte (m)" :p="$depth" />
+
+            @if($report->lance->description)
+                <x-report.show.info-item header="Beschrijving" :p="$report->lance->description" />
+            @endif
         </div>
 
         <x-report.show.method-images :images="$report->images->where('method', \App\Enums\MethodType::Lance)" :reportId="$report->id" />

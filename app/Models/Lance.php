@@ -14,6 +14,7 @@ class Lance extends Model
     protected $fillable = [
         'report_id',
         'aanprikdiepte',
+        'description',
     ];
 
     protected $casts = [
@@ -25,7 +26,8 @@ class Lance extends Model
         return $this->belongsTo(Report::class);
     }
 
-    public static function description(): ?string {
+    public static function description(): ?string
+    {
         return MethodDescription::where('method_type', MethodType::Lance->value)
             ->value('description');
     }

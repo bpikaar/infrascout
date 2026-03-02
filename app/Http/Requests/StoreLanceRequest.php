@@ -16,6 +16,7 @@ class StoreLanceRequest extends FormRequest
         return [
             'lance_enabled' => ['nullable', 'boolean'],
             'lance.aanprikdiepte' => ['required_if:lance_enabled,1', 'nullable', 'numeric', 'min:0'],
+            'lance.description' => ['nullable', 'string'],
         ];
     }
 
@@ -39,8 +40,25 @@ class StoreLanceRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $enabled = filter_var($this->input('lance_enabled', false), FILTER_VALIDATE_BOOL) ? 1 : 0;
+        $lance = $this->input('lance', []);
+
+        if ($enabled && filter_var($lance['grond_aanwezig'] ?? false, FILTER_VALIDATE_BOOL)) {
+            $grondTypes = isset($lance['grond']) && is_array($lance['grond']) ? array_filter($lance['grond']) : [];
+            if (count($grondTypes) > 0) {
+                $lance['description'] = "De grond bestaat uit: " . implode(', ', $grondTypes);
+            } else {
+                $lance['description'] = "De grond is beoordeeld.";
+            }
+        } else {
+            $lance['description'] = null;
+        }
+
+        unset($lance['grond']); // Remove so it doesn't fail validation
+        unset($lance['grond_aanwezig']);
+
         $this->merge([
             'lance_enabled' => $enabled,
+            'lance' => $lance,
         ]);
     }
 }
