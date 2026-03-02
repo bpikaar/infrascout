@@ -291,19 +291,16 @@
         {{-- Header Section --}}
         <table class="header">
             <tr>
-                <td style="vertical-align: middle;">
+                <td style="text-align: center; vertical-align: middle;">
                     @php
                         $logoPath = public_path('storage/images/static/logo-infrascout.png');
                     @endphp
                     @if(file_exists($logoPath))
-                        <img src="{{ $logoPath }}" alt="Infrascout" class="logo">
+                        <img src="{{ $logoPath }}" alt="Infrascout" class="logo" style="margin: 0 auto 15px auto; display: block;">
                     @endif
-                </td>
-                <td style="vertical-align: middle; text-align: right;">
-                    <h1>Werkrapport</h1>
-                    <div class="text-muted" style="font-size: 16px;">{{ $report->title }}</div>
-                    <div class="mt-4 text-muted" style="font-size: 12px;">Rapportnummer: {{ $report->report_number }}<br>Aangemaakt
-                        op: {{ now()->format('d-m-Y') }}</div>
+                    <h1 style="text-align: center; margin-bottom: 10px;">Werkrapport</h1>
+                    <div class="text-muted" style="font-size: 16px; margin-bottom: 5px;">{{ $report->title }}</div>
+                    <div class="mt-4 text-muted" style="font-size: 12px;">Rapportnummer: {{ $report->report_number }}<br>Aangemaakt op: {{ now()->format('d-m-Y') }}</div>
                 </td>
             </tr>
         </table>
