@@ -15,7 +15,9 @@ class CableFailure extends Model
         'report_id',
         'type_storing',
         'locatie_storing',
-        'methode_vaststelling',
+        'a_frame',
+        'tdr',
+        'isolatieweerstandmeting',
         'kabel_met_aftakking',
         'bijzonderheden',
         'advies',
@@ -23,6 +25,9 @@ class CableFailure extends Model
 
     protected $casts = [
         'kabel_met_aftakking' => 'boolean',
+        'a_frame' => 'boolean',
+        'tdr' => 'boolean',
+        'isolatieweerstandmeting' => 'boolean',
     ];
 
     public function report(): BelongsTo
@@ -30,29 +35,9 @@ class CableFailure extends Model
         return $this->belongsTo(Report::class);
     }
 
-    public static function description(): ?string {
-        return MethodDescription::where('method_type', MethodType::CableFailure->value)
-            ->value('description');
-    }
-
-    public static function methodDescriptionFor(?string $method): ?string
+    public static function description(): ?string
     {
-        if (!$method) {
-            return null;
-        }
-
-        $methodType = match ($method) {
-            'A-frame' => MethodType::AFrame->value,
-            'TDR' => MethodType::TDR->value,
-            'Meggeren' => MethodType::Meggeren->value,
-            default => null,
-        };
-
-        if (!$methodType) {
-            return null;
-        }
-
-        return MethodDescription::where('method_type', $methodType)
+        return MethodDescription::where('method_type', MethodType::CableFailure->value)
             ->value('description');
     }
 }

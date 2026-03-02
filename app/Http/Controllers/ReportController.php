@@ -57,46 +57,29 @@ class ReportController extends Controller
         // Create the report (legacy technical spec fields still on model for backward compatibility)
         $report = Report::create($validated);
 
-        // Optional Radio Detection
-        if ($request->boolean('radio_detection_enabled') && $request->filled('radio_detection')) {
-            $report->radioDetection()->create($validated['radio_detection']);
-            $report->save();
-        }
+        // Verwerk alle optionele meetmethoden
+        $methods = [
+            'radio_detection' => 'radioDetection',
+            'gyroscope' => 'gyroscope',
+            'test_trench' => 'testTrench',
+            'ground_radar' => 'groundRadar',
+            'cable_failure' => 'cableFailure',
+            'gps_measurement' => 'gpsMeasurement',
+            'lance' => 'lance',
+        ];
 
-        // Optional Gyroscope
-        if ($request->boolean('gyroscope_enabled') && $request->filled('gyroscope')) {
-            $report->gyroscope()->create($validated['gyroscope']);
-            $report->save();
-        }
+        foreach ($methods as $requestKey => $relationMethod) {
+            if ($request->boolean("{$requestKey}_enabled") && $request->filled($requestKey)) {
+                $methodModel = $report->$relationMethod()->create($validated[$requestKey]);
 
-        // Optional Test Trench
-        if ($request->boolean('test_trench_enabled') && $request->filled('test_trench')) {
-            $report->testTrench()->create($validated['test_trench']);
-            $report->save();
-        }
-
-        // Optional Ground Radar
-        if ($request->boolean('ground_radar_enabled') && $request->filled('ground_radar')) {
-            $report->groundRadar()->create($validated['ground_radar']);
-            $report->save();
-        }
-
-        // Optional Cable Failure
-        if ($request->boolean('cable_failure_enabled') && $request->filled('cable_failure')) {
-            $report->cableFailure()->create($validated['cable_failure']);
-            $report->save();
-        }
-
-        // Optional GPS Measurement
-        if ($request->boolean('gps_measurement_enabled') && $request->filled('gps_measurement')) {
-            $report->gpsMeasurement()->create($validated['gps_measurement']);
-            $report->save();
-        }
-
-        // Optional Lance
-        if ($request->boolean('lance_enabled') && $request->filled('lance')) {
-            $report->lance()->create($validated['lance']);
-            $report->save();
+                // Specifieke afhandeling voor boolean velden in cable_failure
+                if ($requestKey === 'cable_failure') {
+                    $methodModel->a_frame = $request->has('cable_failure.a_frame') ? 1 : 0;
+                    $methodModel->tdr = $request->has('cable_failure.tdr') ? 1 : 0;
+                    $methodModel->isolatieweerstandmeting = $request->has('cable_failure.isolatieweerstandmeting') ? 1 : 0;
+                    $methodModel->save();
+                }
+            }
         }
 
         // Sync / create cables
@@ -256,14 +239,38 @@ class ReportController extends Controller
         }
         $report->pipes()->sync($pipeIds);
 
-        // Feature sections: create/update or delete if disabled
-        $this->syncOptionalHasOne($report, $request, 'radio_detection_enabled', 'radio_detection', 'radioDetection');
-        $this->syncOptionalHasOne($report, $request, 'gyroscope_enabled', 'gyroscope', 'gyroscope');
-        $this->syncOptionalHasOne($report, $request, 'test_trench_enabled', 'test_trench', 'testTrench');
-        $this->syncOptionalHasOne($report, $request, 'ground_radar_enabled', 'ground_radar', 'groundRadar');
-        $this->syncOptionalHasOne($report, $request, 'cable_failure_enabled', 'cable_failure', 'cableFailure');
-        $this->syncOptionalHasOne($report, $request, 'gps_measurement_enabled', 'gps_measurement', 'gpsMeasurement');
-        $this->syncOptionalHasOne($report, $request, 'lance_enabled', 'lance', 'lance');
+        // Verwerk alle optionele meetmethoden dynamisch
+        $methods = [
+            'radio_detection' => 'radioDetection',
+            'gyroscope' => 'gyroscope',
+            'test_trench' => 'testTrench',
+            'ground_radar' => 'groundRadar',
+            'cable_failure' => 'cableFailure',
+            'gps_measurement' => 'gpsMeasurement',
+            'lance' => 'lance',
+        ];
+
+        // Update method status
+        foreach ($methods as $requestKey => $relationMethod) {
+            if ($request->boolean("{$requestKey}_enabled")) {
+                if ($request->filled($requestKey)) {
+                    $methodModel = $report->$relationMethod()->updateOrCreate(
+                        ['report_id' => $report->id],
+                        $validated[$requestKey]
+                    );
+
+                    // Specifieke afhandeling voor boolean velden in cable_failure
+                    if ($requestKey === 'cable_failure') {
+                        $methodModel->a_frame = $request->has('cable_failure.a_frame') ? 1 : 0;
+                        $methodModel->tdr = $request->has('cable_failure.tdr') ? 1 : 0;
+                        $methodModel->isolatieweerstandmeting = $request->has('cable_failure.isolatieweerstandmeting') ? 1 : 0;
+                        $methodModel->save();
+                    }
+                }
+            } else {
+                $report->$relationMethod()->delete();
+            }
+        }
 
         // Delete images requested
         foreach ($request->input('delete_images', []) as $imageId) {
@@ -297,28 +304,6 @@ class ReportController extends Controller
 
         return redirect()->route('clients.reports.show', [$report->client, $report])
             ->with('status', 'Rapport bijgewerkt. PDF wordt opnieuw gegenereerd.');
-    }
-
-    protected function syncOptionalHasOne(Report $report, \Illuminate\Http\Request $request, string $toggle, string $payloadKey, string $relationMethod): void
-    {
-        $enabled = $request->boolean($toggle);
-        $data = $request->input($payloadKey, []);
-        // If disabled: delete existing
-        if (!$enabled) {
-            if ($report->{$relationMethod}) {
-                $report->{$relationMethod}()->delete();
-            }
-            return;
-        }
-        if (empty($data)) {
-            return;
-        }
-        // If exists update else create
-        if ($report->{$relationMethod}) {
-            $report->{$relationMethod}->update($data);
-        } else {
-            $report->{$relationMethod}()->create($data);
-        }
     }
 
     /**

@@ -6,9 +6,10 @@
                     <div class="flex items-center mb-6">
                         <div class="mr-6">
                             @php
+                                /** @var \App\Models\Report $report */
                                 $imageSrc = $report->images->isNotEmpty() ?
-                                    asset('/storage/images/reports/'.$report->id.'/'.$report->images()->first()->path)  :
-                                    Vite::asset('resources/images/thumb-image.png');
+                                asset('/storage/images/reports/'.$report->id.'/'.$report->images()->first()->path)  :
+                                Vite::asset('resources/images/thumb-image.png');
                             @endphp
                             <img src="{{ $imageSrc }}"
                                  alt="{{ __('report.images.alt_edit_report_thumb') }}"
@@ -16,7 +17,7 @@
                         </div>
                         <div>
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ __('report.actions.edit') }}</h1>
-                            <p class="text-gray-500 dark:text-gray-400">#{{ $report->client->number }} - {{ $report->client->name }}</p>
+                            <p class="text-gray-500 dark:text-gray-400">#{{ $report->report_number }} - {{ $report->client->name }}</p>
                         </div>
                     </div>
 

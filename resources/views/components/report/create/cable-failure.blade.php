@@ -4,16 +4,7 @@
 
     <p class="text-sm text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-line bg-white/70 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-md p-3">{{ \App\Models\CableFailure::description() }}</p>
 
-    @php($methodeVaststellingValue = old('cable_failure.methode_vaststelling', $report->cableFailure->methode_vaststelling ?? 'A-frame'))
-    @php($methodeDescriptions = [
-        'A-frame' => \App\Models\CableFailure::methodDescriptionFor('A-frame'),
-        'TDR' => \App\Models\CableFailure::methodDescriptionFor('TDR'),
-        'Meggeren' => \App\Models\CableFailure::methodDescriptionFor('Meggeren'),
-    ])
-    <div x-data="{
-            methodeVaststelling: @js($methodeVaststellingValue),
-            methodeDescriptions: @js($methodeDescriptions)
-        }" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
             <x-input-label for="cf_type_storing" value="Type storing" />
             <select id="cf_type_storing" name="cable_failure[type_storing]" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
@@ -39,20 +30,45 @@
             <x-input-error :messages="$errors->get('cable_failure.kabel_met_aftakking')" class="mt-2" />
         </div>
         <div class="hidden md:block"></div>
-        <div>
-            <x-input-label for="cf_methode_vaststelling" value="Methode vaststelling" />
-            <select id="cf_methode_vaststelling" name="cable_failure[methode_vaststelling]" x-model="methodeVaststelling" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 rounded-md">
-                <option value="A-frame" @selected($methodeVaststellingValue === 'A-frame')>A-frame</option>
-                <option value="TDR" @selected($methodeVaststellingValue === 'TDR')>TDR</option>
-                <option value="Meggeren" @selected($methodeVaststellingValue === 'Meggeren')>Meggeren</option>
-            </select>
-            <x-input-error :messages="$errors->get('cable_failure.methode_vaststelling')" class="mt-2" />
-        </div>
-        <div class="hidden md:block"></div>
-        <div class="md:col-span-2">
-            <template x-if="methodeDescriptions[methodeVaststelling]">
-                <p class="text-sm text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-line bg-white/70 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-md p-3" x-text="methodeDescriptions[methodeVaststelling]"></p>
-            </template>
+        <div class="md:col-span-2 mt-4">
+            <h3 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Methode vaststelling</h3>
+            <div class="space-y-4">
+                <!-- A-frame -->
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="cf_a_frame" name="cable_failure[a_frame]" type="checkbox" value="1" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" @checked(old('cable_failure.a_frame', $report->cableFailure->a_frame ?? false))>
+                    </div>
+                    <div class="ms-2 text-sm">
+                        <label for="cf_a_frame" class="font-medium text-gray-900 dark:text-gray-300">A-frame</label>
+                        <p class="text-xs font-normal text-gray-500 dark:text-gray-400 whitespace-pre-line mt-1">{{ \App\Models\MethodDescription::where('method_type', \App\Enums\MethodType::AFrame->value)->value('description') }}</p>
+                    </div>
+                </div>
+
+                <!-- TDR -->
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="cf_tdr" name="cable_failure[tdr]" type="checkbox" value="1" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" @checked(old('cable_failure.tdr', $report->cableFailure->tdr ?? false))>
+                    </div>
+                    <div class="ms-2 text-sm">
+                        <label for="cf_tdr" class="font-medium text-gray-900 dark:text-gray-300">TDR</label>
+                        <p class="text-xs font-normal text-gray-500 dark:text-gray-400 whitespace-pre-line mt-1">{{ \App\Models\MethodDescription::where('method_type', \App\Enums\MethodType::TDR->value)->value('description') }}</p>
+                    </div>
+                </div>
+
+                <!-- Isolatieweerstandmeting -->
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="cf_isolatieweerstandmeting" name="cable_failure[isolatieweerstandmeting]" type="checkbox" value="1" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" @checked(old('cable_failure.isolatieweerstandmeting', $report->cableFailure->isolatieweerstandmeting ?? false))>
+                    </div>
+                    <div class="ms-2 text-sm">
+                        <label for="cf_isolatieweerstandmeting" class="font-medium text-gray-900 dark:text-gray-300">Isolatieweerstandmeting (Meggeren)</label>
+                        <p class="text-xs font-normal text-gray-500 dark:text-gray-400 whitespace-pre-line mt-1">{{ \App\Models\MethodDescription::where('method_type', \App\Enums\MethodType::Meggeren->value)->value('description') }}</p>
+                    </div>
+                </div>
+            </div>
+            <x-input-error :messages="$errors->get('cable_failure.a_frame')" class="mt-2" />
+            <x-input-error :messages="$errors->get('cable_failure.tdr')" class="mt-2" />
+            <x-input-error :messages="$errors->get('cable_failure.isolatieweerstandmeting')" class="mt-2" />
         </div>
         <div class="md:col-span-2">
             <x-input-label for="cf_bijzonderheden" value="Bijzonderheden" />

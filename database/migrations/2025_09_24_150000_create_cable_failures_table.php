@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,9 +13,11 @@ return new class extends Migration
         Schema::create('cable_failures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('report_id')->constrained()->onDelete('cascade');
-            $table->enum('type_storing', ['Kabelbreuk','Slechte verbinding','Kortsluiting','Overig']);
+            $table->enum('type_storing', ['Kabelbreuk', 'Slechte verbinding', 'Kortsluiting', 'Overig']);
             $table->string('locatie_storing')->nullable();
-            $table->enum('methode_vaststelling', ['A-frame','TDR','Meggeren'])->nullable();
+            $table->boolean('a_frame')->default(false);
+            $table->boolean('tdr')->default(false);
+            $table->boolean('isolatieweerstandmeting')->default(false);
             $table->boolean('kabel_met_aftakking')->default(false);
             $table->text('bijzonderheden')->nullable();
             $table->text('advies')->nullable();

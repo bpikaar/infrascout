@@ -42,7 +42,7 @@ if the generation of a pdf changes in `GenerateReportPdf` restart queue worker
 php artisan queue:work
 ```
 
-#### known issue
+#### known issues
 The problem: The Blade compiler can have issues with multi-line `@php` blocks, especially when nested inside loops like `@foreach`. When Blade compiles `@php...@endphp` to raw PHP, it can sometimes create parsing conflicts with the surrounding Blade directives, leading to "unexpected token" errors.
 
 domPdf recently shows issues with `@php` directives
@@ -54,6 +54,12 @@ domPdf recently shows issues with `@php` directives
     somehing
 @endphp
 ```
+
+pre-wrap in classes can mess up with the spacing. 
+```html
+<div class="panel" style="white-space: normal;">
+```
+
 ## publish vendor
 
 ```
