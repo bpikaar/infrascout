@@ -582,6 +582,7 @@ use Illuminate\Support\Facades\Storage;
                     <h4>Methode vaststelling</h4>
                     <div class="panel" style="white-space: normal;">
                         <table style="width: 100%; border-collapse: collapse; margin: 0; padding: 0;">
+                            @if($report->cableFailure->a_frame)
                             <tr>
                                 <td style="width: 30px; vertical-align: top; padding: 0;">
                                     <div style="display: block; width: 14px; text-align: left; color: {{ $report->cableFailure->a_frame ? '#21abde' : '#9ca3af' }}; font-family: 'DejaVu Sans', sans-serif; font-size: 16px; line-height: 1;">{!! $report->cableFailure->a_frame ? '&#9745;' : '&#9744;' !!}</div>
@@ -591,6 +592,8 @@ use Illuminate\Support\Facades\Storage;
                                     <div style="font-size: 11px; color: #6b7280; line-height: 1.4;">{{ \App\Models\MethodDescription::where('method_type', \App\Enums\MethodType::AFrame->value)->value('description') }}</div>
                                 </td>
                             </tr>
+                            @endif
+                            @if($report->cableFailure->tdr)
                             <tr>
                                 <td style="width: 30px; vertical-align: top; padding: 0;">
                                     <div style="display: block; width: 14px; text-align: left; color: {{ $report->cableFailure->tdr ? '#21abde' : '#9ca3af' }}; font-family: 'DejaVu Sans', sans-serif; font-size: 16px; line-height: 1;">{!! $report->cableFailure->tdr ? '&#9745;' : '&#9744;' !!}</div>
@@ -600,6 +603,8 @@ use Illuminate\Support\Facades\Storage;
                                     <div style="font-size: 11px; color: #6b7280; line-height: 1.4;">{{ \App\Models\MethodDescription::where('method_type', \App\Enums\MethodType::TDR->value)->value('description') }}</div>
                                 </td>
                             </tr>
+                            @endif
+                            @if($report->cableFailure->isolatieweerstandmeting)
                             <tr>
                                 <td style="width: 30px; vertical-align: top; padding: 0;">
                                     <div style="display: block; width: 14px; text-align: left; color: {{ $report->cableFailure->isolatieweerstandmeting ? '#21abde' : '#9ca3af' }}; font-family: 'DejaVu Sans', sans-serif; font-size: 16px; line-height: 1;">{!! $report->cableFailure->isolatieweerstandmeting ? '&#9745;' : '&#9744;' !!}</div>
@@ -609,6 +614,7 @@ use Illuminate\Support\Facades\Storage;
                                     <div style="font-size: 11px; color: #6b7280; line-height: 1.4;">{{ \App\Models\MethodDescription::where('method_type', \App\Enums\MethodType::Meggeren->value)->value('description') }}</div>
                                 </td>
                             </tr>
+                            @endif
                         </table>
                     </div>
                     <table class="kv-table">
