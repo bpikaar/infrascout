@@ -1,4 +1,7 @@
-<?php use App\Enums\MethodType; use Illuminate\Support\Facades\Storage; ?>
+<?php
+use App\Enums\MethodType;
+use Illuminate\Support\Facades\Storage;
+?>
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -292,7 +295,7 @@
         <table class="header">
             <tr>
                 <td style="text-align: center; vertical-align: middle;">
-                    <?php $logoPath = Storage::disk('local')->path('images/static/logo-infrascout.png'); ?>
+                    <?php $logoPath = public_path('storage/images/static/logo-infrascout.png'); ?>
                     @if(file_exists($logoPath))
                         <img src="{{ $logoPath }}" alt="Infrascout" class="logo" style="margin: 0 auto 15px auto; display: block;">
                     @endif
