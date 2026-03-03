@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
-use App\Models\Contact;
 use App\Models\Client;
+use App\Models\Contact;
 use Storage;
 
 class ClientController extends Controller
@@ -89,8 +89,7 @@ class ClientController extends Controller
         ];
 
         if ($request->hasFile('thumbnail')) {
-            $thumb = $request->file('thumbnail')->store('images/clients', 'local');
-            $clientData['thumbnail'] = str_replace('images/clients/', '', $thumb);
+            $clientData['thumbnail'] = \App\Services\ImageService::processAndStore($request->file('thumbnail'), 'images/clients');
         }
 
         $client = Client::create($clientData);
@@ -181,9 +180,7 @@ class ClientController extends Controller
             if ($client->thumbnail) {
                 Storage::disk('local')->delete('images/clients/' . $client->thumbnail);
             }
-            $thumb = $request->file('thumbnail')->store('images/clients', 'local');
-            $clientData['thumbnail'] = str_replace('images/clients/', '', $thumb);
-
+            $clientData['thumbnail'] = \App\Services\ImageService::processAndStore($request->file('thumbnail'), 'images/clients');
         }
 
         $client->update($clientData);

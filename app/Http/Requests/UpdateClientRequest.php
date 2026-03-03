@@ -30,7 +30,7 @@ class UpdateClientRequest extends FormRequest
             'street' => 'nullable|string|max:255',
             'zipcode' => 'nullable|string|max:50',
             'city' => 'nullable|string|max:255',
-            'thumbnail' => 'nullable|image|max:2048',
+            'thumbnail' => 'nullable|file|mimes:jpg,jpeg,png,gif,heic,webp|max:2048',
         ];
     }
 }

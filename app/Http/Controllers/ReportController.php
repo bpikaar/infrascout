@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\MethodType;
 use App\Http\Requests\StoreReportRequest;
+use App\Jobs\GenerateReportPdf;
+use App\Models\Cable;
 use App\Models\Client;
+use App\Models\Pipe;
 use App\Models\Report;
 use App\Models\User;
 use Auth;
-use App\Jobs\GenerateReportPdf;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\Models\Cable;
-use App\Models\Pipe;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Laravel\Facades\Image;
-use Illuminate\Http\UploadedFile;
-use App\Enums\MethodType;
 
 class ReportController extends Controller
 {
@@ -356,25 +353,14 @@ class ReportController extends Controller
      * Process and store an array of uploaded images, automatically converting HEIC/any format to JPG.
      *
      * @param Report $report
-     * @param array<UploadedFile> $images
+     * @param array $images
      * @param MethodType|null $method
      * @return void
      */
     private function processAndStoreImages(Report $report, array $images, ?MethodType $method = null): void
     {
         foreach ($images as $image) {
-            // Read the image (Intervention Image w/ Imagick handles HEIC natively)
-            $imageToProcess = Image::read($image);
-
-            // Generate unique filename and always force the .jpg extension
-            $filename = uniqid() . '.jpg';
-            $path = 'images/reports/' . $report->id . '/' . $filename;
-
-            // Resize based on config
-            $imageToProcess->scaleDown(config('image.scale'), config('image.scale'));
-
-            // Store directly to disk, encoding as JPG
-            Storage::disk('local')->put($path, $imageToProcess->encodeByExtension('jpg', quality: config('image.quality')));
+            $filename = \App\Services\ImageService::processAndStore($image, 'images/reports/' . $report->id);
 
             // Create record
             $report->images()->create([
