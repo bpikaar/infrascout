@@ -24,7 +24,7 @@ class ContactController extends Controller
             ->where('name', 'like', $q . '%')
             ->orderBy('name')
             ->limit(8)
-            ->get(['id', 'name', 'phone', 'email', 'address']);
+            ->get(['id', 'name', 'phone', 'email', 'street', 'zipcode', 'city']);
 
         return response()->json($contacts);
     }

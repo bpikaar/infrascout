@@ -19,7 +19,9 @@ class ContactFactory extends Factory
         return [
             'name' => fake()->name(),
             'phone' => fake()->phoneNumber(),
-            'address' => fake()->address(),
+            'street' => fake()->streetAddress(),
+            'zipcode' => fake()->postcode(),
+            'city' => fake()->city(),
             'email' => fake()->safeEmail(),
         ];
     }

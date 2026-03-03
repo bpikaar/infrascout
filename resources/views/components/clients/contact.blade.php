@@ -1,5 +1,5 @@
 @props([
-    'client'
+    'client' => null
 ])
 <div class="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
     <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('client.contact_section') }}</h2>
@@ -43,11 +43,37 @@
             <x-input-error :messages="$errors->get('mail')" class="mt-2" />
         </div>
 
-        <!-- Address (optional) -->
+        <!-- Street (optional) -->
         <div class="md:col-span-2">
-            <x-input-label for="address" :value="__('client.address_optional')" />
-            <textarea id="address" name="address" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('address') ?? ($client->contact?->address ?? '') }}</textarea>
-            <x-input-error :messages="$errors->get('address')" class="mt-2" />
+            <x-input-label for="street" :value="__('client.street_optional')" />
+            <x-text-input id="street"
+                          class="block mt-1 w-full"
+                          type="text"
+                          name="street"
+                          :value="old('street') ?? ($client->contact?->street ?? '')" />
+            <x-input-error :messages="$errors->get('street')" class="mt-2" />
+        </div>
+
+        <!-- Zipcode (optional) -->
+        <div>
+            <x-input-label for="zipcode" :value="__('client.zipcode_optional')" />
+            <x-text-input id="zipcode"
+                          class="block mt-1 w-full"
+                          type="text"
+                          name="zipcode"
+                          :value="old('zipcode') ?? ($client->contact?->zipcode ?? '')" />
+            <x-input-error :messages="$errors->get('zipcode')" class="mt-2" />
+        </div>
+
+        <!-- City (optional) -->
+        <div>
+            <x-input-label for="city" :value="__('client.city_optional')" />
+            <x-text-input id="city"
+                          class="block mt-1 w-full"
+                          type="text"
+                          name="city"
+                          :value="old('city') ?? ($client->contact?->city ?? '')" />
+            <x-input-error :messages="$errors->get('city')" class="mt-2" />
         </div>
     </div>
 </div>
@@ -58,7 +84,9 @@
         const contactIdInput = document.getElementById('contact_id');
         const phoneInput = document.getElementById('phone');
         const mailInput = document.getElementById('mail');
-        const addressInput = document.getElementById('address');
+        const streetInput = document.getElementById('street');
+        const zipcodeInput = document.getElementById('zipcode');
+        const cityInput = document.getElementById('city');
         const suggestionsBox = document.getElementById('contact-suggestions');
 
         let debounceTimer;
@@ -85,7 +113,9 @@
                     contactInput.value = item.name;
                     phoneInput.value = item.phone ?? '';
                     mailInput.value = item.email ?? '';
-                    addressInput.value = item.address ?? '';
+                    streetInput.value = item.street ?? '';
+                    zipcodeInput.value = item.zipcode ?? '';
+                    cityInput.value = item.city ?? '';
                     hideSuggestions();
                 });
             });

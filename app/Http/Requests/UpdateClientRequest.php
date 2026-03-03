@@ -27,7 +27,9 @@ class UpdateClientRequest extends FormRequest
             'contact' => 'required_without:contact_id|string|max:255',
             'phone' => 'nullable|string|max:50',
             'mail' => 'nullable|email|max:255',
-            'address' => 'nullable|string|max:500',
+            'street' => 'nullable|string|max:255',
+            'zipcode' => 'nullable|string|max:50',
+            'city' => 'nullable|string|max:255',
             'thumbnail' => 'nullable|image|max:2048',
         ];
     }

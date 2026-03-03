@@ -36,7 +36,13 @@ class ClientController extends Controller
 
         // Resolve contact: prefer provided contact_id, else find-or-create by unique keys
         $contactId = $validated['contact_id'] ?? null;
-        if (!$contactId) {
+        $contact = null;
+
+        if ($contactId) {
+            $contact = Contact::find($contactId);
+        }
+
+        if (!$contact) {
             $contact = Contact::query()
                 ->where(function ($q) use ($validated) {
                     if (!empty($validated['mail'])) {
@@ -50,31 +56,35 @@ class ClientController extends Controller
                     }
                 })
                 ->first();
-
-            if (!$contact) {
-                $contact = Contact::create([
-                    'name'    => $validated['contact'] ?? 'Unknown',
-                    'phone'   => $validated['phone'] ?? null,
-                    'email'   => $validated['mail'] ?? null,
-                    'address' => $validated['address'] ?? null,
-                ]);
-            } else {
-                // Optionally update missing fields
-                $contact->fill([
-                    'name'    => $validated['contact'] ?? $contact->name,
-                    'phone'   => $validated['phone'] ?? $contact->phone,
-                    'email'   => $validated['mail'] ?? $contact->email,
-                    'address' => $validated['address'] ?? $contact->address,
-                ])->save();
-            }
-
-            $contactId = $contact->id;
         }
+
+        if (!$contact) {
+            $contact = Contact::create([
+                'name' => $validated['contact'] ?? 'Unknown',
+                'phone' => $validated['phone'] ?? null,
+                'email' => $validated['mail'] ?? null,
+                'street' => $validated['street'] ?? null,
+                'zipcode' => $validated['zipcode'] ?? null,
+                'city' => $validated['city'] ?? null,
+            ]);
+        } else {
+            // Update existing contact fields
+            $contact->fill([
+                'name' => $validated['contact'] ?? $contact->name,
+                'phone' => $validated['phone'] ?? $contact->phone,
+                'email' => $validated['mail'] ?? $contact->email,
+                'street' => $validated['street'] ?? $contact->street,
+                'zipcode' => $validated['zipcode'] ?? $contact->zipcode,
+                'city' => $validated['city'] ?? $contact->city,
+            ])->save();
+        }
+
+        $contactId = $contact->id;
 
         // Prepare data for clients table only
         $clientData = [
-            'number'     => uniqid(),
-            'name'       => $validated['name'],
+            'number' => uniqid(),
+            'name' => $validated['name'],
             'contact_id' => $contactId,
         ];
 
@@ -118,7 +128,13 @@ class ClientController extends Controller
 
         // Resolve contact
         $contactId = $validated['contact_id'] ?? $client->contact_id ?? null;
-        if (!$contactId) {
+        $contact = null;
+
+        if ($contactId) {
+            $contact = Contact::find($contactId);
+        }
+
+        if (!$contact) {
             $contact = Contact::query()
                 ->where(function ($q) use ($validated) {
                     if (!empty($validated['mail'])) {
@@ -132,34 +148,38 @@ class ClientController extends Controller
                     }
                 })
                 ->first();
-
-            if (!$contact) {
-                $contact = Contact::create([
-                    'name'    => $validated['contact'] ?? 'Unknown',
-                    'phone'   => $validated['phone'] ?? null,
-                    'email'   => $validated['mail'] ?? null,
-                    'address' => $validated['address'] ?? null,
-                ]);
-            } else {
-                $contact->fill([
-                    'name'    => $validated['contact'] ?? $contact->name,
-                    'phone'   => $validated['phone'] ?? $contact->phone,
-                    'email'   => $validated['mail'] ?? $contact->email,
-                    'address' => $validated['address'] ?? $contact->address,
-                ])->save();
-            }
-
-            $contactId = $contact->id;
         }
 
+        if (!$contact) {
+            $contact = Contact::create([
+                'name' => $validated['contact'] ?? 'Unknown',
+                'phone' => $validated['phone'] ?? null,
+                'email' => $validated['mail'] ?? null,
+                'street' => $validated['street'] ?? null,
+                'zipcode' => $validated['zipcode'] ?? null,
+                'city' => $validated['city'] ?? null,
+            ]);
+        } else {
+            $contact->fill([
+                'name' => $validated['contact'] ?? $contact->name,
+                'phone' => $validated['phone'] ?? $contact->phone,
+                'email' => $validated['mail'] ?? $contact->email,
+                'street' => $validated['street'] ?? $contact->street,
+                'zipcode' => $validated['zipcode'] ?? $contact->zipcode,
+                'city' => $validated['city'] ?? $contact->city,
+            ])->save();
+        }
+
+        $contactId = $contact->id;
+
         $clientData = [
-            'name'       => $validated['name'],
+            'name' => $validated['name'],
             'contact_id' => $contactId,
         ];
-
-        if($request->hasFile('thumbnail')) {
-            if($client->thumbnail) {
-                Storage::disk('public')->delete('images/clients/'.$client->thumbnail);
+        //        dd($clientData);
+        if ($request->hasFile('thumbnail')) {
+            if ($client->thumbnail) {
+                Storage::disk('public')->delete('images/clients/' . $client->thumbnail);
             }
             $thumb = $request->file('thumbnail')->store('images/clients', 'public');
             $clientData['thumbnail'] = str_replace('images/clients/', '', $thumb);

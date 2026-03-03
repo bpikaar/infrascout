@@ -4,6 +4,9 @@
     'phone' => '',
     'mail' => '',
     'address' => '',
+    'street' => '',
+    'zipcode' => '',
+    'city' => '',
     'required' => false,
 ])
 
@@ -44,9 +47,33 @@
     </div>
 
     <div class="md:col-span-2">
-        <x-input-label for="address" :value="__('Address (optional)')" />
-        <textarea id="address" name="address" rows="3" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ $address }}</textarea>
-        <x-input-error :messages="$errors->get('address')" class="mt-2" />
+        <x-input-label for="street" :value="__('Street (optional)')" />
+        <x-text-input id="street"
+                      class="block mt-1 w-full"
+                      type="text"
+                      name="street"
+                      :value="$street" />
+        <x-input-error :messages="$errors->get('street')" class="mt-2" />
+    </div>
+
+    <div>
+        <x-input-label for="zipcode" :value="__('Zipcode (optional)')" />
+        <x-text-input id="zipcode"
+                      class="block mt-1 w-full"
+                      type="text"
+                      name="zipcode"
+                      :value="$zipcode" />
+        <x-input-error :messages="$errors->get('zipcode')" class="mt-2" />
+    </div>
+
+    <div>
+        <x-input-label for="city" :value="__('City (optional)')" />
+        <x-text-input id="city"
+                      class="block mt-1 w-full"
+                      type="text"
+                      name="city"
+                      :value="$city" />
+        <x-input-error :messages="$errors->get('city')" class="mt-2" />
     </div>
 </div>
 
@@ -57,7 +84,9 @@
     const contactIdInput = document.getElementById('contact_id');
     const phoneInput = document.getElementById('phone');
     const mailInput = document.getElementById('mail');
-    const addressInput = document.getElementById('address');
+    const streetInput = document.getElementById('street');
+    const zipcodeInput = document.getElementById('zipcode');
+    const cityInput = document.getElementById('city');
     const suggestionsBox = document.getElementById('contact-suggestions');
 
     if (!contactInput || !suggestionsBox) return;
@@ -86,7 +115,9 @@
                 contactInput.value = item.name;
                 phoneInput.value = item.phone ?? '';
                 mailInput.value = item.email ?? '';
-                addressInput.value = item.address ?? '';
+                if (streetInput) streetInput.value = item.street ?? '';
+                if (zipcodeInput) zipcodeInput.value = item.zipcode ?? '';
+                if (cityInput) cityInput.value = item.city ?? '';
                 hideSuggestions();
             });
         });

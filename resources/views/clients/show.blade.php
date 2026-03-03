@@ -14,9 +14,7 @@
                         </div>
                     @endif
                     <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
-                        <img src="{{ $client->thumbnail ? asset('storage/images/clients/'.$client->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}"
-                            alt="{{ $client->name }} thumbnail"
-                            class="h-24 w-24 rounded-lg object-cover mr-6 md:mr-6" />
+                        <img src="{{ $client->thumbnail ? asset('storage/images/clients/' . $client->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}" alt="{{ $client->name }} thumbnail" class="h-24 w-24 rounded-lg object-cover mr-6 md:mr-6" />
                         <div class="text-center md:text-left">
                             <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('client.client') }}</h3>
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $client->name }}</h1>
@@ -39,10 +37,15 @@
                                 <br />
                                 <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('client.address') }}</h3>
                                 <p class="text-gray-900 dark:text-gray-100">
-                                    @if($client->contact?->address)
-                                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($client->contact->address) }}"
-                                           target="_blank"
-                                           class="underline whitespace-pre-line">{{ trim($client->contact->address) }}</a>
+                                    @if($client->contact?->street || $client->contact?->zipcode || $client->contact?->city)
+                                        @php
+                                            $addressParts = array_filter([
+                                                $client->contact?->street,
+                                                trim(($client->contact?->zipcode ?? '') . ' ' . ($client->contact?->city ?? ''))
+                                            ]);
+                                            $fullAddress = implode(', ', $addressParts);
+                                        @endphp
+                                        <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($fullAddress) }}" target="_blank" class="underline whitespace-pre-line">{{ implode("\n", $addressParts) }}</a>
                                     @else
                                         —
                                     @endif
@@ -72,7 +75,7 @@
                         @if($client->reports && $client->reports->count() > 0)
                             <div class="space-y-3">
                                 @foreach($client->reports()->orderBy('updated_at', 'DESC')->get() as $report)
-                                    <x-client.report-row :report="$report" :client="$client"/>
+                                    <x-client.report-row :report="$report" :client="$client" />
                                 @endforeach
                             </div>
                         @else
