@@ -21,7 +21,7 @@
                     <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
                         @php
                             $imageSrc = $report->images->isNotEmpty() ?
-                                asset('/storage/images/reports/' . $report->id . '/' . $report->images()->first()->path) :
+                                route('files.report-image', [$report, $report->images()->first()->path]) :
                                 Vite::asset('resources/images/thumb-image.png');
                         @endphp
                         <img src="{{ $imageSrc }}" alt="{{ __('report.images.alt_report_thumb') }}"
@@ -187,10 +187,10 @@
                                     @foreach($generalImages as $image)
                                         <div
                                             class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden flex flex-col items-center">
-                                            <img src="{{ asset('/storage/images/reports/' . $report->id . '/' . $image->path) }}"
+                                            <img src="{{ route('files.report-image', [$report, $image->path]) }}"
                                                 alt="{{ __('report.images.alt_report_image') }}"
                                                 class="w-full h-32 sm:h-40 object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                                                @click="$dispatch('open-modal', 'large-image-general', modalImg = '{{ asset('/storage/images/reports/' . $report->id . '/' . $image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')" />
+                                                @click="$dispatch('open-modal', 'large-image-general', modalImg = '{{ route('files.report-image', [$report, $image->path]) }}', modalCaption = '{{ $image->caption ?? '' }}')" />
                                             @if($image->caption)
                                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 px-2 text-center">
                                                     {{ $image->caption }}</p>
@@ -286,7 +286,7 @@
                         </a>
 
                         @php($report->loadMissing('pdf'))
-                        @if($report->pdf && \Storage::disk('public')->exists($report->pdf->file_path))
+                        @if($report->pdf && \Storage::disk('local')->exists($report->pdf->file_path))
                             <a href="{{ route('clients.reports.download', [$report]) }}"
                                 class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"

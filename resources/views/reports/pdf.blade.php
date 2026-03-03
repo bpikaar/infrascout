@@ -1,4 +1,4 @@
-@php use App\Enums\MethodType; @endphp
+<?php use App\Enums\MethodType; use Illuminate\Support\Facades\Storage; ?>
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -292,9 +292,7 @@
         <table class="header">
             <tr>
                 <td style="text-align: center; vertical-align: middle;">
-                    @php
-                        $logoPath = public_path('storage/images/static/logo-infrascout.png');
-                    @endphp
+                    <?php $logoPath = Storage::disk('local')->path('images/static/logo-infrascout.png'); ?>
                     @if(file_exists($logoPath))
                         <img src="{{ $logoPath }}" alt="Infrascout" class="logo" style="margin: 0 auto 15px auto; display: block;">
                     @endif
@@ -720,7 +718,7 @@
 
             <div class="image-gallery">
                 @foreach($generalImages as $image)
-                    <?php        $path = public_path('storage/images/reports/' . $report->id . '/' . $image->path); ?>
+                    <?php $path = Storage::disk('local')->path('images/reports/' . $report->id . '/' . $image->path); ?>
                     @if(file_exists($path))
                         <div class="gallery-item">
                             <img src="{{ $path }}" alt="Report Image" class="report-image">

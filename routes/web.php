@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CableController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\PipeController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,11 @@ Route::middleware('auth')->group(callback: function () {
         ->name('clients.reports.download');
     Route::get('clients/reports/{report}/regenerate', [ReportController::class, 'regeneratePdf'])
         ->name('clients.reports.regenerate');
+
+    // Private file serving (requires authentication)
+    Route::get('/files/reports/{report}/images/{filename}', [FileController::class, 'reportImage'])->name('files.report-image');
+    Route::get('/files/clients/{client}/thumbnail', [FileController::class, 'clientThumbnail'])->name('files.client-thumbnail');
+    Route::get('/files/reports/{report}/pdf', [FileController::class, 'reportPdf'])->name('files.report-pdf');
 
     Route::resource('clients', ClientController::class);
     Route::resource('clients.reports', ReportController::class);

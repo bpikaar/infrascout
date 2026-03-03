@@ -6,10 +6,10 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             @foreach($images as $image)
                 <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden flex flex-col items-center">
-                    <img src="{{ asset('/storage/images/reports/' . $reportId . '/' . $image->path) }}"
+                    <img src="{{ route('files.report-image', [$reportId, $image->path]) }}"
                         alt="{{ __('report.images.alt_report_image') }}"
                         class="w-full h-32 sm:h-40 object-cover cursor-pointer hover:opacity-90 transition-opacity"
-                        @click="$dispatch('open-modal', 'large-image-method', modalImg = '{{ asset('/storage/images/reports/' . $reportId . '/' . $image->path) }}', modalCaption = '{{ $image->caption ?? '' }}')" />
+                        @click="$dispatch('open-modal', 'large-image-method', modalImg = '{{ route('files.report-image', [$reportId, $image->path]) }}', modalCaption = '{{ $image->caption ?? '' }}')" />
                     @if($image->caption)
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 px-2 text-center">{{ $image->caption }}</p>
                     @endif

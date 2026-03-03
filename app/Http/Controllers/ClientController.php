@@ -89,7 +89,7 @@ class ClientController extends Controller
         ];
 
         if ($request->hasFile('thumbnail')) {
-            $thumb = $request->file('thumbnail')->store('images/clients', 'public');
+            $thumb = $request->file('thumbnail')->store('images/clients', 'local');
             $clientData['thumbnail'] = str_replace('images/clients/', '', $thumb);
         }
 
@@ -179,9 +179,9 @@ class ClientController extends Controller
         //        dd($clientData);
         if ($request->hasFile('thumbnail')) {
             if ($client->thumbnail) {
-                Storage::disk('public')->delete('images/clients/' . $client->thumbnail);
+                Storage::disk('local')->delete('images/clients/' . $client->thumbnail);
             }
-            $thumb = $request->file('thumbnail')->store('images/clients', 'public');
+            $thumb = $request->file('thumbnail')->store('images/clients', 'local');
             $clientData['thumbnail'] = str_replace('images/clients/', '', $thumb);
 
         }

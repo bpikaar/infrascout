@@ -8,7 +8,7 @@
                             @php
                                 /** @var \App\Models\Report $report */
                                 $imageSrc = $report->images->isNotEmpty() ?
-                                    asset('/storage/images/reports/' . $report->id . '/' . $report->images()->first()->path) :
+                                    route('files.report-image', [$report, $report->images()->first()->path]) :
                                     Vite::asset('resources/images/thumb-image.png');
                             @endphp
                             <img src="{{ $imageSrc }}"
@@ -36,7 +36,7 @@
                                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
                                         @foreach($report->images as $image)
                                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden">
-                                                <img src="{{ asset('/storage/images/reports/'.$report->id.'/'.$image->path) }}"
+                                                <img src="{{ route('files.report-image', [$report, $image->path]) }}"
                                                      alt=""
                                                      class="w-full h-32 object-cover"/>
                                                 <label class="flex items-center space-x-2 p-2">

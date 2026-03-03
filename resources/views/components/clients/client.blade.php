@@ -3,7 +3,7 @@
 <div
     class="flex items-stretch rounded-xl border border-gray-200 hover:border-indigo-400 hover:dark:border-indigo-600 group overflow-hidden transition-colors bg-white dark:bg-gray-800">
     <a href="{{ route('clients.show', $client) }}" class="flex-1 flex items-center hover:cursor-pointer">
-        <img src="{{ $client->thumbnail ? asset('storage/images/clients/' . $client->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}"
+        <img src="{{ $client->thumbnail ? route('files.client-thumbnail', $client) : Vite::asset('resources/images/thumb-image.png') }}"
             alt="{{ $client->name }} thumbnail" class="h-full aspect-square object-cover"
             style="min-width: 64px; max-width: 80px;" />
         <div class="flex-1 ml-4 py-1.5">

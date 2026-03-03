@@ -14,7 +14,7 @@
                         </div>
                     @endif
                     <div class="flex flex-col md:flex-row items-center gap-3 mb-6">
-                        <img src="{{ $client->thumbnail ? asset('storage/images/clients/' . $client->thumbnail) : Vite::asset('resources/images/thumb-image.png') }}" alt="{{ $client->name }} thumbnail" class="h-24 w-24 rounded-lg object-cover mr-6 md:mr-6" />
+                        <img src="{{ $client->thumbnail ? route('files.client-thumbnail', $client) : Vite::asset('resources/images/thumb-image.png') }}" alt="{{ $client->name }} thumbnail" class="h-24 w-24 rounded-lg object-cover mr-6 md:mr-6" />
                         <div class="text-center md:text-left">
                             <h3 class="font-semibold text-gray-700 dark:text-gray-300">{{ __('client.client') }}</h3>
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $client->name }}</h1>

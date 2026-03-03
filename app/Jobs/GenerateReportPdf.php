@@ -45,7 +45,7 @@ class GenerateReportPdf implements ShouldQueue
             $reportName = "Rapportage_{$report->id}_{$clientName}_{$report->updated_at->toDateString()}.pdf";
             $filePath = "reports/pdfs/$reportName";
 
-            Storage::disk('public')->put($filePath, $pdf->output());
+            Storage::disk('local')->put($filePath, $pdf->output());
 
             // Ensure a ReportPdf record exists and stays up-to-date
             ReportPdf::updateOrCreate(

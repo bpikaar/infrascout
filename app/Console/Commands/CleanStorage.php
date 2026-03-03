@@ -23,10 +23,6 @@ class CleanStorage extends Command
             'reports/pdfs',
         ];
 
-//        if ($diskName === 'local') {
-//            $directories = array_map(fn ($dir) => 'private/' . $dir, $directories);
-//        }
-
         if (!$this->option('force') && !$this->confirm("This will permanently delete all files from the [{$diskName}] disk. Are you sure?")) {
             $this->info('Operation cancelled.');
             return self::SUCCESS;

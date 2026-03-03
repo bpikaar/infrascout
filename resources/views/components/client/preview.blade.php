@@ -5,7 +5,7 @@
         <div class="flex items-center rounded-xl border border-gray-200 dark:border-gray-600">
             @php
                 $defaultImage = Vite::asset('resources/images/thumb-image.png');
-                $imageSource = $client && $client->thumbnail ? asset('storage/images/clients/' . $client->thumbnail) : $defaultImage;
+                $imageSource = $client && $client->thumbnail ? route('files.client-thumbnail', $client) : $defaultImage;
             @endphp
             <img id="preview-image" src="{{ $imageSource }}" alt="Client thumbnail"
                 class="h-full aspect-square rounded-l-xl rounded-r-none object-cover"

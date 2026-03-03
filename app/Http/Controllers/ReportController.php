@@ -277,7 +277,7 @@ class ReportController extends Controller
             $img = $report->images()->where('id', $imageId)->first();
             if ($img) {
                 $diskPath = 'images/reports/' . $report->id . '/' . $img->path;
-                \Storage::disk('public')->delete($diskPath);
+                \Storage::disk('local')->delete($diskPath);
                 $img->delete();
             }
         }
@@ -321,9 +321,9 @@ class ReportController extends Controller
         $filePath = $report->pdf?->file_path;
 
         // Return the existing pdf from disk if present
-        if ($filePath && \Storage::disk('public')->exists($filePath)) {
+        if ($filePath && \Storage::disk('local')->exists($filePath)) {
             $downloadName = $report->pdf?->file_name ?? basename($filePath);
-            return response()->download(storage_path("app/public/{$filePath}"), $downloadName);
+            return response()->download(storage_path("app/private/{$filePath}"), $downloadName);
         }
 
         // (Re)queue job to generate PDF (record will be created/updated by the job)
@@ -374,7 +374,7 @@ class ReportController extends Controller
             $imageToProcess->scaleDown(config('image.scale'), config('image.scale'));
 
             // Store directly to disk, encoding as JPG
-            Storage::disk('public')->put($path, $imageToProcess->encodeByExtension('jpg', quality: config('image.quality')));
+            Storage::disk('local')->put($path, $imageToProcess->encodeByExtension('jpg', quality: config('image.quality')));
 
             // Create record
             $report->images()->create([
