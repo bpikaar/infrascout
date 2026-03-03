@@ -42,7 +42,7 @@ class UpdateReportRequest extends FormRequest
             'question_answered' => ['nullable', 'boolean'],
 
             'images' => ['nullable', 'array'],
-            'images.*' => ['nullable', 'image', 'max:51200'],
+            'images.*' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,heic', 'max:51200'],
             'delete_images' => ['nullable', 'array'],
             'delete_images.*' => ['integer', 'exists:report_images,id'],
         ];

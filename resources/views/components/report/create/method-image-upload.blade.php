@@ -10,4 +10,12 @@
                   hover:file:bg-indigo-100
                   dark:file:bg-indigo-900 dark:file:text-indigo-300">
     <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Meerdere afbeeldingen mogelijk (JPG, PNG, HEIC)</p>
+
+    @php
+        $errorKey = str_replace('[]', '', $name);
+    @endphp
+    <x-input-error :messages="$errors->get($errorKey)" class="mt-2" />
+    @foreach ($errors->get($errorKey . '.*') as $messages)
+        <x-input-error :messages="$messages" class="mt-2" />
+    @endforeach
 </div>
