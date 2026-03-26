@@ -6,6 +6,14 @@ use Illuminate\Support\Facades\Schedule;
 //    $this->comment(Inspiring::quote());
 //})->purpose('Display an inspiring quote');
 
-Schedule::command('queue:work --stop-when-empty')
-    ->everyMinute()
-    ->withoutOverlapping();
+// This doesn't work on shared hosting because proc_open is blocked
+//Schedule::command('queue:work --stop-when-empty')
+//    ->everyMinute()
+//    ->withoutOverlapping();
+
+Schedule::call(function () {
+    Artisan::call('queue:work', [
+        '--stop-when-empty' => true,
+        '--tries' => 3,
+    ]);
+})->everyMinute();
