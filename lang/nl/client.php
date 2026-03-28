@@ -4,7 +4,7 @@ return [
     'create_title' => 'Nieuwe opdrachtgever aanmaken',
     'create_intro' => 'Vul de gegevens in die bij deze opdrachtgever horen.',
     'edit_title' => 'Opdrachtgever bewerken',
-    'edit_intro' => 'Wijzig de gegevens van dit opdrachtgever.',
+    'edit_intro' => 'Wijzig de gegevens van deze opdrachtgever.',
     'contact_heading' => 'Gegevens Contactpersoon',
     'preview' => 'Voorbeeld',
     'reports_heading' => 'Rapporten',
