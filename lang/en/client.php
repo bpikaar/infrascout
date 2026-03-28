@@ -44,7 +44,7 @@ return [
     'no_reports' => 'No reports available for this client.',
     'client_hash' => 'Client #:number',
     // Index / Listing
-    'index_title' => 'Clients',
+//    'index_title' => 'Clients',
     'index_empty' => 'No clients found. You can create the first one with the plus button.',
     'index_create_hint' => 'Create Client',
 ];

@@ -44,7 +44,7 @@ return [
     'no_reports' => 'Geen rapporten beschikbaar voor dit opdrachtgever.',
     'opdrachtgever_hash' => 'Opdrachtgever #:number',
     // Overzicht / Lijst
-    'index_title' => 'Opdrachtgeveren',
-    'index_empty' => 'Geen opdrachtgeveren gevonden. Je kunt de eerste aanmaken met de plusknop.',
+//    'index_title' => 'Opdrachtgeveren',
+    'index_empty' => 'Geen opdrachtgevers gevonden. Je kunt de eerste aanmaken met de plusknop.',
     'index_create_hint' => 'Opdrachtgever aanmaken',
 ];
