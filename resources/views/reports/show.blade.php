@@ -263,9 +263,9 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 flex space-x-4">
+                    <div class="mt-6 flex flex-col gap-3 md:flex-row md:gap-4">
                         <a href="{{ route('clients.show', $report->client) }}"
-                            class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
+                            class="inline-flex w-full md:w-auto items-center justify-center md:justify-start px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
@@ -276,7 +276,7 @@
                         </a>
 
                         <a href="{{ route('clients.reports.edit', [$report->client, $report]) }}"
-                            class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                            class="inline-flex w-full md:w-auto items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path
@@ -288,7 +288,7 @@
                         @php($report->loadMissing('pdf'))
                         @if($report->pdf && \Storage::disk('local')->exists($report->pdf->file_path))
                             <a href="{{ route('clients.reports.download', [$report]) }}"
-                                class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                                class="inline-flex w-full md:w-auto items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path
@@ -298,7 +298,7 @@
                             </a>
                         @else
                             <span
-                                class="inline-flex items-center px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed">
+                                class="inline-flex w-full md:w-auto items-center justify-center px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 animate-spin"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <circle cx="12" cy="12" r="10" stroke-width="4" class="opacity-25" />
@@ -307,7 +307,7 @@
                                 {{ __('report.actions.preparing_pdf') }}
                             </span>
                             <a href="{{ route('clients.reports.regenerate', [$report]) }}"
-                                class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                                class="inline-flex w-full md:w-auto items-center justify-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path
