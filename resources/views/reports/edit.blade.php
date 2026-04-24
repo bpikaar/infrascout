@@ -21,8 +21,9 @@
                         </div>
                     </div>
 
-                    <div class="border-t border-gray-200 dark:border-gray-700 py-4">
-                        <form method="POST" action="{{ route('clients.reports.update', [$report->client, $report]) }}" enctype="multipart/form-data" class="space-y-6">
+                    <div class="border-t border-gray-200 dark:border-gray-700 py-4" x-data="reportUploadProgress()">
+                        @include('reports.partials.upload-overlay')
+                        <form method="POST" action="{{ route('clients.reports.update', [$report->client, $report]) }}" enctype="multipart/form-data" class="space-y-6" @submit.prevent="submitForm">
                             @csrf
                             @method('PUT')
 
@@ -50,7 +51,7 @@
 
                                 <div>
                                     <x-input-label for="images" :value="__('report.images.upload')" />
-                                    <input id="images" type="file" name="images[]" multiple accept="image/*,.heic" class="block mt-1 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                                    <input id="images" type="file" name="images[]" multiple accept="image/*,.heic" class="block mt-1 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" @change="onFileChange" />
                                     <x-input-error :messages="$errors->get('images')" class="mt-2" />
                                     @foreach ($errors->get('images.*') as $messages)
                                         <x-input-error :messages="$messages" class="mt-2" />

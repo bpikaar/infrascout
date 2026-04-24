@@ -148,7 +148,14 @@ class ReportController extends Controller
         // Dispatch PDF generation job
         GenerateReportPdf::dispatch($report);
 
-        return redirect()->route('clients.show', $report->client)
+        $redirectUrl = route('clients.show', $report->client);
+
+        if ($request->ajax()) {
+            return response()->json(['redirect' => $redirectUrl])
+                ->withHeaders(['X-Inertia' => false]);
+        }
+
+        return redirect($redirectUrl)
             ->with('status', 'PDF is being prepared. You can download it once it is ready.');
     }
 
@@ -299,7 +306,13 @@ class ReportController extends Controller
         // Regenerate PDF (overwrite)
         \App\Jobs\GenerateReportPdf::dispatch($report);
 
-        return redirect()->route('clients.reports.show', [$report->client, $report])
+        $redirectUrl = route('clients.reports.show', [$report->client, $report]);
+
+        if ($request->ajax()) {
+            return response()->json(['redirect' => $redirectUrl]);
+        }
+
+        return redirect($redirectUrl)
             ->with('status', 'Rapport bijgewerkt. PDF wordt opnieuw gegenereerd.');
     }
 
