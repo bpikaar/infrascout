@@ -70,7 +70,7 @@
 
 @once('cable-selector-scripts')
     @push('scripts')
-        <script>
+        <script nonce="{{ Vite::cspNonce() }}">
             function multiCableManager(oldCables = []) {
                 return {
                     rows: (Array.isArray(oldCables) && oldCables.length) ? oldCables.map(c => hydrateRow(c)) : [],

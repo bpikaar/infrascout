@@ -110,7 +110,7 @@
 </nav>
 
 @push('scripts')
-    <script>
+    <script nonce="{{ Vite::cspNonce() }}">
         const logoElement = document.querySelector('#logo');
         if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
             logoElement.src = '{{ Vite::asset('resources/images/logo-infrascout-dark.png') }}';

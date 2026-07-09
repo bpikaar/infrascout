@@ -31,12 +31,10 @@
                             <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $report->title }}</h1>
                             <p class="text-gray-500 dark:text-gray-400 mb-1">Rapportnummer: {{ $report->report_number }}
                             </p>
-                            @php
-                                $link = '<a href="' . route('clients.show', $report->client) . '">' . $report->client->name . '</a>';
-                            @endphp
                             <p class="text-gray-500 dark:text-gray-400 hover:text-gray-300 underline">
                                 {{ __('report.client.label') }}:
-                                {!! $report->client->name ? $link : __('report.status.n_a') !!}</p>
+                                <a href="{{ route('clients.show', $report->client) }}">{{ $report->client->name }}</a>
+                            </p>
                         </div>
                         <div class="self-center md:self-start md:ml-auto">
                             <p class="text-sm text-center md:text-right text-gray-500 dark:text-gray-400">

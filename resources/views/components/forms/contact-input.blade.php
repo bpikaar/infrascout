@@ -78,7 +78,7 @@
 </div>
 
 @push('scripts')
-<script>
+<script nonce="{{ Vite::cspNonce() }}">
 (function(){
     const contactInput = document.getElementById('contact');
     const contactIdInput = document.getElementById('contact_id');

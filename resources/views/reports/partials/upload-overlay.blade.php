@@ -74,7 +74,7 @@
 </div>
 {{-- Upload progress overlay + Alpine component. Parent must have x-data="reportUploadProgress()" --}}
 @push('scripts')
-    <script>
+    <script nonce="{{ Vite::cspNonce() }}">
         document.addEventListener('alpine:init', () => {
             Alpine.data('reportUploadProgress', () => ({
                 // state: idle | uploading | processing | done

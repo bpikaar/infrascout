@@ -24,7 +24,7 @@
 
 @once('client-preview-scripts')
     @push('scripts')
-        <script>
+        <script nonce="{{ Vite::cspNonce() }}">
             document.addEventListener('DOMContentLoaded', function () {
                 const nameInput = document.getElementById('name');
                 const previewName = document.getElementById('preview-name');

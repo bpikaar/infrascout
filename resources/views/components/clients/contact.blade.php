@@ -78,7 +78,7 @@
     </div>
 </div>
 @push('scripts')
-    <script>
+    <script nonce="{{ Vite::cspNonce() }}">
         // Contact autocomplete
         const contactInput = document.getElementById('contact');
         const contactIdInput = document.getElementById('contact_id');

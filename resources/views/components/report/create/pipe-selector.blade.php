@@ -71,7 +71,7 @@
 
 @once('pipe-selector-scripts')
     @push('scripts')
-        <script>
+        <script nonce="{{ Vite::cspNonce() }}">
             function multiPipeManager(oldPipes = []) {
                 return {
                     rows: (Array.isArray(oldPipes) && oldPipes.length) ? oldPipes.map(p => hydratePipeRow(p)) : [],

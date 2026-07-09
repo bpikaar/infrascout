@@ -162,3 +162,14 @@ ImageMagick versie:
 
 Beschikbare HEI-gerelateerde formats:
 HEIC, HEIF
+
+# beveiliging
+
+## CSP
+Content Security Policy (CSP) is een beveiligingsmaatregel die helpt bij het voorkomen van
+cross-site scripting (XSS) en andere code-injectie-aanvallen. Het stelt ontwikkelaars in staat om te specificeren welke bronnen (zoals scripts, stijlen, afbeeldingen, enz.) vertrouwd zijn en geladen mogen worden door de browser.
+
+Waar je in de toekomst wél op moet letten als je nieuwe functionaliteit toevoegt:
+
+Een Google Maps embed (nu is het alleen een link, geen <iframe>) → vereist een frame-src-toevoeging.
+Een CDN-script (bv. een chart-library, analytics, widget) → vereist expliciete script-src-whitelisting, want de nonce dekt alleen je eigen scripttags.
